@@ -93,11 +93,12 @@
             row.insertCell(1).innerText = log.type;
             row.insertCell(2).innerText = log.time;
             const locCell = row.insertCell(3);
-            if(log.lat && log.lon) {
-                // 수정된 부분: 구글 맵 주소 형식을 정확하게 입력
-                const url = `https://google.com{log.lat},${log.lon}`;
-                locCell.innerHTML = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="map-link">지도보기</a>`;
-            } else { locCell.innerText = "-"; }
+        if(log.lat && log.lon) {
+    const url = `https://www.google.com/maps?q=${log.lat},${log.lon}`;
+    locCell.innerHTML = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="map-link">지도보기</a>`;
+} else {
+    locCell.innerText = "-";
+}
         });
     }
 </script>
