@@ -25,335 +25,217 @@
             --radius-sm: 8px;
             --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text-primary); min-height: 100vh; padding: 16px; }
+        .hidden { display: none !important; }
 
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background: var(--bg);
-            color: var(--text-primary);
-            min-height: 100vh;
-            padding: 16px;
-        }
+        .app-header { max-width: 680px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: space-between; }
+        .app-title { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.05em; }
+        .clock { font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 600; color: var(--blue); }
 
-        /* ── HEADER ── */
-        .app-header {
-            max-width: 640px;
-            margin: 0 auto 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .app-title {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            letter-spacing: 0.05em;
-        }
-        .clock {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--blue);
-        }
+        .card { max-width: 680px; margin: 0 auto 12px; background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); padding: 20px; }
 
-        /* ── CARD ── */
-        .card {
-            max-width: 640px;
-            margin: 0 auto 12px;
-            background: var(--surface);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            padding: 20px;
-        }
+        .tab-row { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 10px; background: none; border: none; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 500; color: var(--text-hint); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .15s, border-color .15s; }
+        .tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
 
-        /* ── LOGIN ── */
-        .login-label { font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-bottom: 6px; display: block; }
-        .login-input {
-            width: 100%; padding: 12px 14px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 15px;
-            font-family: 'Noto Sans KR', sans-serif;
-            color: var(--text-primary);
-            background: #fafafa;
-            outline: none;
-            transition: border-color 0.15s;
-            margin-bottom: 10px;
-        }
-        .login-input:focus { border-color: var(--blue); background: white; }
+        .field-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); margin-bottom: 5px; display: block; }
+        .field { width: 100%; padding: 11px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 15px; font-family: 'Noto Sans KR', sans-serif; color: var(--text-primary); background: #fafafa; outline: none; transition: border-color .15s; margin-bottom: 12px; }
+        .field:focus { border-color: var(--blue); background: white; }
+        .field-hint { font-size: 11px; color: var(--text-hint); margin-top: -8px; margin-bottom: 12px; }
 
-        /* ── BUTTONS ── */
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            padding: 12px 18px;
-            border: none; border-radius: var(--radius-sm);
-            font-family: 'Noto Sans KR', sans-serif;
-            font-size: 15px; font-weight: 700;
-            cursor: pointer; transition: opacity 0.15s, transform 0.1s;
-            color: white; width: 100%;
-        }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 12px 18px; border: none; border-radius: var(--radius-sm); font-family: 'Noto Sans KR', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: opacity .15s, transform .1s; color: white; width: 100%; }
         .btn:active { transform: scale(0.98); }
         .btn:disabled { opacity: 0.45; cursor: not-allowed; }
         .btn-blue  { background: var(--blue); }
         .btn-green { background: var(--green); }
         .btn-red   { background: var(--red); }
-        .btn-ghost {
-            background: transparent; border: 1px solid var(--border);
-            color: var(--text-secondary); font-weight: 500; font-size: 13px;
-        }
+        .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); font-weight: 500; font-size: 13px; }
         .btn-row { display: flex; gap: 10px; }
         .btn-row .btn { flex: 1; }
 
-        /* ── USER BAR ── */
-        .user-bar {
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 16px;
-        }
+        .user-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
         .user-info { display: flex; align-items: center; gap: 10px; }
-        .avatar {
-            width: 38px; height: 38px; border-radius: 50%;
-            background: var(--blue-light);
-            color: var(--blue);
-            font-weight: 700; font-size: 14px;
-            display: flex; align-items: center; justify-content: center;
-        }
+        .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--blue-light); color: var(--blue); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; }
         .user-name { font-weight: 700; font-size: 15px; }
-        .badge {
-            font-size: 10px; font-weight: 700; padding: 2px 7px;
-            border-radius: 20px; vertical-align: middle;
-        }
+        .badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; vertical-align: middle; }
         .badge-admin { background: var(--blue-light); color: var(--blue); }
         .badge-in    { background: var(--green-light); color: var(--green); }
         .badge-out   { background: var(--red-light); color: var(--red); }
 
-        /* ── TODAY STATUS ── */
-        .today-status {
-            background: var(--bg);
-            border-radius: var(--radius-sm);
-            padding: 12px 14px;
-            margin-bottom: 14px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            display: flex; gap: 16px; flex-wrap: wrap;
-        }
+        .today-status { background: var(--bg); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 14px; font-size: 13px; color: var(--text-secondary); display: flex; gap: 16px; flex-wrap: wrap; }
         .today-item span { font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: var(--text-primary); }
 
-        /* ── FILTER BAR ── */
-        .filter-bar {
-            display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; align-items: center;
-        }
-        .filter-bar input[type="date"] {
-            flex: 1; min-width: 120px;
-            padding: 8px 10px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            font-family: 'Noto Sans KR', sans-serif;
-            color: var(--text-primary);
-            background: #fafafa; outline: none;
-        }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .section-title { font-size: 12px; font-weight: 700; color: var(--text-hint); letter-spacing: 0.06em; text-transform: uppercase; }
+
+        .panel-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+        .panel-tab { padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); font-family: 'Noto Sans KR', sans-serif; transition: all .15s; }
+        .panel-tab.active { background: var(--blue); color: white; border-color: var(--blue); }
+
+        .filter-bar { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
+        .filter-bar input[type="date"] { flex: 1; min-width: 120px; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: 'Noto Sans KR', sans-serif; color: var(--text-primary); background: #fafafa; outline: none; }
         .filter-bar input[type="date"]:focus { border-color: var(--blue); }
-        .filter-select {
-            padding: 8px 10px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            font-family: 'Noto Sans KR', sans-serif;
-            background: #fafafa; color: var(--text-primary); outline: none;
-        }
-        .filter-btn {
-            padding: 8px 12px;
-            background: transparent; border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 12px; font-weight: 500;
-            color: var(--text-secondary); cursor: pointer;
-            font-family: 'Noto Sans KR', sans-serif;
-            white-space: nowrap;
-        }
+        .filter-select { padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: 'Noto Sans KR', sans-serif; background: #fafafa; color: var(--text-primary); outline: none; }
+        .filter-btn { padding: 8px 12px; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; color: var(--text-secondary); cursor: pointer; font-family: 'Noto Sans KR', sans-serif; white-space: nowrap; }
         .filter-btn:hover { background: var(--bg); }
         .filter-btn.csv { color: var(--green); border-color: var(--green); }
 
-        /* ── TABLE ── */
         .table-wrapper { width: 100%; overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 380px; }
-        thead th {
-            text-align: left; padding: 8px 10px;
-            color: var(--text-hint); font-weight: 600; font-size: 11px;
-            letter-spacing: 0.05em; text-transform: uppercase;
-            border-bottom: 1px solid var(--border);
-        }
-        tbody td { padding: 11px 10px; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
+        thead th { text-align: left; padding: 8px 10px; color: var(--text-hint); font-weight: 600; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 1px solid var(--border); white-space: nowrap; }
+        tbody td { padding: 10px 10px; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
         tbody tr:last-child td { border-bottom: none; }
         tbody tr:hover td { background: #fafbfc; }
 
-        .type-chip {
-            font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px;
-        }
+        .type-chip { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
         .type-in  { background: var(--green-light); color: var(--green); }
         .type-out { background: var(--red-light); color: var(--red); }
-
-        .map-link {
-            font-size: 11px; font-weight: 600; padding: 5px 9px;
-            background: var(--blue-light); color: var(--blue);
-            border-radius: 6px; text-decoration: none;
-            border: 1px solid #c5d9f8; white-space: nowrap;
-        }
+        .map-link { font-size: 11px; font-weight: 600; padding: 5px 9px; background: var(--blue-light); color: var(--blue); border-radius: 6px; text-decoration: none; border: 1px solid #c5d9f8; white-space: nowrap; }
         .map-link:hover { background: #d2e3fc; }
-
-        .del-btn {
-            background: transparent; border: none; cursor: pointer;
-            color: var(--text-hint); font-size: 15px; padding: 4px 6px;
-            border-radius: 4px; transition: color 0.1s, background 0.1s;
-        }
+        .del-btn { background: transparent; border: none; cursor: pointer; color: var(--text-hint); font-size: 14px; padding: 4px 6px; border-radius: 4px; transition: color .1s, background .1s; }
         .del-btn:hover { color: var(--red); background: var(--red-light); }
+        .empty-msg { text-align: center; color: var(--text-hint); padding: 28px 0; font-size: 13px; }
 
-        .empty-msg { text-align: center; color: var(--text-hint); padding: 32px 0; font-size: 14px; }
+        .pw-cell { font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+        .pw-toggle { background: none; border: none; cursor: pointer; font-size: 13px; color: var(--text-hint); margin-left: 4px; vertical-align: middle; }
+        .role-chip { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+        .role-admin { background: var(--blue-light); color: var(--blue); }
+        .role-user  { background: #f3f4f6; color: var(--text-secondary); }
 
-        /* ── LOADING / TOAST ── */
-        .spinner {
-            width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4);
-            border-top-color: white; border-radius: 50%;
-            animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle;
-        }
+        .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin .7s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        #toast {
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px);
-            background: #1a1d23; color: white; padding: 10px 20px;
-            border-radius: 20px; font-size: 13px; font-weight: 500;
-            transition: transform 0.25s ease, opacity 0.25s;
-            opacity: 0; pointer-events: none; z-index: 999; white-space: nowrap;
-        }
+        #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px); background: #1a1d23; color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 500; transition: transform .25s ease, opacity .25s; opacity: 0; pointer-events: none; z-index: 999; white-space: nowrap; }
         #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-
-        .hidden { display: none !important; }
-
-        /* ── FIREBASE SETUP NOTICE ── */
-        .setup-notice {
-            background: var(--amber-light);
-            border: 1px solid #fcd34d;
-            border-radius: var(--radius-sm);
-            padding: 12px 14px;
-            font-size: 12px;
-            color: var(--amber);
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-        .setup-notice strong { font-weight: 700; display: block; margin-bottom: 4px; }
-        .setup-notice code {
-            font-family: 'IBM Plex Mono', monospace;
-            background: rgba(180,83,9,0.1);
-            padding: 1px 4px; border-radius: 3px; font-size: 11px;
-        }
-
-        .section-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 12px;
-        }
-        .section-title { font-size: 12px; font-weight: 700; color: var(--text-hint); letter-spacing: 0.06em; text-transform: uppercase; }
+        #toast.error { background: var(--red); }
     </style>
 </head>
 <body>
 
 <div id="toast"></div>
 
-<!-- ── HEADER ── -->
 <div class="app-header">
     <div class="app-title">ATTENDANCE TRACKER</div>
     <div id="clock" class="clock">00:00:00</div>
 </div>
 
-<div id="setup-notice-card" class="hidden"></div>
-
-<!-- ── LOGIN ── -->
-<div class="card" id="login-card">
-    <div style="margin-bottom:18px;">
-        <label class="login-label">이름</label>
-        <input class="login-input" type="text" id="username" placeholder="홍길동" autocomplete="off">
-        <label class="login-label">비밀번호</label>
-        <input class="login-input" type="password" id="password" placeholder="일반 직원은 비워두세요">
-        <p style="font-size:11px;color:var(--text-hint);margin-top:-4px;margin-bottom:10px;">관리자로 로그인하려면 관리자 비밀번호를 입력하세요.</p>
+<!-- ── 인증 카드 ── -->
+<div class="card" id="auth-card">
+    <div class="tab-row">
+        <button class="tab-btn active" id="tab-login"  onclick="switchTab('login')">로그인</button>
+        <button class="tab-btn"        id="tab-signup" onclick="switchTab('signup')">회원가입</button>
     </div>
-    <button class="btn btn-blue" onclick="login()" id="login-btn">접속하기</button>
+
+    <div id="form-login">
+        <label class="field-label">아이디</label>
+        <input class="field" type="text" id="login-id" placeholder="아이디 입력" autocomplete="username">
+        <label class="field-label">비밀번호</label>
+        <input class="field" type="password" id="login-pw" placeholder="비밀번호 입력" autocomplete="current-password"
+               onkeydown="if(event.key==='Enter') doLogin()">
+        <button class="btn btn-blue" id="btn-login" onclick="doLogin()">로그인</button>
+    </div>
+
+    <div id="form-signup" class="hidden">
+        <label class="field-label">아이디</label>
+        <input class="field" type="text" id="signup-id" placeholder="영문 소문자/숫자, 4자 이상" autocomplete="username">
+        <p class="field-hint">영문 소문자, 숫자, _ 만 사용 가능 / 4자 이상</p>
+        <label class="field-label">비밀번호</label>
+        <input class="field" type="password" id="signup-pw" placeholder="6자 이상" autocomplete="new-password">
+        <label class="field-label">비밀번호 확인</label>
+        <input class="field" type="password" id="signup-pw2" placeholder="비밀번호 재입력" autocomplete="new-password"
+               onkeydown="if(event.key==='Enter') doSignup()">
+        <button class="btn btn-green" id="btn-signup" onclick="doSignup()">가입하기</button>
+    </div>
 </div>
 
-<!-- ── MAIN UI ── -->
-<div id="main-card" class="card hidden">
-    <!-- User bar -->
+<!-- ── 메인 카드 ── -->
+<div class="card hidden" id="main-card">
     <div class="user-bar">
         <div class="user-info">
-            <div class="avatar" id="avatar-initials">?</div>
+            <div class="avatar" id="avatar-txt">?</div>
             <div>
-                <div class="user-name" id="user-display"></div>
-                <span id="admin-badge" class="badge badge-admin hidden">관리자</span>
-                <span id="status-badge" class="badge">-</span>
+                <div class="user-name" id="disp-name"></div>
+                <span id="badge-admin" class="badge badge-admin hidden">관리자</span>
+                <span id="badge-status" class="badge" style="background:#f3f4f6;color:var(--text-hint)">미출근</span>
             </div>
         </div>
-        <button class="btn btn-ghost" style="width:auto;padding:8px 14px;" onclick="logout()">로그아웃</button>
+        <button class="btn btn-ghost" style="width:auto;padding:8px 14px;" onclick="doLogout()">로그아웃</button>
     </div>
-
-    <!-- Today status -->
-    <div class="today-status" id="today-status">
+    <div class="today-status">
         <div class="today-item">출근 <span id="today-in">-</span></div>
         <div class="today-item">퇴근 <span id="today-out">-</span></div>
     </div>
-
-    <!-- Action buttons -->
-    <div class="btn-row" style="margin-bottom:4px;">
+    <div class="btn-row">
         <button class="btn btn-green" id="btn-in"  onclick="record('출근')">출근하기</button>
         <button class="btn btn-red"   id="btn-out" onclick="record('퇴근')">퇴근하기</button>
     </div>
 </div>
 
-<!-- ── RECORDS TABLE ── -->
-<div class="card hidden" id="table-card">
-    <div class="section-header">
-        <div class="section-title" id="table-title">기록</div>
-        <button class="filter-btn csv" onclick="exportCSV()">CSV 내보내기</button>
+<!-- ── 기록/관리 카드 ── -->
+<div class="card hidden" id="records-card">
+
+    <div id="admin-tabs" class="hidden panel-tabs">
+        <button class="panel-tab active" onclick="switchPanel('records')">출퇴근 기록</button>
+        <button class="panel-tab"        onclick="switchPanel('users')">회원 관리</button>
     </div>
 
-    <!-- Filter bar -->
-    <div class="filter-bar">
-        <input type="date" id="filter-from" onchange="applyFilter()">
-        <span style="font-size:13px;color:var(--text-hint);">~</span>
-        <input type="date" id="filter-to" onchange="applyFilter()">
-        <select class="filter-select" id="filter-type" onchange="applyFilter()">
-            <option value="">전체</option>
-            <option value="출근">출근</option>
-            <option value="퇴근">퇴근</option>
-        </select>
-        <button class="filter-btn" onclick="clearFilter()">초기화</button>
+    <!-- 출퇴근 기록 패널 -->
+    <div id="panel-records">
+        <div class="section-header">
+            <div class="section-title" id="rec-title">내 기록</div>
+            <button class="filter-btn csv" onclick="exportCSV()">CSV 내보내기</button>
+        </div>
+        <div class="filter-bar">
+            <input type="date" id="filter-from" onchange="applyFilter()">
+            <span style="font-size:13px;color:var(--text-hint)">~</span>
+            <input type="date" id="filter-to"   onchange="applyFilter()">
+            <select class="filter-select" id="filter-type" onchange="applyFilter()">
+                <option value="">전체</option>
+                <option value="출근">출근</option>
+                <option value="퇴근">퇴근</option>
+            </select>
+            <button class="filter-btn" onclick="clearFilter()">초기화</button>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr>
+                    <th>아이디</th><th>구분</th><th>기록 시간</th><th>위치</th>
+                    <th id="rec-del-header"></th>
+                </tr></thead>
+                <tbody id="rec-body"></tbody>
+            </table>
+        </div>
     </div>
 
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>이름</th>
-                    <th>구분</th>
-                    <th>기록 시간</th>
-                    <th>위치</th>
-                    <th id="del-col-header"></th>
-                </tr>
-            </thead>
-            <tbody id="list-body"></tbody>
-        </table>
+    <!-- 회원 관리 패널 -->
+    <div id="panel-users" class="hidden">
+        <div class="section-header">
+            <div class="section-title">회원 목록</div>
+            <span style="font-size:11px;color:var(--text-hint)" id="user-count"></span>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr>
+                    <th>아이디</th><th>비밀번호</th><th>권한</th><th>가입일</th><th>삭제</th>
+                </tr></thead>
+                <tbody id="user-body"></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 <script type="module">
-import { initializeApp }                          from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-import { getFirestore, collection, addDoc, deleteDoc,
-         doc, query, orderBy, onSnapshot,
-         serverTimestamp }                         from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getFirestore, collection, addDoc, deleteDoc, getDocs,
+         doc, query, orderBy, where, onSnapshot,
+         serverTimestamp, setDoc, getDoc }
+    from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-// ════════════════════════════════════════════════
-//  ⚙️  설정 영역 — 관리자 비밀번호만 변경하세요
-// ════════════════════════════════════════════════
-const ADMIN_PASSWORD = "admin1234";  // ← 원하는 비밀번호로 변경
+// ══════════════════════════════
+//  설정
+// ══════════════════════════════
+const ADMIN_ID = "admin"; // 이 아이디로 가입하면 자동 관리자
 
 const firebaseConfig = {
     apiKey:            "AIzaSyATUo1Y9nUwslZq1HXUP8wluu1cOVVXsMY",
@@ -364,141 +246,196 @@ const firebaseConfig = {
     appId:             "1:83328769962:web:73bdc3d0df5a3076fe95d3",
     measurementId:     "G-SNPMS1Q5YG"
 };
-// ════════════════════════════════════════════════
 
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
-const COL = "attendance_records";
+const app  = initializeApp(firebaseConfig);
+const db   = getFirestore(app);
+const UCOL = "users";
+const ACOL = "attendance_records";
 
-let currentUser = "";
+let currentUser = null;
 let isAdmin     = false;
 let allLogs     = [];
-let unsubscribe = null;
+let allUsers    = [];
+let unsubLogs   = null;
+let unsubUsers  = null;
 
-// ── 시계 ──
+// 시계
 setInterval(() => {
     document.getElementById('clock').innerText = new Date().toLocaleTimeString('ko-KR');
 }, 1000);
 
+// ── 탭 전환 ──
+window.switchTab = t => {
+    document.getElementById('form-login').classList.toggle('hidden',  t !== 'login');
+    document.getElementById('form-signup').classList.toggle('hidden', t !== 'signup');
+    document.getElementById('tab-login').classList.toggle('active',   t === 'login');
+    document.getElementById('tab-signup').classList.toggle('active',  t === 'signup');
+};
+
+// ── 회원가입 ──
+window.doSignup = async function() {
+    const id  = document.getElementById('signup-id').value.trim().toLowerCase();
+    const pw  = document.getElementById('signup-pw').value;
+    const pw2 = document.getElementById('signup-pw2').value;
+
+    if (!id || id.length < 4)       return toast("아이디는 4자 이상 입력하세요.", true);
+    if (!/^[a-z0-9_]+$/.test(id))  return toast("아이디는 영문 소문자/숫자/_만 사용 가능해요.", true);
+    if (pw.length < 6)              return toast("비밀번호는 6자 이상 입력하세요.", true);
+    if (pw !== pw2)                 return toast("비밀번호가 일치하지 않아요.", true);
+
+    setBtnLoad('btn-signup', true);
+    try {
+        const snap = await getDoc(doc(db, UCOL, id));
+        if (snap.exists()) return toast("이미 사용 중인 아이디예요.", true);
+
+        await setDoc(doc(db, UCOL, id), {
+            id,
+            password:  pw,
+            role:      id === ADMIN_ID ? 'admin' : 'user',
+            createdAt: serverTimestamp()
+        });
+        toast("가입 완료! 로그인해 주세요.");
+        window.switchTab('login');
+        document.getElementById('login-id').value = id;
+        document.getElementById('signup-id').value  = '';
+        document.getElementById('signup-pw').value  = '';
+        document.getElementById('signup-pw2').value = '';
+    } catch(e) {
+        toast("가입 실패: " + e.message, true);
+    } finally {
+        setBtnLoad('btn-signup', false, '가입하기');
+    }
+};
+
 // ── 로그인 ──
-window.login = function() {
-    const name = document.getElementById('username').value.trim();
-    const pw   = document.getElementById('password').value;
-    if (!name) return showToast("이름을 입력하세요.");
+window.doLogin = async function() {
+    const id = document.getElementById('login-id').value.trim().toLowerCase();
+    const pw = document.getElementById('login-pw').value;
+    if (!id) return toast("아이디를 입력하세요.", true);
+    if (!pw) return toast("비밀번호를 입력하세요.", true);
 
-    isAdmin = (pw === ADMIN_PASSWORD);
-    if (pw && !isAdmin) return showToast("비밀번호가 올바르지 않습니다.");
+    setBtnLoad('btn-login', true);
+    try {
+        const snap = await getDoc(doc(db, UCOL, id));
+        if (!snap.exists())           return toast("존재하지 않는 아이디예요.", true);
+        if (snap.data().password !== pw) return toast("비밀번호가 틀렸어요.", true);
 
-    currentUser = name;
-    document.getElementById('login-card').classList.add('hidden');
-    document.getElementById('setup-notice-card').classList.add('hidden');
+        currentUser = { id, ...snap.data() };
+        isAdmin     = currentUser.role === 'admin';
+        enterApp();
+    } catch(e) {
+        toast("로그인 실패: " + e.message, true);
+    } finally {
+        setBtnLoad('btn-login', false, '로그인');
+    }
+};
+
+function enterApp() {
+    document.getElementById('auth-card').classList.add('hidden');
     document.getElementById('main-card').classList.remove('hidden');
-    document.getElementById('table-card').classList.remove('hidden');
+    document.getElementById('records-card').classList.remove('hidden');
 
-    document.getElementById('avatar-initials').innerText = name.slice(0, 2);
-    document.getElementById('user-display').innerText    = name;
+    document.getElementById('avatar-txt').innerText = currentUser.id.slice(0, 2).toUpperCase();
+    document.getElementById('disp-name').innerText  = currentUser.id;
 
     if (isAdmin) {
-        document.getElementById('admin-badge').classList.remove('hidden');
-        document.getElementById('del-col-header').innerText = "삭제";
-        document.getElementById('table-title').innerText    = "전체 직원 기록";
-    } else {
-        document.getElementById('table-title').innerText = "내 기록";
+        document.getElementById('badge-admin').classList.remove('hidden');
+        document.getElementById('admin-tabs').classList.remove('hidden');
+        document.getElementById('rec-del-header').innerText = '삭제';
+        document.getElementById('rec-title').innerText = '전체 출퇴근 기록';
     }
 
     const today = todayStr();
     document.getElementById('filter-from').value = today;
     document.getElementById('filter-to').value   = today;
 
-    startListener();
-};
+    startLogsListener();
+    if (isAdmin) startUsersListener();
+}
 
-window.logout = function() {
+// ── 로그아웃 ──
+window.doLogout = function() {
     if (!confirm("로그아웃 하시겠습니까?")) return;
-    if (unsubscribe) unsubscribe();
+    if (unsubLogs)  unsubLogs();
+    if (unsubUsers) unsubUsers();
     location.reload();
 };
 
-// ── Firestore 실시간 리스너 ──
-function startListener() {
-    const q = query(collection(db, COL), orderBy("timestamp", "desc"));
-    unsubscribe = onSnapshot(q, snapshot => {
-        allLogs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+// ── 관리자 패널 탭 ──
+window.switchPanel = function(panel) {
+    document.getElementById('panel-records').classList.toggle('hidden', panel !== 'records');
+    document.getElementById('panel-users').classList.toggle('hidden',   panel !== 'users');
+    document.querySelectorAll('.panel-tab').forEach((t, i) => {
+        t.classList.toggle('active', i === 0 ? panel === 'records' : panel === 'users');
+    });
+};
+
+// ── 출퇴근 기록 리스너 ──
+function startLogsListener() {
+    const q = query(collection(db, ACOL), orderBy("timestamp", "desc"));
+    unsubLogs = onSnapshot(q, snap => {
+        allLogs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         applyFilter();
         updateTodayStatus();
-        updateButtonState();
-    }, err => {
-        showToast("데이터 로드 실패: " + err.message);
-    });
+        updateBtnState();
+    }, e => toast("기록 로드 실패: " + e.message, true));
+}
+
+// ── 회원 목록 리스너 ──
+function startUsersListener() {
+    const q = query(collection(db, UCOL), orderBy("createdAt", "asc"));
+    unsubUsers = onSnapshot(q, snap => {
+        allUsers = snap.docs.map(d => ({ docId: d.id, ...d.data() }));
+        renderUsers();
+    }, e => toast("회원 로드 실패: " + e.message, true));
 }
 
 // ── 출퇴근 기록 ──
 window.record = function(type) {
-    if (!navigator.geolocation) return showToast("GPS 미지원 브라우저입니다.");
+    if (!navigator.geolocation) return toast("GPS 미지원 브라우저입니다.", true);
 
     const today   = todayStr();
-    const myToday = allLogs.filter(l => l.name === currentUser && l.date === today);
+    const myToday = allLogs.filter(l => l.userId === currentUser.id && l.date === today);
+    if (type === '출근' && myToday.some(l => l.type === '출근')) return toast("오늘 이미 출근하셨어요!");
+    if (type === '퇴근' && myToday.some(l => l.type === '퇴근')) return toast("오늘 이미 퇴근하셨어요!");
+    if (type === '퇴근' && !myToday.some(l => l.type === '출근')) return toast("출근 기록이 없어요!", true);
 
-    if (type === '출근' && myToday.some(l => l.type === '출근'))
-        return showToast("오늘 이미 출근하셨어요!");
-    if (type === '퇴근' && myToday.some(l => l.type === '퇴근'))
-        return showToast("오늘 이미 퇴근하셨어요!");
-    if (type === '퇴근' && !myToday.some(l => l.type === '출근'))
-        return showToast("출근 기록이 없어요. 먼저 출근하세요!");
-
-    setLoading(type, true);
-
+    setRecordLoad(type, true);
     navigator.geolocation.getCurrentPosition(async pos => {
         const timeStr = new Date().toLocaleString('ko-KR', {
             month: 'numeric', day: 'numeric', weekday: 'short',
             hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
         });
         try {
-            await addDoc(collection(db, COL), {
-                name:      currentUser,
-                type:      type,
-                time:      timeStr,
-                date:      today,
+            await addDoc(collection(db, ACOL), {
+                userId: currentUser.id, type, time: timeStr, date: today,
                 timestamp: serverTimestamp(),
-                lat:       pos.coords.latitude,
-                lon:       pos.coords.longitude
+                lat: pos.coords.latitude, lon: pos.coords.longitude
             });
-            showToast(type + " 기록 완료!");
-        } catch(err) {
-            showToast("저장 실패: " + err.message);
-        } finally {
-            setLoading(type, false);
-        }
-    }, () => {
-        showToast("위치 정보를 가져올 수 없습니다.");
-        setLoading(type, false);
-    }, { enableHighAccuracy: true, timeout: 10000 });
+            toast(type + " 기록 완료!");
+        } catch(e) { toast("저장 실패: " + e.message, true); }
+        finally    { setRecordLoad(type, false); }
+    }, () => { toast("위치를 가져올 수 없습니다.", true); setRecordLoad(type, false); },
+    { enableHighAccuracy: true, timeout: 10000 });
 };
 
-// ── 삭제 (관리자) ──
-window.deleteRecord = async function(id) {
-    if (!isAdmin) return;
-    if (!confirm("이 기록을 삭제하시겠습니까?")) return;
-    try {
-        await deleteDoc(doc(db, COL, id));
-        showToast("삭제되었습니다.");
-    } catch(err) {
-        showToast("삭제 실패: " + err.message);
-    }
+// ── 출퇴근 기록 삭제 ──
+window.deleteLog = async function(id) {
+    if (!isAdmin || !confirm("이 기록을 삭제하시겠습니까?")) return;
+    try { await deleteDoc(doc(db, ACOL, id)); toast("삭제되었습니다."); }
+    catch(e) { toast("삭제 실패: " + e.message, true); }
 };
 
-// ── 필터 & 렌더링 ──
+// ── 필터 & 렌더 ──
 window.applyFilter = function() {
     const from = document.getElementById('filter-from').value;
     const to   = document.getElementById('filter-to').value;
     const type = document.getElementById('filter-type').value;
-
-    let logs = isAdmin ? allLogs : allLogs.filter(l => l.name === currentUser);
+    let logs = isAdmin ? allLogs : allLogs.filter(l => l.userId === currentUser.id);
     if (from) logs = logs.filter(l => l.date >= from);
     if (to)   logs = logs.filter(l => l.date <= to);
     if (type) logs = logs.filter(l => l.type === type);
-
-    render(logs);
+    renderLogs(logs);
 };
 
 window.clearFilter = function() {
@@ -509,111 +446,140 @@ window.clearFilter = function() {
     window.applyFilter();
 };
 
-function render(logs) {
-    const tbody = document.getElementById('list-body');
+function renderLogs(logs) {
+    const tbody = document.getElementById('rec-body');
     tbody.innerHTML = '';
-
-    if (!logs.length) {
-        tbody.innerHTML = `<tr><td colspan="5" class="empty-msg">기록이 없습니다.</td></tr>`;
-        return;
-    }
-
+    if (!logs.length) { tbody.innerHTML = `<tr><td colspan="5" class="empty-msg">기록이 없습니다.</td></tr>`; return; }
     logs.forEach(log => {
         const row = tbody.insertRow();
-        row.insertCell(0).innerText = log.name;
-
-        const typeCell = row.insertCell(1);
-        typeCell.innerHTML = `<span class="type-chip ${log.type === '출근' ? 'type-in' : 'type-out'}">${log.type}</span>`;
-
+        row.insertCell(0).innerText = log.userId || '-';
+        row.insertCell(1).innerHTML = `<span class="type-chip ${log.type==='출근'?'type-in':'type-out'}">${log.type}</span>`;
         row.insertCell(2).innerText = log.time || '';
-
-        const locCell = row.insertCell(3);
-        if (log.lat && log.lon) {
-            locCell.innerHTML = `<a href="https://www.google.com/maps?q=${log.lat},${log.lon}" target="_blank" rel="noopener" class="map-link">지도보기</a>`;
-        } else {
-            locCell.innerText = '-';
-            locCell.style.color = 'var(--text-hint)';
-        }
-
-        const delCell = row.insertCell(4);
-        if (isAdmin) {
-            delCell.innerHTML = `<button class="del-btn" onclick="deleteRecord('${log.id}')" title="삭제">✕</button>`;
-        }
+        const lc = row.insertCell(3);
+        if (log.lat && log.lon)
+            lc.innerHTML = `<a href="https://www.google.com/maps?q=${log.lat},${log.lon}" target="_blank" rel="noopener" class="map-link">지도보기</a>`;
+        else { lc.innerText = '-'; lc.style.color = 'var(--text-hint)'; }
+        const dc = row.insertCell(4);
+        if (isAdmin) dc.innerHTML = `<button class="del-btn" onclick="deleteLog('${log.id}')">✕</button>`;
     });
 }
+
+// ── 회원 목록 렌더 ──
+function renderUsers() {
+    const tbody = document.getElementById('user-body');
+    tbody.innerHTML = '';
+    document.getElementById('user-count').innerText = `총 ${allUsers.length}명`;
+    if (!allUsers.length) { tbody.innerHTML = `<tr><td colspan="5" class="empty-msg">회원이 없습니다.</td></tr>`; return; }
+
+    allUsers.forEach(u => {
+        const isSelf = u.docId === currentUser.id;
+        const row    = tbody.insertRow();
+
+        row.insertCell(0).innerText = u.id || u.docId;
+
+        // 비밀번호 (마스킹 + 눈 버튼)
+        const masked = '●'.repeat(Math.min((u.password||'').length, 10));
+        row.insertCell(1).innerHTML =
+            `<span class="pw-cell" id="pw-${u.docId}">${masked}</span>` +
+            `<button class="pw-toggle" onclick="togglePw('${u.docId}','${u.password||''}')">👁</button>`;
+
+        // 권한
+        row.insertCell(2).innerHTML =
+            `<span class="role-chip ${u.role==='admin'?'role-admin':'role-user'}">${u.role==='admin'?'관리자':'일반'}</span>`;
+
+        // 가입일
+        const dc = row.insertCell(3);
+        dc.innerText = u.createdAt?.toDate ? u.createdAt.toDate().toLocaleDateString('ko-KR') : '-';
+
+        // 삭제
+        const delC = row.insertCell(4);
+        if (!isSelf)
+            delC.innerHTML = `<button class="del-btn" onclick="deleteUser('${u.docId}')">✕</button>`;
+        else
+            delC.innerHTML = `<span style="font-size:11px;color:var(--text-hint)">본인</span>`;
+    });
+}
+
+// 비밀번호 토글
+window.togglePw = function(docId, pw) {
+    const el     = document.getElementById('pw-' + docId);
+    const masked = '●'.repeat(Math.min((pw||'').length, 10));
+    el.innerText = el.innerText === masked ? pw : masked;
+};
+
+// ── 회원 삭제 ──
+window.deleteUser = async function(docId) {
+    if (!isAdmin || !confirm(`"${docId}" 계정을 삭제하시겠습니까?\n출퇴근 기록도 함께 삭제됩니다.`)) return;
+    try {
+        const logsSnap = await getDocs(query(collection(db, ACOL), where("userId", "==", docId)));
+        await Promise.all(logsSnap.docs.map(d => deleteDoc(doc(db, ACOL, d.id))));
+        await deleteDoc(doc(db, UCOL, docId));
+        toast(`"${docId}" 계정이 삭제되었습니다.`);
+    } catch(e) { toast("삭제 실패: " + e.message, true); }
+};
 
 // ── 오늘 상태 ──
 function updateTodayStatus() {
     const today   = todayStr();
-    const myToday = allLogs.filter(l => l.name === currentUser && l.date === today);
+    const myToday = allLogs.filter(l => l.userId === currentUser.id && l.date === today);
     const inLog   = myToday.find(l => l.type === '출근');
     const outLog  = myToday.find(l => l.type === '퇴근');
-
     document.getElementById('today-in').innerText  = inLog  ? inLog.time.split(' ').slice(-1)[0]  : '-';
     document.getElementById('today-out').innerText = outLog ? outLog.time.split(' ').slice(-1)[0] : '-';
-
-    const badge = document.getElementById('status-badge');
-    if (outLog)     { badge.className = 'badge badge-out'; badge.innerText = '퇴근'; }
-    else if (inLog) { badge.className = 'badge badge-in';  badge.innerText = '출근중'; }
+    const badge = document.getElementById('badge-status');
+    if (outLog)     { badge.className = 'badge badge-out'; badge.innerText = '퇴근';   badge.style.cssText = ''; }
+    else if (inLog) { badge.className = 'badge badge-in';  badge.innerText = '출근중'; badge.style.cssText = ''; }
     else            { badge.className = 'badge'; badge.innerText = '미출근'; badge.style.cssText = 'background:#f3f4f6;color:var(--text-hint)'; }
 }
 
-// ── 버튼 상태 ──
-function updateButtonState() {
+function updateBtnState() {
     const today   = todayStr();
-    const myToday = allLogs.filter(l => l.name === currentUser && l.date === today);
-    const hasIn   = myToday.some(l => l.type === '출근');
-    const hasOut  = myToday.some(l => l.type === '퇴근');
-    document.getElementById('btn-in').disabled  = hasIn;
-    document.getElementById('btn-out').disabled = hasOut || !hasIn;
+    const myToday = allLogs.filter(l => l.userId === currentUser.id && l.date === today);
+    document.getElementById('btn-in').disabled  = myToday.some(l => l.type === '출근');
+    document.getElementById('btn-out').disabled = myToday.some(l => l.type === '퇴근') || !myToday.some(l => l.type === '출근');
 }
 
-// ── CSV 내보내기 ──
+// ── CSV ──
 window.exportCSV = function() {
     const from = document.getElementById('filter-from').value;
     const to   = document.getElementById('filter-to').value;
     const type = document.getElementById('filter-type').value;
-
-    let logs = isAdmin ? allLogs : allLogs.filter(l => l.name === currentUser);
+    let logs = isAdmin ? allLogs : allLogs.filter(l => l.userId === currentUser.id);
     if (from) logs = logs.filter(l => l.date >= from);
     if (to)   logs = logs.filter(l => l.date <= to);
     if (type) logs = logs.filter(l => l.type === type);
-
-    if (!logs.length) return showToast("내보낼 데이터가 없어요.");
-
-    const header = '이름,구분,기록시간,날짜,위도,경도\n';
-    const rows   = logs.map(l =>
-        `"${l.name}","${l.type}","${l.time||''}","${l.date||''}","${l.lat||''}","${l.lon||''}"`
-    ).join('\n');
-
-    const blob = new Blob(['\uFEFF' + header + rows], { type: 'text/csv;charset=utf-8;' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = `출퇴근기록_${from||'전체'}_${to||'전체'}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast("CSV 파일 저장 완료!");
+    if (!logs.length) return toast("내보낼 데이터가 없어요.");
+    const blob = new Blob(['\uFEFF아이디,구분,기록시간,날짜,위도,경도\n' +
+        logs.map(l=>`"${l.userId}","${l.type}","${l.time||''}","${l.date||''}","${l.lat||''}","${l.lon||''}"`).join('\n')],
+        { type:'text/csv;charset=utf-8;' });
+    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `출퇴근기록_${from||'전체'}_${to||'전체'}.csv` });
+    a.click(); URL.revokeObjectURL(a.href);
+    toast("CSV 저장 완료!");
 };
 
 // ── 유틸 ──
-function todayStr() {
-    return new Date().toISOString().slice(0, 10);
-}
+function todayStr() { return new Date().toISOString().slice(0, 10); }
 
-function setLoading(type, on) {
+function setRecordLoad(type, on) {
     const btn = document.getElementById(type === '출근' ? 'btn-in' : 'btn-out');
     btn.disabled  = on;
     btn.innerHTML = on ? `<span class="spinner"></span>` : (type === '출근' ? '출근하기' : '퇴근하기');
 }
 
+function setBtnLoad(id, on, label = '') {
+    const btn = document.getElementById(id);
+    btn.disabled  = on;
+    btn.innerHTML = on ? `<span class="spinner"></span>` : label;
+}
+
 let toastTimer;
-function showToast(msg) {
+function toast(msg, isErr = false) {
     const el = document.getElementById('toast');
     el.innerText = msg;
+    el.classList.toggle('error', isErr);
     el.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
 }
 </script>
 </body>
