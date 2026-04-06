@@ -7,437 +7,685 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f0f2f5;
-            --surface: #ffffff;
-            --border: #e2e6ea;
-            --text-primary: #1a1d23;
-            --text-secondary: #6b7280;
-            --text-hint: #9ca3af;
-            --blue: #1a73e8;
-            --blue-light: #e8f0fe;
-            --green: #1e8c4a;
-            --green-light: #e6f4ec;
-            --red: #d93025;
-            --red-light: #fce8e6;
-            --amber: #b45309;
-            --amber-light: #fef3c7;
-            --radius: 12px;
-            --radius-sm: 8px;
-            --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+            --bg:#f0f2f5; --surface:#ffffff; --border:#e2e6ea;
+            --text-primary:#1a1d23; --text-secondary:#6b7280; --text-hint:#9ca3af;
+            --blue:#1a73e8; --blue-light:#e8f0fe;
+            --green:#1e8c4a; --green-light:#e6f4ec;
+            --red:#d93025; --red-light:#fce8e6;
+            --amber:#b45309; --amber-light:#fef3c7;
+            --radius:12px; --radius-sm:8px;
+            --shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 16px rgba(0,0,0,0.06);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text-primary); min-height: 100vh; padding: 16px; }
-        .hidden { display: none !important; }
+        *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+        body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text-primary);min-height:100vh;padding:16px}
+        .hidden{display:none!important}
 
-        .app-header { max-width: 680px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: space-between; }
-        .app-title { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.05em; }
-        .clock { font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 600; color: var(--blue); }
+        .app-header{max-width:680px;margin:0 auto 16px;display:flex;align-items:center;justify-content:space-between}
+        .app-title{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--text-secondary);letter-spacing:.05em}
+        .header-right{display:flex;align-items:center;gap:12px}
+        .clock{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;color:var(--blue)}
 
-        .card { max-width: 680px; margin: 0 auto 12px; background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); padding: 20px; }
+        .lang-switcher{display:flex;gap:4px;background:var(--border);border-radius:20px;padding:3px}
+        .lang-btn{padding:3px 10px;border:none;border-radius:16px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:var(--text-secondary);transition:all .15s;font-family:'IBM Plex Mono',monospace}
+        .lang-btn.active{background:var(--surface);color:var(--blue);box-shadow:0 1px 3px rgba(0,0,0,0.12)}
 
-        .tab-row { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
-        .tab-btn { flex: 1; padding: 10px; background: none; border: none; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 500; color: var(--text-hint); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .15s, border-color .15s; }
-        .tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+        .card{max-width:680px;margin:0 auto 12px;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);padding:20px}
 
-        .field-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); margin-bottom: 5px; display: block; }
-        .field { width: 100%; padding: 11px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 15px; font-family: 'Noto Sans KR', sans-serif; color: var(--text-primary); background: #fafafa; outline: none; transition: border-color .15s; margin-bottom: 12px; }
-        .field:focus { border-color: var(--blue); background: white; }
-        .field-hint { font-size: 11px; color: var(--text-hint); margin-top: -8px; margin-bottom: 12px; }
+        .field-label{font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:5px;display:block}
+        .field{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:#fafafa;outline:none;transition:border-color .15s;margin-bottom:12px}
+        .field:focus{border-color:var(--blue);background:white}
 
-        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 12px 18px; border: none; border-radius: var(--radius-sm); font-family: 'Noto Sans KR', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: opacity .15s, transform .1s; color: white; width: 100%; }
-        .btn:active { transform: scale(0.98); }
-        .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-        .btn-blue  { background: var(--blue); }
-        .btn-green { background: var(--green); }
-        .btn-red   { background: var(--red); }
-        .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); font-weight: 500; font-size: 13px; }
-        .btn-row { display: flex; gap: 10px; }
-        .btn-row .btn { flex: 1; }
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 18px;border:none;border-radius:var(--radius-sm);font-family:'Noto Sans KR',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .1s;color:white;width:100%}
+        .btn:active{transform:scale(0.98)}
+        .btn:disabled{opacity:.45;cursor:not-allowed}
+        .btn-blue{background:var(--blue)} .btn-green{background:var(--green)}
+        .btn-red{background:var(--red)}   .btn-amber{background:var(--amber)}
+        .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text-secondary);font-weight:500;font-size:13px}
+        .btn-row{display:flex;gap:10px} .btn-row .btn{flex:1}
+        .btn-sm{padding:9px 14px;font-size:13px}
 
-        .user-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-        .user-info { display: flex; align-items: center; gap: 10px; }
-        .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--blue-light); color: var(--blue); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; }
-        .user-name { font-weight: 700; font-size: 15px; }
-        .badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; vertical-align: middle; }
-        .badge-admin { background: var(--blue-light); color: var(--blue); }
-        .badge-in    { background: var(--green-light); color: var(--green); }
-        .badge-out   { background: var(--red-light); color: var(--red); }
+        /* 아바타 */
+        .user-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+        .user-info{display:flex;align-items:center;gap:10px}
+        .avatar{width:46px;height:46px;border-radius:50%;background:var(--blue-light);color:var(--blue);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:2px solid var(--border);position:relative}
+        .avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+        .av-upload-overlay{position:absolute;inset:0;border-radius:50%;background:rgba(0,0,0,0.45);color:white;font-size:16px;display:none;align-items:center;justify-content:center;cursor:pointer}
+        .avatar.editable:hover .av-upload-overlay{display:flex}
+        .user-name{font-weight:700;font-size:15px}
+        .badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;vertical-align:middle}
+        .badge-admin{background:var(--blue-light);color:var(--blue)}
+        .badge-in{background:var(--green-light);color:var(--green)}
+        .badge-out{background:var(--red-light);color:var(--red)}
+        .badge-ot{background:var(--amber-light);color:var(--amber)}
 
-        .today-status { background: var(--bg); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 14px; font-size: 13px; color: var(--text-secondary); display: flex; gap: 16px; flex-wrap: wrap; }
-        .today-item span { font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: var(--text-primary); }
+        /* 오늘 상태 */
+        .today-status{background:var(--bg);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:14px;font-size:13px;color:var(--text-secondary);display:flex;gap:16px;flex-wrap:wrap}
+        .today-item .val{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--text-primary)}
+        .today-item .ot-val{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--amber)}
 
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .section-title { font-size: 12px; font-weight: 700; color: var(--text-hint); letter-spacing: 0.06em; text-transform: uppercase; }
+        /* 패널 */
+        .section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+        .section-title{font-size:12px;font-weight:700;color:var(--text-hint);letter-spacing:.06em;text-transform:uppercase}
+        .panel-tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+        .panel-tab{padding:7px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text-secondary);font-family:'Noto Sans KR',sans-serif;transition:all .15s;white-space:nowrap}
+        .panel-tab.active{background:var(--blue);color:white;border-color:var(--blue)}
 
-        .panel-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
-        .panel-tab { padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); font-family: 'Noto Sans KR', sans-serif; transition: all .15s; }
-        .panel-tab.active { background: var(--blue); color: white; border-color: var(--blue); }
+        /* 필터 */
+        .filter-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+        .filter-bar input[type="date"]{flex:1;min-width:120px;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:#fafafa;outline:none}
+        .filter-bar input[type="date"]:focus{border-color:var(--blue)}
+        .filter-select{padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:'Noto Sans KR',sans-serif;background:#fafafa;color:var(--text-primary);outline:none}
+        .filter-btn{padding:8px 12px;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-weight:500;color:var(--text-secondary);cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap}
+        .filter-btn:hover{background:var(--bg)}
+        .filter-btn.csv{color:var(--green);border-color:var(--green)}
 
-        .filter-bar { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
-        .filter-bar input[type="date"] { flex: 1; min-width: 120px; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: 'Noto Sans KR', sans-serif; color: var(--text-primary); background: #fafafa; outline: none; }
-        .filter-bar input[type="date"]:focus { border-color: var(--blue); }
-        .filter-select { padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: 'Noto Sans KR', sans-serif; background: #fafafa; color: var(--text-primary); outline: none; }
-        .filter-btn { padding: 8px 12px; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; color: var(--text-secondary); cursor: pointer; font-family: 'Noto Sans KR', sans-serif; white-space: nowrap; }
-        .filter-btn:hover { background: var(--bg); }
-        .filter-btn.csv { color: var(--green); border-color: var(--green); }
+        /* 테이블 */
+        .table-wrapper{width:100%;overflow-x:auto}
+        table{width:100%;border-collapse:collapse;font-size:13px;min-width:380px}
+        thead th{text-align:left;padding:8px 10px;color:var(--text-hint);font-weight:600;font-size:11px;letter-spacing:.05em;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap}
+        tbody td{padding:10px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
+        tbody tr:last-child td{border-bottom:none}
+        tbody tr:hover td{background:#fafbfc}
+        tbody tr.ot-row td{background:#fffbeb}
+        tbody tr.ot-row:hover td{background:#fef3c7}
 
-        .table-wrapper { width: 100%; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 380px; }
-        thead th { text-align: left; padding: 8px 10px; color: var(--text-hint); font-weight: 600; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 1px solid var(--border); white-space: nowrap; }
-        tbody td { padding: 10px 10px; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
-        tbody tr:last-child td { border-bottom: none; }
-        tbody tr:hover td { background: #fafbfc; }
+        .type-chip{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
+        .type-in{background:var(--green-light);color:var(--green)}
+        .type-out{background:var(--red-light);color:var(--red)}
+        .type-ot{background:var(--amber-light);color:var(--amber)}
+        .map-link{font-size:11px;font-weight:600;padding:5px 9px;background:var(--blue-light);color:var(--blue);border-radius:6px;text-decoration:none;border:1px solid #c5d9f8;white-space:nowrap}
+        .map-link:hover{background:#d2e3fc}
+        .del-btn{background:transparent;border:none;cursor:pointer;color:var(--text-hint);font-size:14px;padding:4px 6px;border-radius:4px;transition:color .1s,background .1s}
+        .del-btn:hover{color:var(--red);background:var(--red-light)}
+        .empty-msg{text-align:center;color:var(--text-hint);padding:28px 0;font-size:13px}
 
-        .type-chip { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
-        .type-in  { background: var(--green-light); color: var(--green); }
-        .type-out { background: var(--red-light); color: var(--red); }
-        .map-link { font-size: 11px; font-weight: 600; padding: 5px 9px; background: var(--blue-light); color: var(--blue); border-radius: 6px; text-decoration: none; border: 1px solid #c5d9f8; white-space: nowrap; }
-        .map-link:hover { background: #d2e3fc; }
-        .del-btn { background: transparent; border: none; cursor: pointer; color: var(--text-hint); font-size: 14px; padding: 4px 6px; border-radius: 4px; transition: color .1s, background .1s; }
-        .del-btn:hover { color: var(--red); background: var(--red-light); }
-        .empty-msg { text-align: center; color: var(--text-hint); padding: 28px 0; font-size: 13px; }
+        /* 회원 */
+        .pw-cell{font-family:'IBM Plex Mono',monospace;font-size:12px}
+        .pw-toggle{background:none;border:none;cursor:pointer;font-size:13px;color:var(--text-hint);margin-left:4px;vertical-align:middle}
+        .role-chip{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
+        .role-admin{background:var(--blue-light);color:var(--blue)}
+        .role-user{background:#f3f4f6;color:var(--text-secondary)}
+        .mini-avatar{width:30px;height:30px;border-radius:50%;background:var(--blue-light);color:var(--blue);font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;vertical-align:middle;border:1px solid var(--border);margin-right:6px;flex-shrink:0}
+        .mini-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+        .user-id-cell{display:flex;align-items:center}
 
-        .pw-cell { font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
-        .pw-toggle { background: none; border: none; cursor: pointer; font-size: 13px; color: var(--text-hint); margin-left: 4px; vertical-align: middle; }
-        .role-chip { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
-        .role-admin { background: var(--blue-light); color: var(--blue); }
-        .role-user  { background: #f3f4f6; color: var(--text-secondary); }
+        /* 관리자 박스 */
+        .admin-box{background:var(--bg);border-radius:var(--radius-sm);padding:16px;margin-bottom:16px;border:1px dashed var(--border)}
+        .admin-box .field{margin-bottom:8px}
+        .admin-box-title{font-size:12px;font-weight:700;color:var(--text-secondary);margin-bottom:12px;letter-spacing:.05em;text-transform:uppercase}
+        .role-select{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:#fafafa;outline:none;margin-bottom:12px}
+        .role-select:focus{border-color:var(--blue)}
 
-        .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin .7s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        /* 야근 */
+        .ot-summary{background:var(--amber-light);border:1px solid #fcd34d;border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:14px;font-size:13px}
+        .ot-summary-title{font-weight:700;color:var(--amber);margin-bottom:6px;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+        .ot-summary-row{display:flex;gap:20px;flex-wrap:wrap}
+        .ot-summary-item{color:var(--text-secondary)}
+        .ot-summary-item span{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--amber)}
+        .ot-settings-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+        .ot-settings-row .field{margin-bottom:0;flex:1;min-width:100px}
 
-        #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px); background: #1a1d23; color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 500; transition: transform .25s ease, opacity .25s; opacity: 0; pointer-events: none; z-index: 999; white-space: nowrap; }
-        #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-        #toast.error { background: var(--red); }
+        .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+
+        #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:#1a1d23;color:white;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;transition:transform .25s ease,opacity .25s;opacity:0;pointer-events:none;z-index:999;white-space:nowrap}
+        #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+        #toast.error{background:var(--red)}
     </style>
 </head>
 <body>
-
 <div id="toast"></div>
 
+<!-- 헤더 -->
 <div class="app-header">
     <div class="app-title">ATTENDANCE TRACKER</div>
-    <div id="clock" class="clock">00:00:00</div>
+    <div class="header-right">
+        <div class="lang-switcher">
+            <button class="lang-btn active" id="lang-ko" onclick="setLang('ko')">KO</button>
+            <button class="lang-btn"        id="lang-id" onclick="setLang('id')">ID</button>
+        </div>
+        <div id="clock" class="clock">00:00:00</div>
+    </div>
 </div>
 
-<!-- ── 인증 카드 ── -->
+<!-- 인증 카드 -->
 <div class="card" id="auth-card">
-    <div class="tab-row">
-        <button class="tab-btn active" id="tab-login"  onclick="switchTab('login')">로그인</button>
-        <button class="tab-btn"        id="tab-signup" onclick="switchTab('signup')">회원가입</button>
-    </div>
-
-    <div id="form-login">
-        <label class="field-label">아이디</label>
-        <input class="field" type="text" id="login-id" placeholder="아이디 입력" autocomplete="username">
-        <label class="field-label">비밀번호</label>
-        <input class="field" type="password" id="login-pw" placeholder="비밀번호 입력" autocomplete="current-password"
-               onkeydown="if(event.key==='Enter') doLogin()">
-        <button class="btn btn-blue" id="btn-login" onclick="doLogin()">로그인</button>
-    </div>
-
-    <div id="form-signup" class="hidden">
-        <label class="field-label">아이디</label>
-        <input class="field" type="text" id="signup-id" placeholder="영문 소문자/숫자, 4자 이상" autocomplete="username">
-        <p class="field-hint">영문 소문자, 숫자, _ 만 사용 가능 / 4자 이상</p>
-        <label class="field-label">비밀번호</label>
-        <input class="field" type="password" id="signup-pw" placeholder="6자 이상" autocomplete="new-password">
-        <label class="field-label">비밀번호 확인</label>
-        <input class="field" type="password" id="signup-pw2" placeholder="비밀번호 재입력" autocomplete="new-password"
-               onkeydown="if(event.key==='Enter') doSignup()">
-        <button class="btn btn-green" id="btn-signup" onclick="doSignup()">가입하기</button>
-    </div>
+    <label class="field-label" data-i18n="label_id">아이디</label>
+    <input class="field" type="text" id="login-id" data-i18n-placeholder="ph_id" placeholder="아이디 입력" autocomplete="username">
+    <label class="field-label" data-i18n="label_pw">비밀번호</label>
+    <input class="field" type="password" id="login-pw" data-i18n-placeholder="ph_pw" placeholder="비밀번호 입력" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="btn btn-blue" id="btn-login" onclick="doLogin()" data-i18n="btn_login">로그인</button>
 </div>
 
-<!-- ── 메인 카드 ── -->
+<!-- 메인 카드 -->
 <div class="card hidden" id="main-card">
     <div class="user-bar">
         <div class="user-info">
-            <div class="avatar" id="avatar-txt">?</div>
+            <div class="avatar" id="main-avatar">
+                <span id="avatar-txt">?</span>
+                <label class="av-upload-overlay" id="av-overlay">
+                    📷
+                    <input type="file" id="av-file-self" accept="image/*" style="display:none" onchange="handleAvatarUpload(this, null)">
+                </label>
+            </div>
             <div>
                 <div class="user-name" id="disp-name"></div>
-                <span id="badge-admin" class="badge badge-admin hidden">관리자</span>
-                <span id="badge-status" class="badge" style="background:#f3f4f6;color:var(--text-hint)">미출근</span>
+                <span id="badge-admin" class="badge badge-admin hidden" data-i18n="badge_admin">관리자</span>
+                <span id="badge-status" class="badge" style="background:#f3f4f6;color:var(--text-hint)" data-i18n="badge_no_checkin">미출근</span>
             </div>
         </div>
-        <button class="btn btn-ghost" style="width:auto;padding:8px 14px;" onclick="doLogout()">로그아웃</button>
+        <button class="btn btn-ghost" style="width:auto;padding:8px 14px" onclick="doLogout()" data-i18n="btn_logout">로그아웃</button>
     </div>
     <div class="today-status">
-        <div class="today-item">출근 <span id="today-in">-</span></div>
-        <div class="today-item">퇴근 <span id="today-out">-</span></div>
+        <div class="today-item"><span data-i18n="today_checkin">출근</span> <span class="val" id="today-in">-</span></div>
+        <div class="today-item"><span data-i18n="today_checkout">퇴근</span> <span class="val" id="today-out">-</span></div>
+        <div class="today-item" id="today-ot-wrap" style="display:none">
+            <span data-i18n="today_ot">야근</span> <span class="ot-val" id="today-ot">-</span>
+        </div>
     </div>
     <div class="btn-row">
-        <button class="btn btn-green" id="btn-in"  onclick="record('출근')">출근하기</button>
-        <button class="btn btn-red"   id="btn-out" onclick="record('퇴근')">퇴근하기</button>
+        <button class="btn btn-green" id="btn-in"  onclick="record('checkin')"  data-i18n="btn_checkin">출근하기</button>
+        <button class="btn btn-red"   id="btn-out" onclick="record('checkout')" data-i18n="btn_checkout">퇴근하기</button>
     </div>
 </div>
 
-<!-- ── 기록/관리 카드 ── -->
+<!-- 기록/관리 카드 -->
 <div class="card hidden" id="records-card">
 
+    <!-- 관리자 탭 -->
     <div id="admin-tabs" class="hidden panel-tabs">
-        <button class="panel-tab active" onclick="switchPanel('records')">출퇴근 기록</button>
-        <button class="panel-tab"        onclick="switchPanel('users')">회원 관리</button>
+        <button class="panel-tab active" onclick="switchPanel('records')"  data-i18n="tab_records">출퇴근 기록</button>
+        <button class="panel-tab"        onclick="switchPanel('overtime')" data-i18n="tab_overtime">야근 기록</button>
+        <button class="panel-tab"        onclick="switchPanel('users')"    data-i18n="tab_users">회원 관리</button>
+        <button class="panel-tab"        onclick="switchPanel('settings')" data-i18n="tab_settings">설정</button>
+    </div>
+    <!-- 일반 탭 -->
+    <div id="user-tabs" class="hidden panel-tabs">
+        <button class="panel-tab active" onclick="switchPanel('records')"  data-i18n="tab_records">출퇴근 기록</button>
+        <button class="panel-tab"        onclick="switchPanel('overtime')" data-i18n="tab_overtime">야근 기록</button>
     </div>
 
-    <!-- 출퇴근 기록 패널 -->
+    <!-- ① 출퇴근 기록 -->
     <div id="panel-records">
         <div class="section-header">
-            <div class="section-title" id="rec-title">내 기록</div>
-            <button class="filter-btn csv" onclick="exportCSV()">CSV 내보내기</button>
+            <div class="section-title" id="rec-title" data-i18n="my_records">내 기록</div>
+            <button class="filter-btn csv hidden" id="btn-csv" onclick="exportCSV()" data-i18n="btn_csv">CSV 내보내기</button>
         </div>
         <div class="filter-bar">
             <input type="date" id="filter-from" onchange="applyFilter()">
             <span style="font-size:13px;color:var(--text-hint)">~</span>
-            <input type="date" id="filter-to"   onchange="applyFilter()">
+            <input type="date" id="filter-to" onchange="applyFilter()">
             <select class="filter-select" id="filter-type" onchange="applyFilter()">
-                <option value="">전체</option>
-                <option value="출근">출근</option>
-                <option value="퇴근">퇴근</option>
+                <option value=""         data-i18n="filter_all">전체</option>
+                <option value="checkin"  data-i18n="checkin">출근</option>
+                <option value="checkout" data-i18n="checkout">퇴근</option>
             </select>
-            <button class="filter-btn" onclick="clearFilter()">초기화</button>
+            <button class="filter-btn" onclick="clearFilter()" data-i18n="btn_reset">초기화</button>
         </div>
         <div class="table-wrapper">
-            <table>
-                <thead><tr>
-                    <th>아이디</th><th>구분</th><th>기록 시간</th><th>위치</th>
-                    <th id="rec-del-header"></th>
-                </tr></thead>
-                <tbody id="rec-body"></tbody>
-            </table>
+            <table><thead><tr>
+                <th data-i18n="col_id">아이디</th>
+                <th data-i18n="col_type">구분</th>
+                <th data-i18n="col_time">기록 시간</th>
+                <th data-i18n="col_loc">위치</th>
+                <th id="rec-del-header"></th>
+            </tr></thead><tbody id="rec-body"></tbody></table>
         </div>
     </div>
 
-    <!-- 회원 관리 패널 -->
-    <div id="panel-users" class="hidden">
+    <!-- ② 야근 기록 -->
+    <div id="panel-overtime" class="hidden">
         <div class="section-header">
-            <div class="section-title">회원 목록</div>
+            <div class="section-title" id="ot-title" data-i18n="ot_my_records">내 야근 기록</div>
+            <button class="filter-btn csv hidden" id="btn-csv-ot" onclick="exportOTCSV()" data-i18n="btn_csv">CSV 내보내기</button>
+        </div>
+        <div class="ot-summary">
+            <div class="ot-summary-title" data-i18n="ot_summary_title">야근 요약</div>
+            <div class="ot-summary-row">
+                <div class="ot-summary-item"><span data-i18n="ot_threshold_label">기준</span>: <span id="ot-threshold-disp">-</span></div>
+                <div class="ot-summary-item"><span data-i18n="ot_total_days">야근 일수</span>: <span id="ot-days">-</span></div>
+                <div class="ot-summary-item"><span data-i18n="ot_total_hours">총 야근시간</span>: <span id="ot-total-hours">-</span></div>
+            </div>
+        </div>
+        <div class="filter-bar">
+            <input type="date" id="ot-filter-from" onchange="applyOTFilter()">
+            <span style="font-size:13px;color:var(--text-hint)">~</span>
+            <input type="date" id="ot-filter-to" onchange="applyOTFilter()">
+            <select class="filter-select" id="ot-filter-user" style="display:none" onchange="applyOTFilter()">
+                <option value="" data-i18n="filter_all">전체</option>
+            </select>
+            <button class="filter-btn" onclick="clearOTFilter()" data-i18n="btn_reset">초기화</button>
+        </div>
+        <div class="table-wrapper">
+            <table><thead><tr>
+                <th data-i18n="col_id">아이디</th>
+                <th data-i18n="col_date">날짜</th>
+                <th data-i18n="ot_checkout_time">퇴근 시각</th>
+                <th data-i18n="ot_hours">야근 시간</th>
+            </tr></thead><tbody id="ot-body"></tbody></table>
+        </div>
+    </div>
+
+    <!-- ③ 회원 관리 (관리자) -->
+    <div id="panel-users" class="hidden">
+        <div class="admin-box">
+            <div class="admin-box-title" data-i18n="create_account_title">새 계정 생성</div>
+            <label class="field-label" data-i18n="label_new_id">아이디</label>
+            <input class="field" type="text" id="new-user-id" data-i18n-placeholder="ph_new_id" placeholder="영문 소문자/숫자, 4자 이상" autocomplete="off">
+            <label class="field-label" data-i18n="label_new_pw">비밀번호</label>
+            <input class="field" type="text" id="new-user-pw" data-i18n-placeholder="ph_new_pw" placeholder="6자 이상" autocomplete="off">
+            <label class="field-label" data-i18n="label_role">권한</label>
+            <select class="role-select" id="new-user-role">
+                <option value="user"  data-i18n="role_user">일반 사용자</option>
+                <option value="admin" data-i18n="role_admin">관리자</option>
+            </select>
+            <button class="btn btn-blue btn-sm" id="btn-create-user" onclick="createUser()" data-i18n="btn_create_account">계정 생성</button>
+        </div>
+        <div class="section-header">
+            <div class="section-title" data-i18n="user_list_title">회원 목록</div>
             <span style="font-size:11px;color:var(--text-hint)" id="user-count"></span>
         </div>
         <div class="table-wrapper">
-            <table>
-                <thead><tr>
-                    <th>아이디</th><th>비밀번호</th><th>권한</th><th>가입일</th><th>삭제</th>
-                </tr></thead>
-                <tbody id="user-body"></tbody>
-            </table>
+            <table><thead><tr>
+                <th data-i18n="col_id">아이디</th>
+                <th data-i18n="col_pw">비밀번호</th>
+                <th data-i18n="col_role">권한</th>
+                <th data-i18n="col_created">가입일</th>
+                <th data-i18n="col_photo">사진</th>
+                <th data-i18n="col_del">삭제</th>
+            </tr></thead><tbody id="user-body"></tbody></table>
         </div>
     </div>
-</div>
+
+    <!-- ④ 설정 (관리자) -->
+    <div id="panel-settings" class="hidden">
+        <div class="admin-box">
+            <div class="admin-box-title" data-i18n="ot_settings_title">야근 기준 설정</div>
+            <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px" data-i18n="ot_settings_desc">퇴근 시각이 아래 시각 이후이면 야근으로 처리됩니다.</p>
+            <div class="ot-settings-row">
+                <div style="flex:1;min-width:100px">
+                    <label class="field-label" data-i18n="ot_threshold_hour">기준 시 (0~23)</label>
+                    <input class="field" type="number" id="ot-hour" min="0" max="23" value="18" style="margin-bottom:0">
+                </div>
+                <div style="flex:1;min-width:100px">
+                    <label class="field-label" data-i18n="ot_threshold_min">기준 분 (0~59)</label>
+                    <input class="field" type="number" id="ot-min" min="0" max="59" value="0" style="margin-bottom:0">
+                </div>
+                <div style="padding-bottom:1px">
+                    <button class="btn btn-amber btn-sm" style="width:auto;padding:11px 18px" onclick="saveOTSettings()" data-i18n="btn_save">저장</button>
+                </div>
+            </div>
+            <p style="font-size:12px;color:var(--text-hint);margin-top:10px" id="ot-current-label"></p>
+        </div>
+    </div>
+
+</div><!-- /records-card -->
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
 import { getFirestore, collection, addDoc, deleteDoc, getDocs,
          doc, query, orderBy, where, onSnapshot,
-         serverTimestamp, setDoc, getDoc }
+         serverTimestamp, setDoc, getDoc, updateDoc }
     from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-// ══════════════════════════════
-//  설정
-// ══════════════════════════════
-const ADMIN_ID = "admin"; // 이 아이디로 가입하면 자동 관리자
+// ═══════════════════════════════════════════
+//  다국어 사전
+// ═══════════════════════════════════════════
+const STRINGS = {
+ko:{
+    label_id:'아이디', label_pw:'비밀번호',
+    ph_id:'아이디 입력', ph_pw:'비밀번호 입력',
+    btn_login:'로그인', btn_logout:'로그아웃',
+    badge_admin:'관리자', badge_no_checkin:'미출근',
+    badge_checkin:'출근중', badge_checkout:'퇴근', badge_ot:'야근중',
+    today_checkin:'출근', today_checkout:'퇴근', today_ot:'야근',
+    btn_checkin:'출근하기', btn_checkout:'퇴근하기',
+    tab_records:'출퇴근 기록', tab_overtime:'야근 기록',
+    tab_users:'회원 관리', tab_settings:'설정',
+    my_records:'내 기록', all_records:'전체 출퇴근 기록',
+    btn_csv:'CSV 내보내기', filter_all:'전체', checkin:'출근', checkout:'퇴근',
+    btn_reset:'초기화', btn_save:'저장',
+    col_id:'아이디', col_type:'구분', col_time:'기록 시간', col_loc:'위치',
+    col_pw:'비밀번호', col_role:'권한', col_created:'가입일',
+    col_del:'삭제', col_del_label:'삭제', col_date:'날짜', col_photo:'사진',
+    map_view:'지도보기',
+    create_account_title:'새 계정 생성',
+    label_new_id:'아이디', label_new_pw:'비밀번호',
+    ph_new_id:'영문 소문자/숫자, 4자 이상', ph_new_pw:'6자 이상',
+    label_role:'권한', role_user:'일반 사용자', role_admin:'관리자',
+    btn_create_account:'계정 생성',
+    user_list_title:'회원 목록', user_count:'총 {n}명',
+    role_admin_chip:'관리자', role_user_chip:'일반',
+    self_label:'본인', no_record:'기록이 없습니다.', no_user:'회원이 없습니다.',
+    csv_filename:'출퇴근기록_{from}_{to}.csv',
+    csv_header:'\uFEFF아이디,구분,기록시간,날짜,위도,경도\n',
+    ot_csv_filename:'야근기록_{from}_{to}.csv',
+    ot_csv_header:'\uFEFF아이디,날짜,퇴근시각,야근(분)\n',
+    ot_settings_title:'야근 기준 설정',
+    ot_settings_desc:'퇴근 시각이 아래 시각 이후이면 야근으로 처리됩니다.',
+    ot_threshold_hour:'기준 시 (0~23)', ot_threshold_min:'기준 분 (0~59)',
+    ot_threshold_label:'기준', ot_my_records:'내 야근 기록', ot_all_records:'전체 야근 기록',
+    ot_summary_title:'야근 요약', ot_total_days:'야근 일수', ot_total_hours:'총 야근시간',
+    ot_checkout_time:'퇴근 시각', ot_hours:'야근 시간',
+    ot_current:'현재 기준: {h}시 {m}분 이후 퇴근 시 야근 처리',
+    ot_chip:'{h}시간 {m}분', ot_none:'야근 기록이 없습니다.',
+    t_login_id:'아이디를 입력하세요.', t_login_pw:'비밀번호를 입력하세요.',
+    t_id_not_found:'존재하지 않는 아이디예요.', t_pw_wrong:'비밀번호가 틀렸어요.',
+    t_login_fail:'로그인 실패: ', t_logout_confirm:'로그아웃 하시겠습니까?',
+    t_checkin_done:'출근 기록 완료!', t_checkout_done:'퇴근 기록 완료!',
+    t_already_checkin:'오늘 이미 출근하셨어요!',
+    t_already_checkout:'오늘 이미 퇴근하셨어요!',
+    t_no_checkin:'출근 기록이 없어요!',
+    t_no_gps:'GPS 미지원 브라우저입니다.', t_loc_fail:'위치를 가져올 수 없습니다.',
+    t_save_fail:'저장 실패: ',
+    t_del_log_confirm:'이 기록을 삭제하시겠습니까?',
+    t_del_log_done:'삭제되었습니다.', t_del_log_fail:'삭제 실패: ',
+    t_del_user_confirm:'"{id}" 계정을 삭제하시겠습니까?\n출퇴근 기록도 함께 삭제됩니다.',
+    t_del_user_done:'"{id}" 계정이 삭제되었습니다.', t_del_user_fail:'삭제 실패: ',
+    t_no_csv:'내보낼 데이터가 없어요.', t_csv_done:'CSV 저장 완료!',
+    t_log_load_fail:'기록 로드 실패: ', t_user_load_fail:'회원 로드 실패: ',
+    t_new_id_short:'아이디는 4자 이상 입력하세요.',
+    t_new_id_invalid:'아이디는 영문 소문자/숫자/_만 사용 가능해요.',
+    t_new_pw_short:'비밀번호는 6자 이상 입력하세요.',
+    t_new_id_taken:'이미 사용 중인 아이디예요.',
+    t_create_done:'계정이 생성되었습니다: ', t_create_fail:'생성 실패: ',
+    t_ot_saved:'야근 기준이 저장되었습니다.', t_ot_save_fail:'저장 실패: ',
+    t_photo_uploading:'사진 업로드 중...', t_photo_done:'프로필 사진이 업데이트되었습니다.',
+    t_photo_fail:'사진 업로드 실패: ', t_photo_size:'사진 크기는 500KB 이하여야 합니다.',
+},
+id:{
+    label_id:'ID Pengguna', label_pw:'Kata Sandi',
+    ph_id:'Masukkan ID', ph_pw:'Masukkan kata sandi',
+    btn_login:'Masuk', btn_logout:'Keluar',
+    badge_admin:'Admin', badge_no_checkin:'Belum Absen',
+    badge_checkin:'Sedang Bekerja', badge_checkout:'Sudah Pulang', badge_ot:'Lembur',
+    today_checkin:'Masuk', today_checkout:'Pulang', today_ot:'Lembur',
+    btn_checkin:'Absen Masuk', btn_checkout:'Absen Pulang',
+    tab_records:'Rekap Absensi', tab_overtime:'Rekap Lembur',
+    tab_users:'Kelola Pengguna', tab_settings:'Pengaturan',
+    my_records:'Rekap Saya', all_records:'Semua Rekap Absensi',
+    btn_csv:'Ekspor CSV', filter_all:'Semua', checkin:'Masuk', checkout:'Pulang',
+    btn_reset:'Reset', btn_save:'Simpan',
+    col_id:'ID', col_type:'Jenis', col_time:'Waktu', col_loc:'Lokasi',
+    col_pw:'Kata Sandi', col_role:'Peran', col_created:'Tgl Dibuat',
+    col_del:'Hapus', col_del_label:'Hapus', col_date:'Tanggal', col_photo:'Foto',
+    map_view:'Lihat Peta',
+    create_account_title:'Buat Akun Baru',
+    label_new_id:'ID Pengguna', label_new_pw:'Kata Sandi',
+    ph_new_id:'Huruf kecil/angka, min 4 karakter', ph_new_pw:'Min 6 karakter',
+    label_role:'Peran', role_user:'Pengguna Biasa', role_admin:'Administrator',
+    btn_create_account:'Buat Akun',
+    user_list_title:'Daftar Pengguna', user_count:'Total {n} orang',
+    role_admin_chip:'Admin', role_user_chip:'Pengguna',
+    self_label:'Anda', no_record:'Tidak ada data absensi.', no_user:'Tidak ada pengguna.',
+    csv_filename:'AbsensiKerja_{from}_{to}.csv',
+    csv_header:'\uFEFFID,Jenis,Waktu,Tanggal,Latitude,Longitude\n',
+    ot_csv_filename:'RekapLembur_{from}_{to}.csv',
+    ot_csv_header:'\uFEFFID,Tanggal,WaktuPulang,Lembur(menit)\n',
+    ot_settings_title:'Pengaturan Batas Lembur',
+    ot_settings_desc:'Jika waktu pulang melewati jam berikut, akan dicatat sebagai lembur.',
+    ot_threshold_hour:'Batas Jam (0~23)', ot_threshold_min:'Batas Menit (0~59)',
+    ot_threshold_label:'Batas', ot_my_records:'Rekap Lembur Saya', ot_all_records:'Semua Rekap Lembur',
+    ot_summary_title:'Ringkasan Lembur', ot_total_days:'Hari Lembur', ot_total_hours:'Total Jam Lembur',
+    ot_checkout_time:'Waktu Pulang', ot_hours:'Durasi Lembur',
+    ot_current:'Batas saat ini: pulang setelah pukul {h}:{m} = lembur',
+    ot_chip:'{h}j {m}m', ot_none:'Tidak ada data lembur.',
+    t_login_id:'Masukkan ID pengguna.', t_login_pw:'Masukkan kata sandi.',
+    t_id_not_found:'ID tidak ditemukan.', t_pw_wrong:'Kata sandi salah.',
+    t_login_fail:'Gagal masuk: ', t_logout_confirm:'Apakah Anda yakin ingin keluar?',
+    t_checkin_done:'Absen masuk berhasil!', t_checkout_done:'Absen pulang berhasil!',
+    t_already_checkin:'Anda sudah absen masuk hari ini!',
+    t_already_checkout:'Anda sudah absen pulang hari ini!',
+    t_no_checkin:'Belum ada absen masuk!',
+    t_no_gps:'Browser tidak mendukung GPS.', t_loc_fail:'Gagal mendapatkan lokasi.',
+    t_save_fail:'Gagal menyimpan: ',
+    t_del_log_confirm:'Hapus catatan absensi ini?',
+    t_del_log_done:'Berhasil dihapus.', t_del_log_fail:'Gagal menghapus: ',
+    t_del_user_confirm:'Hapus akun "{id}"?\nData absensi juga akan ikut dihapus.',
+    t_del_user_done:'Akun "{id}" telah dihapus.', t_del_user_fail:'Gagal menghapus: ',
+    t_no_csv:'Tidak ada data untuk diekspor.', t_csv_done:'CSV berhasil disimpan!',
+    t_log_load_fail:'Gagal memuat absensi: ', t_user_load_fail:'Gagal memuat pengguna: ',
+    t_new_id_short:'ID minimal 4 karakter.',
+    t_new_id_invalid:'ID hanya boleh huruf kecil, angka, dan _.',
+    t_new_pw_short:'Kata sandi minimal 6 karakter.',
+    t_new_id_taken:'ID sudah digunakan.',
+    t_create_done:'Akun berhasil dibuat: ', t_create_fail:'Gagal membuat akun: ',
+    t_ot_saved:'Batas lembur berhasil disimpan.', t_ot_save_fail:'Gagal menyimpan: ',
+    t_photo_uploading:'Mengunggah foto...', t_photo_done:'Foto profil berhasil diperbarui.',
+    t_photo_fail:'Gagal mengunggah foto: ', t_photo_size:'Ukuran foto maksimal 500KB.',
+}};
 
+// ═══════════════════════════════════════════
+//  Firebase
+// ═══════════════════════════════════════════
 const firebaseConfig = {
-    apiKey:            "AIzaSyATUo1Y9nUwslZq1HXUP8wluu1cOVVXsMY",
-    authDomain:        "working-69861.firebaseapp.com",
-    projectId:         "working-69861",
-    storageBucket:     "working-69861.firebasestorage.app",
-    messagingSenderId: "83328769962",
-    appId:             "1:83328769962:web:73bdc3d0df5a3076fe95d3",
-    measurementId:     "G-SNPMS1Q5YG"
+    apiKey:"AIzaSyATUo1Y9nUwslZq1HXUP8wluu1cOVVXsMY",
+    authDomain:"working-69861.firebaseapp.com",
+    projectId:"working-69861",
+    storageBucket:"working-69861.firebasestorage.app",
+    messagingSenderId:"83328769962",
+    appId:"1:83328769962:web:73bdc3d0df5a3076fe95d3"
 };
-
 const app  = initializeApp(firebaseConfig);
 const db   = getFirestore(app);
-const UCOL = "users";
-const ACOL = "attendance_records";
+const UCOL = "users", ACOL = "attendance_records", SCOL = "settings", OT_DOC = "overtime_config";
 
-let currentUser = null;
-let isAdmin     = false;
-let allLogs     = [];
-let allUsers    = [];
-let unsubLogs   = null;
-let unsubUsers  = null;
+let currentUser = null, isAdmin = false;
+let allLogs = [], allUsers = [];
+let unsubLogs = null, unsubUsers = null;
+let currentLang = 'ko';
+let otHour = 18, otMin = 0;
+let currentPanel = 'records';
 
-// 시계
-setInterval(() => {
-    document.getElementById('clock').innerText = new Date().toLocaleTimeString('ko-KR');
-}, 1000);
-
-// ── 탭 전환 ──
-window.switchTab = t => {
-    document.getElementById('form-login').classList.toggle('hidden',  t !== 'login');
-    document.getElementById('form-signup').classList.toggle('hidden', t !== 'signup');
-    document.getElementById('tab-login').classList.toggle('active',   t === 'login');
-    document.getElementById('tab-signup').classList.toggle('active',  t === 'signup');
-};
-
-// ── 회원가입 ──
-window.doSignup = async function() {
-    const id  = document.getElementById('signup-id').value.trim().toLowerCase();
-    const pw  = document.getElementById('signup-pw').value;
-    const pw2 = document.getElementById('signup-pw2').value;
-
-    if (!id || id.length < 4)       return toast("아이디는 4자 이상 입력하세요.", true);
-    if (!/^[a-z0-9_]+$/.test(id))  return toast("아이디는 영문 소문자/숫자/_만 사용 가능해요.", true);
-    if (pw.length < 6)              return toast("비밀번호는 6자 이상 입력하세요.", true);
-    if (pw !== pw2)                 return toast("비밀번호가 일치하지 않아요.", true);
-
-    setBtnLoad('btn-signup', true);
-    try {
-        const snap = await getDoc(doc(db, UCOL, id));
-        if (snap.exists()) return toast("이미 사용 중인 아이디예요.", true);
-
-        await setDoc(doc(db, UCOL, id), {
-            id,
-            password:  pw,
-            role:      id === ADMIN_ID ? 'admin' : 'user',
-            createdAt: serverTimestamp()
-        });
-        toast("가입 완료! 로그인해 주세요.");
-        window.switchTab('login');
-        document.getElementById('login-id').value = id;
-        document.getElementById('signup-id').value  = '';
-        document.getElementById('signup-pw').value  = '';
-        document.getElementById('signup-pw2').value = '';
-    } catch(e) {
-        toast("가입 실패: " + e.message, true);
-    } finally {
-        setBtnLoad('btn-signup', false, '가입하기');
+// ═══════════════════════════════════════════
+//  i18n
+// ═══════════════════════════════════════════
+function t(key, vars={}) {
+    let s = STRINGS[currentLang][key] || STRINGS.ko[key] || key;
+    Object.entries(vars).forEach(([k,v])=>{ s = s.replace(`{${k}}`, v); });
+    return s;
+}
+window.setLang = function(lang) {
+    currentLang = lang;
+    document.getElementById('lang-ko').classList.toggle('active', lang==='ko');
+    document.getElementById('lang-id').classList.toggle('active', lang==='id');
+    applyI18n();
+    if (currentUser) {
+        updateTodayStatus(); updateBtnState(); applyFilter(); applyOTFilter();
+        if (isAdmin) { renderUsers(); updateOTLabel(); }
     }
 };
+function applyI18n() {
+    document.querySelectorAll('[data-i18n]').forEach(el => el.innerText = t(el.getAttribute('data-i18n')));
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => el.placeholder = t(el.getAttribute('data-i18n-placeholder')));
+    document.querySelectorAll('select option[data-i18n]').forEach(el => el.innerText = t(el.getAttribute('data-i18n')));
+    const bl = document.getElementById('btn-login');
+    if (bl && !bl.disabled) bl.innerText = t('btn_login');
+    const bi = document.getElementById('btn-in'), bo = document.getElementById('btn-out');
+    if (bi && !bi.disabled) bi.innerText = t('btn_checkin');
+    if (bo && !bo.disabled) bo.innerText = t('btn_checkout');
+    if (isAdmin) {
+        document.getElementById('rec-title').innerText = t('all_records');
+        document.getElementById('rec-del-header').innerText = t('col_del_label');
+        document.getElementById('ot-title').innerText = t('ot_all_records');
+    }
+}
+setInterval(()=>{ document.getElementById('clock').innerText = new Date().toLocaleTimeString(currentLang==='ko'?'ko-KR':'id-ID'); }, 1000);
 
-// ── 로그인 ──
+// ═══════════════════════════════════════════
+//  로그인
+// ═══════════════════════════════════════════
 window.doLogin = async function() {
     const id = document.getElementById('login-id').value.trim().toLowerCase();
     const pw = document.getElementById('login-pw').value;
-    if (!id) return toast("아이디를 입력하세요.", true);
-    if (!pw) return toast("비밀번호를 입력하세요.", true);
-
+    if (!id) return toast(t('t_login_id'), true);
+    if (!pw) return toast(t('t_login_pw'), true);
     setBtnLoad('btn-login', true);
     try {
         const snap = await getDoc(doc(db, UCOL, id));
-        if (!snap.exists())           return toast("존재하지 않는 아이디예요.", true);
-        if (snap.data().password !== pw) return toast("비밀번호가 틀렸어요.", true);
-
+        if (!snap.exists())              return toast(t('t_id_not_found'), true);
+        if (snap.data().password !== pw) return toast(t('t_pw_wrong'), true);
         currentUser = { id, ...snap.data() };
-        isAdmin     = currentUser.role === 'admin';
+        isAdmin = currentUser.role === 'admin';
+        await loadOTSettings();
         enterApp();
-    } catch(e) {
-        toast("로그인 실패: " + e.message, true);
-    } finally {
-        setBtnLoad('btn-login', false, '로그인');
-    }
+    } catch(e) { toast(t('t_login_fail')+e.message, true); }
+    finally    { setBtnLoad('btn-login', false, t('btn_login')); }
 };
+
+async function loadOTSettings() {
+    try {
+        const snap = await getDoc(doc(db, SCOL, OT_DOC));
+        if (snap.exists()) { otHour = snap.data().hour ?? 18; otMin = snap.data().min ?? 0; }
+    } catch(_) {}
+}
 
 function enterApp() {
     document.getElementById('auth-card').classList.add('hidden');
     document.getElementById('main-card').classList.remove('hidden');
     document.getElementById('records-card').classList.remove('hidden');
 
-    document.getElementById('avatar-txt').innerText = currentUser.id.slice(0, 2).toUpperCase();
-    document.getElementById('disp-name').innerText  = currentUser.id;
+    setMainAvatar(currentUser.photoBase64 || null, currentUser.id);
+    document.getElementById('disp-name').innerText = currentUser.id;
 
     if (isAdmin) {
+        document.getElementById('main-avatar').classList.add('editable');
         document.getElementById('badge-admin').classList.remove('hidden');
         document.getElementById('admin-tabs').classList.remove('hidden');
-        document.getElementById('rec-del-header').innerText = '삭제';
-        document.getElementById('rec-title').innerText = '전체 출퇴근 기록';
+        document.getElementById('rec-del-header').innerText = t('col_del_label');
+        document.getElementById('rec-title').innerText = t('all_records');
+        document.getElementById('ot-title').innerText  = t('ot_all_records');
+        document.getElementById('btn-csv').classList.remove('hidden');
+        document.getElementById('btn-csv-ot').classList.remove('hidden');
+        document.getElementById('ot-filter-user').style.display = '';
+        document.getElementById('ot-hour').value = otHour;
+        document.getElementById('ot-min').value  = otMin;
+        updateOTLabel();
+    } else {
+        // 일반 사용자: 아바타 업로드 숨김
+        document.getElementById('av-overlay').style.display = 'none';
+        document.getElementById('user-tabs').classList.remove('hidden');
     }
 
     const today = todayStr();
-    document.getElementById('filter-from').value = today;
-    document.getElementById('filter-to').value   = today;
+    document.getElementById('filter-from').value    = today;
+    document.getElementById('filter-to').value      = today;
+    document.getElementById('ot-filter-from').value = today.slice(0,7)+'-01';
+    document.getElementById('ot-filter-to').value   = today;
 
+    applyI18n();
     startLogsListener();
     if (isAdmin) startUsersListener();
 }
 
-// ── 로그아웃 ──
+function setMainAvatar(base64, id) {
+    const txt = document.getElementById('avatar-txt');
+    if (base64) txt.innerHTML = `<img src="${base64}" alt="profile">`;
+    else        txt.innerText  = id.slice(0,2).toUpperCase();
+}
+
+// ═══════════════════════════════════════════
+//  로그아웃
+// ═══════════════════════════════════════════
 window.doLogout = function() {
-    if (!confirm("로그아웃 하시겠습니까?")) return;
+    if (!confirm(t('t_logout_confirm'))) return;
     if (unsubLogs)  unsubLogs();
     if (unsubUsers) unsubUsers();
     location.reload();
 };
 
-// ── 관리자 패널 탭 ──
+// ═══════════════════════════════════════════
+//  패널 전환
+// ═══════════════════════════════════════════
 window.switchPanel = function(panel) {
-    document.getElementById('panel-records').classList.toggle('hidden', panel !== 'records');
-    document.getElementById('panel-users').classList.toggle('hidden',   panel !== 'users');
-    document.querySelectorAll('.panel-tab').forEach((t, i) => {
-        t.classList.toggle('active', i === 0 ? panel === 'records' : panel === 'users');
+    currentPanel = panel;
+    ['records','overtime','users','settings'].forEach(p => {
+        const el = document.getElementById('panel-'+p);
+        if (el) el.classList.toggle('hidden', p !== panel);
     });
+    document.querySelectorAll('.panel-tab').forEach(btn => {
+        const map = {tab_records:'records',tab_overtime:'overtime',tab_users:'users',tab_settings:'settings'};
+        btn.classList.toggle('active', map[btn.getAttribute('data-i18n')] === panel);
+    });
+    if (panel === 'overtime') applyOTFilter();
 };
 
-// ── 출퇴근 기록 리스너 ──
+// ═══════════════════════════════════════════
+//  리스너
+// ═══════════════════════════════════════════
 function startLogsListener() {
-    const q = query(collection(db, ACOL), orderBy("timestamp", "desc"));
+    const q = query(collection(db, ACOL), orderBy("timestamp","desc"));
     unsubLogs = onSnapshot(q, snap => {
-        allLogs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        applyFilter();
-        updateTodayStatus();
-        updateBtnState();
-    }, e => toast("기록 로드 실패: " + e.message, true));
+        allLogs = snap.docs.map(d=>({id:d.id,...d.data()}));
+        applyFilter(); updateTodayStatus(); updateBtnState();
+        if (currentPanel==='overtime') applyOTFilter();
+    }, e => toast(t('t_log_load_fail')+e.message, true));
 }
-
-// ── 회원 목록 리스너 ──
 function startUsersListener() {
-    const q = query(collection(db, UCOL), orderBy("createdAt", "asc"));
+    const q = query(collection(db, UCOL), orderBy("createdAt","asc"));
     unsubUsers = onSnapshot(q, snap => {
-        allUsers = snap.docs.map(d => ({ docId: d.id, ...d.data() }));
-        renderUsers();
-    }, e => toast("회원 로드 실패: " + e.message, true));
+        allUsers = snap.docs.map(d=>({docId:d.id,...d.data()}));
+        renderUsers(); buildOTUserFilter();
+    }, e => toast(t('t_user_load_fail')+e.message, true));
 }
 
-// ── 출퇴근 기록 ──
+// ═══════════════════════════════════════════
+//  출퇴근 기록
+// ═══════════════════════════════════════════
 window.record = function(type) {
-    if (!navigator.geolocation) return toast("GPS 미지원 브라우저입니다.", true);
-
+    if (!navigator.geolocation) return toast(t('t_no_gps'), true);
     const today   = todayStr();
-    const myToday = allLogs.filter(l => l.userId === currentUser.id && l.date === today);
-    if (type === '출근' && myToday.some(l => l.type === '출근')) return toast("오늘 이미 출근하셨어요!");
-    if (type === '퇴근' && myToday.some(l => l.type === '퇴근')) return toast("오늘 이미 퇴근하셨어요!");
-    if (type === '퇴근' && !myToday.some(l => l.type === '출근')) return toast("출근 기록이 없어요!", true);
+    const myToday = allLogs.filter(l => l.userId===currentUser.id && l.date===today);
+    if (type==='checkin'  && myToday.some(l=>l.type==='checkin'))  return toast(t('t_already_checkin'));
+    if (type==='checkout' && myToday.some(l=>l.type==='checkout')) return toast(t('t_already_checkout'));
+    if (type==='checkout' && !myToday.some(l=>l.type==='checkin')) return toast(t('t_no_checkin'), true);
 
     setRecordLoad(type, true);
     navigator.geolocation.getCurrentPosition(async pos => {
-        const timeStr = new Date().toLocaleString('ko-KR', {
-            month: 'numeric', day: 'numeric', weekday: 'short',
-            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        const now     = new Date();
+        const timeStr = now.toLocaleString(currentLang==='ko'?'ko-KR':'id-ID', {
+            month:'numeric', day:'numeric', weekday:'short',
+            hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false
         });
+        let overtimeMinutes = 0;
+        if (type==='checkout') {
+            const totalMins = now.getHours()*60 + now.getMinutes();
+            const threshold = otHour*60 + otMin;
+            if (totalMins > threshold) overtimeMinutes = totalMins - threshold;
+        }
         try {
             await addDoc(collection(db, ACOL), {
-                userId: currentUser.id, type, time: timeStr, date: today,
-                timestamp: serverTimestamp(),
-                lat: pos.coords.latitude, lon: pos.coords.longitude
+                userId:currentUser.id, type, time:timeStr, date:today,
+                timestamp:serverTimestamp(),
+                lat:pos.coords.latitude, lon:pos.coords.longitude,
+                ...(type==='checkout' ? {overtimeMinutes} : {})
             });
-            toast(type + " 기록 완료!");
-        } catch(e) { toast("저장 실패: " + e.message, true); }
+            toast(type==='checkin' ? t('t_checkin_done') : t('t_checkout_done'));
+        } catch(e) { toast(t('t_save_fail')+e.message, true); }
         finally    { setRecordLoad(type, false); }
-    }, () => { toast("위치를 가져올 수 없습니다.", true); setRecordLoad(type, false); },
-    { enableHighAccuracy: true, timeout: 10000 });
+    }, ()=>{ toast(t('t_loc_fail'),true); setRecordLoad(type,false); },
+    {enableHighAccuracy:true, timeout:10000});
 };
 
-// ── 출퇴근 기록 삭제 ──
 window.deleteLog = async function(id) {
-    if (!isAdmin || !confirm("이 기록을 삭제하시겠습니까?")) return;
-    try { await deleteDoc(doc(db, ACOL, id)); toast("삭제되었습니다."); }
-    catch(e) { toast("삭제 실패: " + e.message, true); }
+    if (!isAdmin || !confirm(t('t_del_log_confirm'))) return;
+    try { await deleteDoc(doc(db,ACOL,id)); toast(t('t_del_log_done')); }
+    catch(e) { toast(t('t_del_log_fail')+e.message, true); }
 };
 
-// ── 필터 & 렌더 ──
+// ═══════════════════════════════════════════
+//  필터 & 렌더 (출퇴근)
+// ═══════════════════════════════════════════
 window.applyFilter = function() {
     const from = document.getElementById('filter-from').value;
     const to   = document.getElementById('filter-to').value;
     const type = document.getElementById('filter-type').value;
-    let logs = isAdmin ? allLogs : allLogs.filter(l => l.userId === currentUser.id);
-    if (from) logs = logs.filter(l => l.date >= from);
-    if (to)   logs = logs.filter(l => l.date <= to);
-    if (type) logs = logs.filter(l => l.type === type);
+    let logs = isAdmin ? allLogs : allLogs.filter(l=>l.userId===currentUser.id);
+    if (from) logs = logs.filter(l=>l.date>=from);
+    if (to)   logs = logs.filter(l=>l.date<=to);
+    if (type) logs = logs.filter(l=>l.type===type);
     renderLogs(logs);
 };
-
 window.clearFilter = function() {
     const today = todayStr();
     document.getElementById('filter-from').value = today;
@@ -445,142 +693,295 @@ window.clearFilter = function() {
     document.getElementById('filter-type').value = '';
     window.applyFilter();
 };
-
 function renderLogs(logs) {
     const tbody = document.getElementById('rec-body');
     tbody.innerHTML = '';
-    if (!logs.length) { tbody.innerHTML = `<tr><td colspan="5" class="empty-msg">기록이 없습니다.</td></tr>`; return; }
+    if (!logs.length) { tbody.innerHTML=`<tr><td colspan="5" class="empty-msg">${t('no_record')}</td></tr>`; return; }
     logs.forEach(log => {
-        const row = tbody.insertRow();
-        row.insertCell(0).innerText = log.userId || '-';
-        row.insertCell(1).innerHTML = `<span class="type-chip ${log.type==='출근'?'type-in':'type-out'}">${log.type}</span>`;
-        row.insertCell(2).innerText = log.time || '';
+        const row   = tbody.insertRow();
+        const isOT  = log.type==='checkout' && (log.overtimeMinutes||0)>0;
+        if (isOT) row.classList.add('ot-row');
+        row.insertCell(0).innerText = log.userId||'-';
+        let label = log.type==='checkin'?t('checkin'):t('checkout');
+        let cls   = log.type==='checkin'?'type-in':'type-out';
+        if (isOT) { label+=' 🌙'; cls='type-ot'; }
+        row.insertCell(1).innerHTML = `<span class="type-chip ${cls}">${label}</span>`;
+        row.insertCell(2).innerText = log.time||'';
         const lc = row.insertCell(3);
         if (log.lat && log.lon)
-            lc.innerHTML = `<a href="https://www.google.com/maps?q=${log.lat},${log.lon}" target="_blank" rel="noopener" class="map-link">지도보기</a>`;
-        else { lc.innerText = '-'; lc.style.color = 'var(--text-hint)'; }
+            lc.innerHTML=`<a href="https://www.google.com/maps?q=${log.lat},${log.lon}" target="_blank" rel="noopener" class="map-link">${t('map_view')}</a>`;
+        else { lc.innerText='-'; lc.style.color='var(--text-hint)'; }
         const dc = row.insertCell(4);
-        if (isAdmin) dc.innerHTML = `<button class="del-btn" onclick="deleteLog('${log.id}')">✕</button>`;
+        if (isAdmin) dc.innerHTML=`<button class="del-btn" onclick="deleteLog('${log.id}')">✕</button>`;
     });
 }
 
-// ── 회원 목록 렌더 ──
+// ═══════════════════════════════════════════
+//  야근 기록
+// ═══════════════════════════════════════════
+function getOTLogs(userId) {
+    let logs = allLogs.filter(l=>l.type==='checkout' && (l.overtimeMinutes||0)>0);
+    if (userId) logs = logs.filter(l=>l.userId===userId);
+    return logs;
+}
+window.applyOTFilter = function() {
+    const from   = document.getElementById('ot-filter-from').value;
+    const to     = document.getElementById('ot-filter-to').value;
+    const userId = isAdmin ? document.getElementById('ot-filter-user').value : currentUser.id;
+    let logs = getOTLogs(userId||null);
+    if (!isAdmin) logs = logs.filter(l=>l.userId===currentUser.id);
+    if (from) logs = logs.filter(l=>l.date>=from);
+    if (to)   logs = logs.filter(l=>l.date<=to);
+    renderOTLogs(logs);
+};
+window.clearOTFilter = function() {
+    const today = todayStr();
+    document.getElementById('ot-filter-from').value = today.slice(0,7)+'-01';
+    document.getElementById('ot-filter-to').value   = today;
+    if (isAdmin) document.getElementById('ot-filter-user').value = '';
+    applyOTFilter();
+};
+function renderOTLogs(logs) {
+    const tbody = document.getElementById('ot-body');
+    tbody.innerHTML = '';
+    const totalMins = logs.reduce((s,l)=>s+(l.overtimeMinutes||0), 0);
+    const tH = Math.floor(totalMins/60), tM = totalMins%60;
+    document.getElementById('ot-days').innerText        = `${logs.length}${currentLang==='ko'?'일':'hari'}`;
+    document.getElementById('ot-total-hours').innerText = `${tH}${currentLang==='ko'?'시간':'j'} ${tM}${currentLang==='ko'?'분':'m'}`;
+    document.getElementById('ot-threshold-disp').innerText = `${otHour}:${String(otMin).padStart(2,'0')}`;
+    if (!logs.length) { tbody.innerHTML=`<tr><td colspan="4" class="empty-msg">${t('ot_none')}</td></tr>`; return; }
+    logs.forEach(log => {
+        const row  = tbody.insertRow();
+        row.classList.add('ot-row');
+        row.insertCell(0).innerText = log.userId||'-';
+        row.insertCell(1).innerText = log.date||'-';
+        row.insertCell(2).innerText = log.time||'-';
+        const mins = log.overtimeMinutes||0;
+        const h = Math.floor(mins/60), m = mins%60;
+        row.insertCell(3).innerHTML = `<span class="type-chip type-ot">🌙 ${t('ot_chip',{h,m})}</span>`;
+    });
+}
+function buildOTUserFilter() {
+    const sel = document.getElementById('ot-filter-user');
+    const cur = sel.value;
+    sel.innerHTML = `<option value="">${t('filter_all')}</option>`;
+    allUsers.forEach(u => {
+        const o = document.createElement('option');
+        o.value = u.docId; o.innerText = u.docId;
+        sel.appendChild(o);
+    });
+    sel.value = cur;
+}
+
+// ═══════════════════════════════════════════
+//  오늘 상태
+// ═══════════════════════════════════════════
+function updateTodayStatus() {
+    const today   = todayStr();
+    const myToday = allLogs.filter(l=>l.userId===currentUser.id && l.date===today);
+    const inLog   = myToday.find(l=>l.type==='checkin');
+    const outLog  = myToday.find(l=>l.type==='checkout');
+    document.getElementById('today-in').innerText  = inLog  ? inLog.time.split(' ').slice(-1)[0]  : '-';
+    document.getElementById('today-out').innerText = outLog ? outLog.time.split(' ').slice(-1)[0] : '-';
+    const otMins  = outLog?.overtimeMinutes || 0;
+    const otWrap  = document.getElementById('today-ot-wrap');
+    if (otMins > 0) {
+        otWrap.style.display = '';
+        document.getElementById('today-ot').innerText = t('ot_chip',{h:Math.floor(otMins/60),m:otMins%60});
+    } else { otWrap.style.display = 'none'; }
+    const badge = document.getElementById('badge-status');
+    if      (outLog && otMins>0) { badge.className='badge badge-ot';  badge.innerText=t('badge_ot');         badge.style.cssText=''; }
+    else if (outLog)             { badge.className='badge badge-out'; badge.innerText=t('badge_checkout');   badge.style.cssText=''; }
+    else if (inLog)              { badge.className='badge badge-in';  badge.innerText=t('badge_checkin');    badge.style.cssText=''; }
+    else                         { badge.className='badge';           badge.innerText=t('badge_no_checkin'); badge.style.cssText='background:#f3f4f6;color:var(--text-hint)'; }
+}
+function updateBtnState() {
+    const today   = todayStr();
+    const myToday = allLogs.filter(l=>l.userId===currentUser.id && l.date===today);
+    document.getElementById('btn-in').disabled  = myToday.some(l=>l.type==='checkin');
+    document.getElementById('btn-out').disabled = myToday.some(l=>l.type==='checkout') || !myToday.some(l=>l.type==='checkin');
+}
+
+// ═══════════════════════════════════════════
+//  야근 기준 설정 (관리자)
+// ═══════════════════════════════════════════
+window.saveOTSettings = async function() {
+    if (!isAdmin) return;
+    const h = parseInt(document.getElementById('ot-hour').value)||0;
+    const m = parseInt(document.getElementById('ot-min').value)||0;
+    try {
+        await setDoc(doc(db,SCOL,OT_DOC), {hour:h, min:m});
+        otHour=h; otMin=m; updateOTLabel();
+        toast(t('t_ot_saved'));
+    } catch(e) { toast(t('t_ot_save_fail')+e.message, true); }
+};
+function updateOTLabel() {
+    const el = document.getElementById('ot-current-label');
+    if (el) el.innerText = t('ot_current',{h:otHour, m:String(otMin).padStart(2,'0')});
+}
+
+// ═══════════════════════════════════════════
+//  프로필 사진
+// ═══════════════════════════════════════════
+window.handleAvatarUpload = async function(input, targetId) {
+    if (!isAdmin) return;
+    const file = input.files[0];
+    const tid  = targetId || input.dataset.targetId || currentUser.id;
+    if (!file) return;
+    if (file.size > 500*1024) return toast(t('t_photo_size'), true);
+    toast(t('t_photo_uploading'));
+    const reader = new FileReader();
+    reader.onload = async e => {
+        const resized = await resizeImg(e.target.result, 200);
+        try {
+            await updateDoc(doc(db,UCOL,tid), {photoBase64:resized});
+            if (tid===currentUser.id) { currentUser.photoBase64=resized; setMainAvatar(resized,tid); }
+            toast(t('t_photo_done'));
+        } catch(e) { toast(t('t_photo_fail')+e.message, true); }
+    };
+    reader.readAsDataURL(file);
+    input.value='';
+};
+function resizeImg(base64, max) {
+    return new Promise(res => {
+        const img = new Image();
+        img.onload = () => {
+            const s = Math.min(max/img.width, max/img.height, 1);
+            const c = document.createElement('canvas');
+            c.width=Math.round(img.width*s); c.height=Math.round(img.height*s);
+            c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+            res(c.toDataURL('image/jpeg',0.8));
+        };
+        img.src=base64;
+    });
+}
+
+// ═══════════════════════════════════════════
+//  회원 관리
+// ═══════════════════════════════════════════
 function renderUsers() {
     const tbody = document.getElementById('user-body');
     tbody.innerHTML = '';
-    document.getElementById('user-count').innerText = `총 ${allUsers.length}명`;
-    if (!allUsers.length) { tbody.innerHTML = `<tr><td colspan="5" class="empty-msg">회원이 없습니다.</td></tr>`; return; }
-
+    document.getElementById('user-count').innerText = t('user_count',{n:allUsers.length});
+    if (!allUsers.length) { tbody.innerHTML=`<tr><td colspan="6" class="empty-msg">${t('no_user')}</td></tr>`; return; }
     allUsers.forEach(u => {
-        const isSelf = u.docId === currentUser.id;
+        const isSelf = u.docId===currentUser.id;
         const row    = tbody.insertRow();
-
-        row.insertCell(0).innerText = u.id || u.docId;
-
-        // 비밀번호 (마스킹 + 눈 버튼)
-        const masked = '●'.repeat(Math.min((u.password||'').length, 10));
-        row.insertCell(1).innerHTML =
-            `<span class="pw-cell" id="pw-${u.docId}">${masked}</span>` +
-            `<button class="pw-toggle" onclick="togglePw('${u.docId}','${u.password||''}')">👁</button>`;
-
+        // 아이디 + 미니 아바타
+        const idCell = row.insertCell(0);
+        const wrap   = document.createElement('div');
+        wrap.className = 'user-id-cell';
+        const av = document.createElement('div');
+        av.className = 'mini-avatar';
+        if (u.photoBase64) av.innerHTML=`<img src="${u.photoBase64}" alt="">`;
+        else               av.innerText=(u.id||u.docId).slice(0,2).toUpperCase();
+        wrap.appendChild(av);
+        wrap.appendChild(document.createTextNode(u.id||u.docId));
+        idCell.appendChild(wrap);
+        // 비밀번호
+        const masked = '●'.repeat(Math.min((u.password||'').length,10));
+        row.insertCell(1).innerHTML=`<span class="pw-cell" id="pw-${u.docId}">${masked}</span><button class="pw-toggle" onclick="togglePw('${u.docId}','${u.password||''}')">👁</button>`;
         // 권한
-        row.insertCell(2).innerHTML =
-            `<span class="role-chip ${u.role==='admin'?'role-admin':'role-user'}">${u.role==='admin'?'관리자':'일반'}</span>`;
-
+        row.insertCell(2).innerHTML=`<span class="role-chip ${u.role==='admin'?'role-admin':'role-user'}">${u.role==='admin'?t('role_admin_chip'):t('role_user_chip')}</span>`;
         // 가입일
-        const dc = row.insertCell(3);
-        dc.innerText = u.createdAt?.toDate ? u.createdAt.toDate().toLocaleDateString('ko-KR') : '-';
-
+        row.insertCell(3).innerText = u.createdAt?.toDate ? u.createdAt.toDate().toLocaleDateString(currentLang==='ko'?'ko-KR':'id-ID') : '-';
+        // 사진 업로드
+        const pc = row.insertCell(4);
+        pc.innerHTML=`<label style="cursor:pointer;font-size:18px;display:inline-block" title="📷">📷<input type="file" accept="image/*" style="display:none" data-target-id="${u.docId}" onchange="handleAvatarUpload(this,'${u.docId}')"></label>`;
         // 삭제
-        const delC = row.insertCell(4);
-        if (!isSelf)
-            delC.innerHTML = `<button class="del-btn" onclick="deleteUser('${u.docId}')">✕</button>`;
-        else
-            delC.innerHTML = `<span style="font-size:11px;color:var(--text-hint)">본인</span>`;
+        const dc = row.insertCell(5);
+        if (!isSelf) dc.innerHTML=`<button class="del-btn" onclick="deleteUser('${u.docId}')">✕</button>`;
+        else         dc.innerHTML=`<span style="font-size:11px;color:var(--text-hint)">${t('self_label')}</span>`;
     });
 }
-
-// 비밀번호 토글
-window.togglePw = function(docId, pw) {
-    const el     = document.getElementById('pw-' + docId);
-    const masked = '●'.repeat(Math.min((pw||'').length, 10));
-    el.innerText = el.innerText === masked ? pw : masked;
+window.togglePw = function(docId,pw) {
+    const el=document.getElementById('pw-'+docId);
+    const masked='●'.repeat(Math.min((pw||'').length,10));
+    el.innerText = el.innerText===masked ? pw : masked;
 };
-
-// ── 회원 삭제 ──
-window.deleteUser = async function(docId) {
-    if (!isAdmin || !confirm(`"${docId}" 계정을 삭제하시겠습니까?\n출퇴근 기록도 함께 삭제됩니다.`)) return;
+window.createUser = async function() {
+    if (!isAdmin) return;
+    const id   = document.getElementById('new-user-id').value.trim().toLowerCase();
+    const pw   = document.getElementById('new-user-pw').value.trim();
+    const role = document.getElementById('new-user-role').value;
+    if (!id||id.length<4)         return toast(t('t_new_id_short'),   true);
+    if (!/^[a-z0-9_]+$/.test(id)) return toast(t('t_new_id_invalid'), true);
+    if (pw.length<6)               return toast(t('t_new_pw_short'),   true);
+    setBtnLoad('btn-create-user', true);
     try {
-        const logsSnap = await getDocs(query(collection(db, ACOL), where("userId", "==", docId)));
-        await Promise.all(logsSnap.docs.map(d => deleteDoc(doc(db, ACOL, d.id))));
-        await deleteDoc(doc(db, UCOL, docId));
-        toast(`"${docId}" 계정이 삭제되었습니다.`);
-    } catch(e) { toast("삭제 실패: " + e.message, true); }
+        const snap = await getDoc(doc(db,UCOL,id));
+        if (snap.exists()) return toast(t('t_new_id_taken'), true);
+        await setDoc(doc(db,UCOL,id), {id, password:pw, role, createdAt:serverTimestamp()});
+        toast(t('t_create_done')+id);
+        document.getElementById('new-user-id').value='';
+        document.getElementById('new-user-pw').value='';
+        document.getElementById('new-user-role').value='user';
+    } catch(e) { toast(t('t_create_fail')+e.message, true); }
+    finally    { setBtnLoad('btn-create-user', false, t('btn_create_account')); }
+};
+window.deleteUser = async function(docId) {
+    if (!isAdmin||!confirm(t('t_del_user_confirm',{id:docId}))) return;
+    try {
+        const ls = await getDocs(query(collection(db,ACOL),where("userId","==",docId)));
+        await Promise.all(ls.docs.map(d=>deleteDoc(doc(db,ACOL,d.id))));
+        await deleteDoc(doc(db,UCOL,docId));
+        toast(t('t_del_user_done',{id:docId}));
+    } catch(e) { toast(t('t_del_user_fail')+e.message, true); }
 };
 
-// ── 오늘 상태 ──
-function updateTodayStatus() {
-    const today   = todayStr();
-    const myToday = allLogs.filter(l => l.userId === currentUser.id && l.date === today);
-    const inLog   = myToday.find(l => l.type === '출근');
-    const outLog  = myToday.find(l => l.type === '퇴근');
-    document.getElementById('today-in').innerText  = inLog  ? inLog.time.split(' ').slice(-1)[0]  : '-';
-    document.getElementById('today-out').innerText = outLog ? outLog.time.split(' ').slice(-1)[0] : '-';
-    const badge = document.getElementById('badge-status');
-    if (outLog)     { badge.className = 'badge badge-out'; badge.innerText = '퇴근';   badge.style.cssText = ''; }
-    else if (inLog) { badge.className = 'badge badge-in';  badge.innerText = '출근중'; badge.style.cssText = ''; }
-    else            { badge.className = 'badge'; badge.innerText = '미출근'; badge.style.cssText = 'background:#f3f4f6;color:var(--text-hint)'; }
-}
-
-function updateBtnState() {
-    const today   = todayStr();
-    const myToday = allLogs.filter(l => l.userId === currentUser.id && l.date === today);
-    document.getElementById('btn-in').disabled  = myToday.some(l => l.type === '출근');
-    document.getElementById('btn-out').disabled = myToday.some(l => l.type === '퇴근') || !myToday.some(l => l.type === '출근');
-}
-
-// ── CSV ──
+// ═══════════════════════════════════════════
+//  CSV (관리자 전용)
+// ═══════════════════════════════════════════
 window.exportCSV = function() {
+    if (!isAdmin) return;
     const from = document.getElementById('filter-from').value;
     const to   = document.getElementById('filter-to').value;
     const type = document.getElementById('filter-type').value;
-    let logs = isAdmin ? allLogs : allLogs.filter(l => l.userId === currentUser.id);
-    if (from) logs = logs.filter(l => l.date >= from);
-    if (to)   logs = logs.filter(l => l.date <= to);
-    if (type) logs = logs.filter(l => l.type === type);
-    if (!logs.length) return toast("내보낼 데이터가 없어요.");
-    const blob = new Blob(['\uFEFF아이디,구분,기록시간,날짜,위도,경도\n' +
-        logs.map(l=>`"${l.userId}","${l.type}","${l.time||''}","${l.date||''}","${l.lat||''}","${l.lon||''}"`).join('\n')],
-        { type:'text/csv;charset=utf-8;' });
-    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `출퇴근기록_${from||'전체'}_${to||'전체'}.csv` });
-    a.click(); URL.revokeObjectURL(a.href);
-    toast("CSV 저장 완료!");
+    let logs = [...allLogs];
+    if (from) logs=logs.filter(l=>l.date>=from);
+    if (to)   logs=logs.filter(l=>l.date<=to);
+    if (type) logs=logs.filter(l=>l.type===type);
+    if (!logs.length) return toast(t('t_no_csv'));
+    const lb = r=>r.type==='checkin'?t('checkin'):t('checkout');
+    const blob = new Blob([t('csv_header')+logs.map(l=>`"${l.userId}","${lb(l)}","${l.time||''}","${l.date||''}","${l.lat||''}","${l.lon||''}"`).join('\n')],{type:'text/csv;charset=utf-8;'});
+    const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:t('csv_filename',{from:from||'all',to:to||'all'})});
+    a.click(); URL.revokeObjectURL(a.href); toast(t('t_csv_done'));
+};
+window.exportOTCSV = function() {
+    if (!isAdmin) return;
+    const from   = document.getElementById('ot-filter-from').value;
+    const to     = document.getElementById('ot-filter-to').value;
+    const userId = document.getElementById('ot-filter-user').value;
+    let logs = getOTLogs(userId||null);
+    if (from) logs=logs.filter(l=>l.date>=from);
+    if (to)   logs=logs.filter(l=>l.date<=to);
+    if (!logs.length) return toast(t('t_no_csv'));
+    const blob = new Blob([t('ot_csv_header')+logs.map(l=>`"${l.userId}","${l.date||''}","${l.time||''}","${l.overtimeMinutes||0}"`).join('\n')],{type:'text/csv;charset=utf-8;'});
+    const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:t('ot_csv_filename',{from:from||'all',to:to||'all'})});
+    a.click(); URL.revokeObjectURL(a.href); toast(t('t_csv_done'));
 };
 
-// ── 유틸 ──
-function todayStr() { return new Date().toISOString().slice(0, 10); }
-
-function setRecordLoad(type, on) {
-    const btn = document.getElementById(type === '출근' ? 'btn-in' : 'btn-out');
-    btn.disabled  = on;
-    btn.innerHTML = on ? `<span class="spinner"></span>` : (type === '출근' ? '출근하기' : '퇴근하기');
+// ═══════════════════════════════════════════
+//  유틸
+// ═══════════════════════════════════════════
+function todayStr() { return new Date().toISOString().slice(0,10); }
+function setRecordLoad(type,on) {
+    const btn=document.getElementById(type==='checkin'?'btn-in':'btn-out');
+    btn.disabled=on; btn.innerHTML=on?`<span class="spinner"></span>`:(type==='checkin'?t('btn_checkin'):t('btn_checkout'));
 }
-
-function setBtnLoad(id, on, label = '') {
-    const btn = document.getElementById(id);
-    btn.disabled  = on;
-    btn.innerHTML = on ? `<span class="spinner"></span>` : label;
+function setBtnLoad(id,on,label='') {
+    const btn=document.getElementById(id);
+    btn.disabled=on; btn.innerHTML=on?`<span class="spinner"></span>`:label;
 }
-
 let toastTimer;
-function toast(msg, isErr = false) {
-    const el = document.getElementById('toast');
-    el.innerText = msg;
-    el.classList.toggle('error', isErr);
-    el.classList.add('show');
+function toast(msg,isErr=false) {
+    const el=document.getElementById('toast');
+    el.innerText=msg; el.classList.toggle('error',isErr); el.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+    toastTimer=setTimeout(()=>el.classList.remove('show'),2800);
 }
+
+applyI18n();
 </script>
 </body>
 </html>
