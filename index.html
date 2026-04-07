@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>출퇴근 관리 시스템</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a73e8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="출퇴근">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -131,9 +138,65 @@
         #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:#1a1d23;color:white;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;transition:transform .25s ease,opacity .25s;opacity:0;pointer-events:none;z-index:999;white-space:nowrap}
         #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
         #toast.error{background:var(--red)}
+
+        /* ── PWA 설치 버튼 ── */
+        .pwa-banner{max-width:680px;margin:0 auto 12px;background:var(--blue);color:white;border-radius:var(--radius);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:var(--shadow)}
+        .pwa-banner-text{font-size:13px;font-weight:500;line-height:1.4}
+        .pwa-banner-text strong{display:block;font-size:14px;margin-bottom:2px}
+        .btn-pwa-install{background:white;color:var(--blue);border:none;border-radius:var(--radius-sm);padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Noto Sans KR',sans-serif;flex-shrink:0}
+        .btn-pwa-dismiss{background:transparent;border:none;color:rgba(255,255,255,0.7);font-size:18px;cursor:pointer;padding:0 4px;line-height:1}
+
+        /* ── 아이디별 출퇴근 요약 ── */
+        .summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-bottom:4px}
+        .summary-user-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px}
+        .summary-user-card.no-checkin{border-left:3px solid var(--text-hint)}
+        .summary-user-card.checked-in {border-left:3px solid var(--green)}
+        .summary-user-card.checked-out{border-left:3px solid var(--blue)}
+        .summary-user-card.overtime   {border-left:3px solid var(--amber)}
+        .su-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+        .su-name{font-weight:700;font-size:13px;flex:1}
+        .su-times{display:flex;gap:14px;font-size:12px;color:var(--text-secondary)}
+        .su-time-item .label{font-size:11px;color:var(--text-hint);display:block}
+        .su-time-item .val{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--text-primary);font-size:12px}
+        .su-time-item .val.ot{color:var(--amber)}
+
+        /* ── 비밀번호 변경 모달 ── */
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
+        .modal-box{background:var(--surface);border-radius:var(--radius);padding:24px;width:100%;max-width:400px;box-shadow:0 8px 32px rgba(0,0,0,0.2)}
+        .modal-title{font-size:16px;font-weight:700;margin-bottom:16px;color:var(--text-primary)}
+        .modal-actions{display:flex;gap:8px;margin-top:4px}
+        .modal-actions .btn{flex:1}
     </style>
 </head>
 <body>
+<div id="pwa-banner" style="display:none">
+    <div class="pwa-banner">
+        <div class="pwa-banner-text">
+            <strong>📱 앱으로 설치하기</strong>
+            홈 화면에 추가하면 앱처럼 사용할 수 있어요
+        </div>
+        <button class="btn-pwa-install" id="pwa-install-btn">설치</button>
+        <button class="btn-pwa-dismiss" onclick="dismissPWA()">✕</button>
+    </div>
+</div>
+
+<!-- 비밀번호 변경 모달 -->
+<div id="pw-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+        <div class="modal-title">🔑 비밀번호 변경</div>
+        <div id="pw-modal-target-label" style="font-size:12px;color:var(--text-secondary);margin-bottom:12px"></div>
+        <label class="field-label">새 비밀번호</label>
+        <input class="field" type="password" id="modal-new-pw" placeholder="6자 이상" autocomplete="new-password">
+        <label class="field-label">비밀번호 확인</label>
+        <input class="field" type="password" id="modal-new-pw2" placeholder="다시 입력" autocomplete="new-password"
+               onkeydown="if(event.key==='Enter')confirmPwChange()">
+        <div class="modal-actions">
+            <button class="btn btn-ghost" onclick="closePwModal()">취소</button>
+            <button class="btn btn-blue" onclick="confirmPwChange()">변경하기</button>
+        </div>
+    </div>
+</div>
+
 <div id="toast"></div>
 
 <!-- 헤더 -->
@@ -195,6 +258,7 @@
     <!-- 관리자 탭 -->
     <div id="admin-tabs" class="hidden panel-tabs">
         <button class="panel-tab active" onclick="switchPanel('records')"  data-i18n="tab_records">출퇴근 기록</button>
+        <button class="panel-tab"        onclick="switchPanel('summary')"  data-i18n="tab_summary">직원 현황</button>
         <button class="panel-tab"        onclick="switchPanel('overtime')" data-i18n="tab_overtime">야근 기록</button>
         <button class="panel-tab"        onclick="switchPanel('users')"    data-i18n="tab_users">회원 관리</button>
         <button class="panel-tab"        onclick="switchPanel('settings')" data-i18n="tab_settings">설정</button>
@@ -231,6 +295,16 @@
                 <th id="rec-del-header"></th>
             </tr></thead><tbody id="rec-body"></tbody></table>
         </div>
+    </div>
+
+
+    <!-- ② 직원 현황 요약 (관리자) -->
+    <div id="panel-summary" class="hidden">
+        <div class="section-header">
+            <div class="section-title" id="summary-date-label">오늘 직원 현황</div>
+            <input type="date" id="summary-date" style="padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:'Noto Sans KR',sans-serif;background:#fafafa;outline:none;color:var(--text-primary)" onchange="renderSummary()">
+        </div>
+        <div id="summary-grid" class="summary-grid"></div>
     </div>
 
     <!-- ② 야근 기록 -->
@@ -292,6 +366,7 @@
                 <th data-i18n="col_role">권한</th>
                 <th data-i18n="col_created">가입일</th>
                 <th data-i18n="col_photo">사진</th>
+                <th>비밀번호 변경</th>
                 <th data-i18n="col_del">삭제</th>
             </tr></thead><tbody id="user-body"></tbody></table>
         </div>
@@ -392,6 +467,14 @@ ko:{
     t_ot_saved:'야근 기준이 저장되었습니다.', t_ot_save_fail:'저장 실패: ',
     t_photo_uploading:'사진 업로드 중...', t_photo_done:'프로필 사진이 업데이트되었습니다.',
     t_photo_fail:'사진 업로드 실패: ', t_photo_size:'사진 크기는 500KB 이하여야 합니다.',
+    tab_summary:'직원 현황',
+    t_pw_change_title:'비밀번호 변경',
+    t_pw_short:'비밀번호는 6자 이상 입력하세요.',
+    t_pw_mismatch:'비밀번호가 일치하지 않아요.',
+    t_pw_changed:'비밀번호가 변경되었습니다.',
+    t_pw_change_fail:'변경 실패: ',
+    t_summary_no_user:'등록된 직원이 없습니다.',
+    btn_pw_change:'변경',
 },
 id:{
     label_id:'ID Pengguna', label_pw:'Kata Sandi',
@@ -453,6 +536,14 @@ id:{
     t_ot_saved:'Batas lembur berhasil disimpan.', t_ot_save_fail:'Gagal menyimpan: ',
     t_photo_uploading:'Mengunggah foto...', t_photo_done:'Foto profil berhasil diperbarui.',
     t_photo_fail:'Gagal mengunggah foto: ', t_photo_size:'Ukuran foto maksimal 500KB.',
+    tab_summary:'Status Pegawai',
+    t_pw_change_title:'Ganti Kata Sandi',
+    t_pw_short:'Kata sandi minimal 6 karakter.',
+    t_pw_mismatch:'Kata sandi tidak cocok.',
+    t_pw_changed:'Kata sandi berhasil diubah.',
+    t_pw_change_fail:'Gagal mengubah: ',
+    t_summary_no_user:'Belum ada pegawai terdaftar.',
+    btn_pw_change:'Ubah',
 }};
 
 // ═══════════════════════════════════════════
@@ -599,7 +690,7 @@ window.doLogout = function() {
 // ═══════════════════════════════════════════
 window.switchPanel = function(panel) {
     currentPanel = panel;
-    ['records','overtime','users','settings'].forEach(p => {
+    ['records','summary','overtime','users','settings'].forEach(p => {
         const el = document.getElementById('panel-'+p);
         if (el) el.classList.toggle('hidden', p !== panel);
     });
@@ -608,6 +699,7 @@ window.switchPanel = function(panel) {
         btn.classList.toggle('active', map[btn.getAttribute('data-i18n')] === panel);
     });
     if (panel === 'overtime') applyOTFilter();
+    if (panel === 'summary') renderSummary();
 };
 
 // ═══════════════════════════════════════════
@@ -888,8 +980,12 @@ function renderUsers() {
         // 사진 업로드
         const pc = row.insertCell(4);
         pc.innerHTML=`<label style="cursor:pointer;font-size:18px;display:inline-block" title="📷">📷<input type="file" accept="image/*" style="display:none" data-target-id="${u.docId}" onchange="handleAvatarUpload(this,'${u.docId}')"></label>`;
+        // 비밀번호 변경 버튼
+        const pwc = row.insertCell(5);
+        pwc.innerHTML = `<button class="del-btn" style="color:var(--blue);font-size:13px;padding:4px 8px" onclick="openPwModal('${u.docId}')" title="비밀번호 변경">🔑</button>`;
+
         // 삭제
-        const dc = row.insertCell(5);
+        const dc = row.insertCell(6);
         if (!isSelf) dc.innerHTML=`<button class="del-btn" onclick="deleteUser('${u.docId}')">✕</button>`;
         else         dc.innerHTML=`<span style="font-size:11px;color:var(--text-hint)">${t('self_label')}</span>`;
     });
@@ -980,6 +1076,141 @@ function toast(msg,isErr=false) {
     clearTimeout(toastTimer);
     toastTimer=setTimeout(()=>el.classList.remove('show'),2800);
 }
+
+// ═══════════════════════════════════════════
+//  직원별 출퇴근 현황 요약 (관리자)
+// ═══════════════════════════════════════════
+window.renderSummary = function() {
+    const grid = document.getElementById('summary-grid');
+    const dateInput = document.getElementById('summary-date');
+    const targetDate = dateInput.value || todayStr();
+    dateInput.value = targetDate;
+    document.getElementById('summary-date-label').innerText =
+        targetDate === todayStr() ? '오늘 직원 현황' : targetDate + ' 직원 현황';
+
+    grid.innerHTML = '';
+    if (!allUsers.length) {
+        grid.innerHTML = `<p style="color:var(--text-hint);font-size:13px;padding:20px 0">${t('t_summary_no_user')}</p>`;
+        return;
+    }
+
+    const dayLogs = allLogs.filter(l => l.date === targetDate);
+
+    allUsers.forEach(u => {
+        const uid   = u.docId;
+        const uLogs = dayLogs.filter(l => l.userId === uid);
+        const inLog = uLogs.find(l => l.type === 'checkin');
+        const outLog = uLogs.find(l => l.type === 'checkout');
+        const otMins = outLog?.overtimeMinutes || 0;
+
+        let cardClass = 'no-checkin';
+        if (outLog && otMins > 0) cardClass = 'overtime';
+        else if (outLog)          cardClass = 'checked-out';
+        else if (inLog)           cardClass = 'checked-in';
+
+        const statusText = outLog && otMins > 0 ? '야근' :
+                           outLog ? '퇴근' : inLog ? '출근중' : '미출근';
+        const statusColor = {
+            '야근':'var(--amber)', '퇴근':'var(--blue)',
+            '출근중':'var(--green)', '미출근':'var(--text-hint)'
+        }[statusText];
+
+        const inTime  = inLog  ? inLog.time.split(' ').slice(-1)[0]  : '-';
+        const outTime = outLog ? outLog.time.split(' ').slice(-1)[0] : '-';
+        const otStr   = otMins > 0 ? `${Math.floor(otMins/60)}h ${otMins%60}m` : '-';
+
+        const photoHtml = u.photoBase64
+            ? `<img src="${u.photoBase64}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
+            : `<span style="font-size:11px;font-weight:700">${uid.slice(0,2).toUpperCase()}</span>`;
+
+        const card = document.createElement('div');
+        card.className = `summary-user-card ${cardClass}`;
+        card.innerHTML = `
+            <div class="su-header">
+                <div class="mini-avatar">${photoHtml}</div>
+                <div class="su-name">${uid}</div>
+                <span class="badge" style="background:${statusColor}1a;color:${statusColor}">${statusText}</span>
+            </div>
+            <div class="su-times">
+                <div class="su-time-item">
+                    <span class="label">출근</span>
+                    <span class="val">${inTime}</span>
+                </div>
+                <div class="su-time-item">
+                    <span class="label">퇴근</span>
+                    <span class="val">${outTime}</span>
+                </div>
+                <div class="su-time-item">
+                    <span class="label">야근</span>
+                    <span class="val ot">${otStr}</span>
+                </div>
+            </div>`;
+        grid.appendChild(card);
+    });
+};
+
+// ═══════════════════════════════════════════
+//  비밀번호 변경 모달 (관리자)
+// ═══════════════════════════════════════════
+let pwModalTargetId = null;
+window.openPwModal = function(docId) {
+    if (!isAdmin) return;
+    pwModalTargetId = docId;
+    document.getElementById('pw-modal-target-label').innerText = `대상 계정: ${docId}`;
+    document.getElementById('modal-new-pw').value  = '';
+    document.getElementById('modal-new-pw2').value = '';
+    document.getElementById('pw-modal').classList.remove('hidden');
+    setTimeout(() => document.getElementById('modal-new-pw').focus(), 50);
+};
+window.closePwModal = function() {
+    document.getElementById('pw-modal').classList.add('hidden');
+    pwModalTargetId = null;
+};
+window.confirmPwChange = async function() {
+    if (!isAdmin || !pwModalTargetId) return;
+    const newPw  = document.getElementById('modal-new-pw').value;
+    const newPw2 = document.getElementById('modal-new-pw2').value;
+    if (newPw.length < 6)   return toast(t('t_pw_short'), true);
+    if (newPw !== newPw2)   return toast(t('t_pw_mismatch'), true);
+    try {
+        await updateDoc(doc(db, UCOL, pwModalTargetId), { password: newPw });
+        toast(t('t_pw_changed'));
+        closePwModal();
+    } catch(e) { toast(t('t_pw_change_fail') + e.message, true); }
+};
+// 모달 바깥 클릭 시 닫기
+document.getElementById('pw-modal').addEventListener('click', function(e) {
+    if (e.target === this) closePwModal();
+});
+
+// ═══════════════════════════════════════════
+//  PWA 설치
+// ═══════════════════════════════════════════
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('pwa-banner').style.display = '';
+});
+window.addEventListener('appinstalled', () => {
+    document.getElementById('pwa-banner').style.display = 'none';
+    toast('앱이 설치되었어요! 🎉');
+});
+document.getElementById('pwa-install-btn').addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') document.getElementById('pwa-banner').style.display = 'none';
+    deferredPrompt = null;
+});
+window.dismissPWA = function() {
+    document.getElementById('pwa-banner').style.display = 'none';
+};
+// 서비스 워커 등록
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+
 
 applyI18n();
 </script>
