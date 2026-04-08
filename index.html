@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>출퇴근 관리 시스템</title>
+    <title>Sistem Absensi ADINA</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1a73e8">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="출퇴근">
+    <meta name="apple-mobile-web-app-title" content="Absensi">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -214,10 +214,10 @@
 <div id="pwa-banner" style="display:none">
     <div class="pwa-banner">
         <div class="pwa-banner-text">
-            <strong>📱 앱으로 설치하기</strong>
-            홈 화면에 추가하면 앱처럼 사용할 수 있어요
+            <strong>📱 Pasang sebagai Aplikasi</strong>
+            Tambahkan ke layar utama untuk digunakan seperti aplikasi
         </div>
-        <button class="btn-pwa-install" id="pwa-install-btn">설치</button>
+        <button class="btn-pwa-install" id="pwa-install-btn">Pasang</button>
         <button class="btn-pwa-dismiss" onclick="dismissPWA()">✕</button>
     </div>
 </div>
@@ -232,16 +232,16 @@
 <!-- 비밀번호 변경 모달 -->
 <div id="pw-modal" class="modal-overlay hidden">
     <div class="modal-box">
-        <div class="modal-title">🔑 비밀번호 변경</div>
+        <div class="modal-title">🔑 Ganti Kata Sandi</div>
         <div id="pw-modal-target-label" style="font-size:12px;color:var(--text-secondary);margin-bottom:12px"></div>
-        <label class="field-label">새 비밀번호</label>
-        <input class="field" type="password" id="modal-new-pw" placeholder="6자 이상" autocomplete="new-password">
-        <label class="field-label">비밀번호 확인</label>
-        <input class="field" type="password" id="modal-new-pw2" placeholder="다시 입력" autocomplete="new-password"
+        <label class="field-label">Kata Sandi Baru</label>
+        <input class="field" type="password" id="modal-new-pw" placeholder="Min 6 karakter" autocomplete="new-password">
+        <label class="field-label">Konfirmasi Kata Sandi</label>
+        <input class="field" type="password" id="modal-new-pw2" placeholder="Ulangi kata sandi" autocomplete="new-password"
                onkeydown="if(event.key==='Enter')confirmPwChange()">
         <div class="modal-actions">
-            <button class="btn btn-ghost" onclick="closePwModal()">취소</button>
-            <button class="btn btn-blue" onclick="confirmPwChange()">변경하기</button>
+            <button class="btn btn-ghost" onclick="closePwModal()">Batal</button>
+            <button class="btn btn-blue" onclick="confirmPwChange()">Ubah</button>
         </div>
     </div>
 </div>
@@ -267,11 +267,11 @@
 </div>
 
 <div class="card" id="auth-card">
-    <label class="field-label" data-i18n="label_id">아이디</label>
-    <input class="field" type="text" id="login-id" data-i18n-placeholder="ph_id" placeholder="아이디 입력" autocomplete="username">
-    <label class="field-label" data-i18n="label_pw">비밀번호</label>
-    <input class="field" type="password" id="login-pw" data-i18n-placeholder="ph_pw" placeholder="비밀번호 입력" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="btn btn-blue" id="btn-login" onclick="doLogin()" data-i18n="btn_login">로그인</button>
+    <label class="field-label" data-i18n="label_id">ID Pengguna</label>
+    <input class="field" type="text" id="login-id" data-i18n-placeholder="ph_id" placeholder="Masukkan ID" autocomplete="username">
+    <label class="field-label" data-i18n="label_pw">Kata Sandi</label>
+    <input class="field" type="password" id="login-pw" data-i18n-placeholder="ph_pw" placeholder="Masukkan kata sandi" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="btn btn-blue" id="btn-login" onclick="doLogin()" data-i18n="btn_login">Masuk</button>
 </div>
 
 <!-- 메인 카드 -->
@@ -287,22 +287,22 @@
             </div>
             <div>
                 <div class="user-name" id="disp-name"></div>
-                <span id="badge-admin" class="badge badge-admin hidden" data-i18n="badge_admin">관리자</span>
-                <span id="badge-status" class="badge" style="background:#f3f4f6;color:var(--text-hint)" data-i18n="badge_no_checkin">미출근</span>
+                <span id="badge-admin" class="badge badge-admin hidden" data-i18n="badge_admin">Admin</span>
+                <span id="badge-status" class="badge" style="background:#f3f4f6;color:var(--text-hint)" data-i18n="badge_no_checkin">Belum Absen</span>
             </div>
         </div>
-        <button class="btn btn-ghost" style="width:auto;padding:8px 14px" onclick="doLogout()" data-i18n="btn_logout">로그아웃</button>
+        <button class="btn btn-ghost" style="width:auto;padding:8px 14px" onclick="doLogout()" data-i18n="btn_logout">Keluar</button>
     </div>
     <div class="today-status">
-        <div class="today-item"><span data-i18n="today_checkin">출근</span> <span class="val" id="today-in">-</span></div>
-        <div class="today-item"><span data-i18n="today_checkout">퇴근</span> <span class="val" id="today-out">-</span></div>
+        <div class="today-item"><span data-i18n="today_checkin">Masuk</span> <span class="val" id="today-in">-</span></div>
+        <div class="today-item"><span data-i18n="today_checkout">Pulang</span> <span class="val" id="today-out">-</span></div>
         <div class="today-item" id="today-ot-wrap" style="display:none">
-            <span data-i18n="today_ot">야근</span> <span class="ot-val" id="today-ot">-</span>
+            <span data-i18n="today_ot">Lembur</span> <span class="ot-val" id="today-ot">-</span>
         </div>
     </div>
     <div class="btn-row">
-        <button class="btn btn-green" id="btn-in"  onclick="record('checkin')"  data-i18n="btn_checkin">출근하기</button>
-        <button class="btn btn-red"   id="btn-out" onclick="record('checkout')" data-i18n="btn_checkout">퇴근하기</button>
+        <button class="btn btn-green" id="btn-in"  onclick="record('checkin')"  data-i18n="btn_checkin">Absen Masuk</button>
+        <button class="btn btn-red"   id="btn-out" onclick="record('checkout')" data-i18n="btn_checkout">Absen Pulang</button>
     </div>
 </div>
 
@@ -311,43 +311,43 @@
 
     <!-- 관리자 탭 -->
     <div id="admin-tabs" class="hidden panel-tabs">
-        <button class="panel-tab active" onclick="switchPanel('records')"  data-i18n="tab_records">출퇴근 기록</button>
-        <button class="panel-tab"        onclick="switchPanel('summary')"  data-i18n="tab_summary">직원 현황</button>
-        <button class="panel-tab"        onclick="switchPanel('overtime')" data-i18n="tab_overtime">야근 기록</button>
-        <button class="panel-tab"        onclick="switchPanel('diary')"    data-i18n="tab_diary">업무 일지</button>
-        <button class="panel-tab"        onclick="switchPanel('users')"    data-i18n="tab_users">회원 관리</button>
-        <button class="panel-tab"        onclick="switchPanel('settings')" data-i18n="tab_settings">설정</button>
+        <button class="panel-tab active" onclick="switchPanel('records')"  data-i18n="tab_records">Rekap Absensi</button>
+        <button class="panel-tab"        onclick="switchPanel('summary')"  data-i18n="tab_summary">Status Pegawai</button>
+        <button class="panel-tab"        onclick="switchPanel('overtime')" data-i18n="tab_overtime">Rekap Lembur</button>
+        <button class="panel-tab"        onclick="switchPanel('diary')"    data-i18n="tab_diary">Jurnal Kerja</button>
+        <button class="panel-tab"        onclick="switchPanel('users')"    data-i18n="tab_users">Kelola Pengguna</button>
+        <button class="panel-tab"        onclick="switchPanel('settings')" data-i18n="tab_settings">Pengaturan</button>
     </div>
     <!-- 일반 탭 -->
     <div id="user-tabs" class="hidden panel-tabs">
-        <button class="panel-tab active" onclick="switchPanel('records')"  data-i18n="tab_records">출퇴근 기록</button>
-        <button class="panel-tab"        onclick="switchPanel('overtime')" data-i18n="tab_overtime">야근 기록</button>
-        <button class="panel-tab"        onclick="switchPanel('diary')"    data-i18n="tab_diary">업무 일지</button>
+        <button class="panel-tab active" onclick="switchPanel('records')"  data-i18n="tab_records">Rekap Absensi</button>
+        <button class="panel-tab"        onclick="switchPanel('overtime')" data-i18n="tab_overtime">Rekap Lembur</button>
+        <button class="panel-tab"        onclick="switchPanel('diary')"    data-i18n="tab_diary">Jurnal Kerja</button>
     </div>
 
     <!-- ① 출퇴근 기록 -->
     <div id="panel-records">
         <div class="section-header">
-            <div class="section-title" id="rec-title" data-i18n="my_records">내 기록</div>
-            <button class="filter-btn csv hidden" id="btn-csv" onclick="exportCSV()" data-i18n="btn_csv">CSV 내보내기</button>
+            <div class="section-title" id="rec-title" data-i18n="my_records">Rekap Saya</div>
+            <button class="filter-btn csv hidden" id="btn-csv" onclick="exportCSV()" data-i18n="btn_csv">Ekspor CSV</button>
         </div>
         <div class="filter-bar">
             <input type="date" id="filter-from" onchange="applyFilter()">
             <span style="font-size:13px;color:var(--text-hint)">~</span>
             <input type="date" id="filter-to" onchange="applyFilter()">
             <select class="filter-select" id="filter-type" onchange="applyFilter()">
-                <option value=""         data-i18n="filter_all">전체</option>
-                <option value="checkin"  data-i18n="checkin">출근</option>
-                <option value="checkout" data-i18n="checkout">퇴근</option>
+                <option value=""         data-i18n="filter_all">Semua</option>
+                <option value="checkin"  data-i18n="checkin">Masuk</option>
+                <option value="checkout" data-i18n="checkout">Pulang</option>
             </select>
-            <button class="filter-btn" onclick="clearFilter()" data-i18n="btn_reset">초기화</button>
+            <button class="filter-btn" onclick="clearFilter()" data-i18n="btn_reset">Reset</button>
         </div>
         <div class="table-wrapper">
             <table><thead><tr>
-                <th data-i18n="col_id">아이디</th>
-                <th data-i18n="col_type">구분</th>
-                <th data-i18n="col_time">기록 시간</th>
-                <th data-i18n="col_loc">위치</th>
+                <th data-i18n="col_id">ID</th>
+                <th data-i18n="col_type">Jenis</th>
+                <th data-i18n="col_time">Waktu</th>
+                <th data-i18n="col_loc">Lokasi</th>
                 <th id="rec-del-header"></th>
             </tr></thead><tbody id="rec-body"></tbody></table>
         </div>
@@ -357,7 +357,7 @@
     <!-- ② 직원 현황 요약 (관리자) -->
     <div id="panel-summary" class="hidden">
         <div class="section-header">
-            <div class="section-title" id="summary-date-label">오늘 직원 현황</div>
+            <div class="section-title" id="summary-date-label">Status Pegawai Hari Ini</div>
             <input type="date" id="summary-date" style="padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:'Noto Sans KR',sans-serif;background:#fafafa;outline:none;color:var(--text-primary)" onchange="renderSummary()">
         </div>
         <div id="summary-grid" class="summary-grid"></div>
@@ -366,15 +366,15 @@
     <!-- ② 야근 기록 -->
     <div id="panel-overtime" class="hidden">
         <div class="section-header">
-            <div class="section-title" id="ot-title" data-i18n="ot_my_records">내 야근 기록</div>
-            <button class="filter-btn csv hidden" id="btn-csv-ot" onclick="exportOTCSV()" data-i18n="btn_csv">CSV 내보내기</button>
+            <div class="section-title" id="ot-title" data-i18n="ot_my_records">Rekap Lembur Saya</div>
+            <button class="filter-btn csv hidden" id="btn-csv-ot" onclick="exportOTCSV()" data-i18n="btn_csv">Ekspor CSV</button>
         </div>
         <div class="ot-summary">
-            <div class="ot-summary-title" data-i18n="ot_summary_title">야근 요약</div>
+            <div class="ot-summary-title" data-i18n="ot_summary_title">Ringkasan Lembur</div>
             <div class="ot-summary-row">
-                <div class="ot-summary-item"><span data-i18n="ot_threshold_label">기준</span>: <span id="ot-threshold-disp">-</span></div>
-                <div class="ot-summary-item"><span data-i18n="ot_total_days">야근 일수</span>: <span id="ot-days">-</span></div>
-                <div class="ot-summary-item"><span data-i18n="ot_total_hours">총 야근시간</span>: <span id="ot-total-hours">-</span></div>
+                <div class="ot-summary-item"><span data-i18n="ot_threshold_label">Batas</span>: <span id="ot-threshold-disp">-</span></div>
+                <div class="ot-summary-item"><span data-i18n="ot_total_days">Hari Lembur</span>: <span id="ot-days">-</span></div>
+                <div class="ot-summary-item"><span data-i18n="ot_total_hours">Total Jam Lembur</span>: <span id="ot-total-hours">-</span></div>
             </div>
         </div>
         <div class="filter-bar">
@@ -382,16 +382,16 @@
             <span style="font-size:13px;color:var(--text-hint)">~</span>
             <input type="date" id="ot-filter-to" onchange="applyOTFilter()">
             <select class="filter-select" id="ot-filter-user" style="display:none" onchange="applyOTFilter()">
-                <option value="" data-i18n="filter_all">전체</option>
+                <option value="" data-i18n="filter_all">Semua</option>
             </select>
-            <button class="filter-btn" onclick="clearOTFilter()" data-i18n="btn_reset">초기화</button>
+            <button class="filter-btn" onclick="clearOTFilter()" data-i18n="btn_reset">Reset</button>
         </div>
         <div class="table-wrapper">
             <table><thead><tr>
-                <th data-i18n="col_id">아이디</th>
-                <th data-i18n="col_date">날짜</th>
-                <th data-i18n="ot_checkout_time">퇴근 시각</th>
-                <th data-i18n="ot_hours">야근 시간</th>
+                <th data-i18n="col_id">ID</th>
+                <th data-i18n="col_date">Tanggal</th>
+                <th data-i18n="ot_checkout_time">Waktu Pulang</th>
+                <th data-i18n="ot_hours">Durasi Lembur</th>
             </tr></thead><tbody id="ot-body"></tbody></table>
         </div>
     </div>
@@ -399,31 +399,31 @@
     <!-- ③ 회원 관리 (관리자) -->
     <div id="panel-users" class="hidden">
         <div class="admin-box">
-            <div class="admin-box-title" data-i18n="create_account_title">새 계정 생성</div>
-            <label class="field-label" data-i18n="label_new_id">아이디</label>
-            <input class="field" type="text" id="new-user-id" data-i18n-placeholder="ph_new_id" placeholder="영문 소문자/숫자, 4자 이상" autocomplete="off">
-            <label class="field-label" data-i18n="label_new_pw">비밀번호</label>
-            <input class="field" type="text" id="new-user-pw" data-i18n-placeholder="ph_new_pw" placeholder="6자 이상" autocomplete="off">
-            <label class="field-label" data-i18n="label_role">권한</label>
+            <div class="admin-box-title" data-i18n="create_account_title">Buat Akun Baru</div>
+            <label class="field-label" data-i18n="label_new_id">ID Pengguna</label>
+            <input class="field" type="text" id="new-user-id" data-i18n-placeholder="ph_new_id" placeholder="Huruf kecil/angka, min 4 karakter" autocomplete="off">
+            <label class="field-label" data-i18n="label_new_pw">Kata Sandi</label>
+            <input class="field" type="text" id="new-user-pw" data-i18n-placeholder="ph_new_pw" placeholder="Min 6 karakter" autocomplete="off">
+            <label class="field-label" data-i18n="label_role">Peran</label>
             <select class="role-select" id="new-user-role">
-                <option value="user"  data-i18n="role_user">일반 사용자</option>
-                <option value="admin" data-i18n="role_admin">관리자</option>
+                <option value="user"  data-i18n="role_user">Pengguna Biasa</option>
+                <option value="admin" data-i18n="role_admin">Administrator</option>
             </select>
-            <button class="btn btn-blue btn-sm" id="btn-create-user" onclick="createUser()" data-i18n="btn_create_account">계정 생성</button>
+            <button class="btn btn-blue btn-sm" id="btn-create-user" onclick="createUser()" data-i18n="btn_create_account">Buat Akun</button>
         </div>
         <div class="section-header">
-            <div class="section-title" data-i18n="user_list_title">회원 목록</div>
+            <div class="section-title" data-i18n="user_list_title">Daftar Pengguna</div>
             <span style="font-size:11px;color:var(--text-hint)" id="user-count"></span>
         </div>
         <div class="table-wrapper">
             <table><thead><tr>
-                <th data-i18n="col_id">아이디</th>
-                <th data-i18n="col_pw">비밀번호</th>
-                <th data-i18n="col_role">권한</th>
-                <th data-i18n="col_created">가입일</th>
-                <th data-i18n="col_photo">사진</th>
-                <th>비밀번호 변경</th>
-                <th data-i18n="col_del">삭제</th>
+                <th data-i18n="col_id">ID</th>
+                <th data-i18n="col_pw">Kata Sandi</th>
+                <th data-i18n="col_role">Peran</th>
+                <th data-i18n="col_created">Tgl Dibuat</th>
+                <th data-i18n="col_photo">Foto</th>
+                <th>Ganti Kata Sandi</th>
+                <th data-i18n="col_del">Hapus</th>
             </tr></thead><tbody id="user-body"></tbody></table>
         </div>
     </div>
@@ -431,19 +431,19 @@
     <!-- ④ 설정 (관리자) -->
     <div id="panel-settings" class="hidden">
         <div class="admin-box">
-            <div class="admin-box-title" data-i18n="ot_settings_title">야근 기준 설정</div>
-            <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px" data-i18n="ot_settings_desc">퇴근 시각이 아래 시각 이후이면 야근으로 처리됩니다.</p>
+            <div class="admin-box-title" data-i18n="ot_settings_title">Pengaturan Batas Lembur</div>
+            <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px" data-i18n="ot_settings_desc">Jika waktu pulang melewati jam berikut, akan dicatat sebagai lembur.</p>
             <div class="ot-settings-row">
                 <div style="flex:1;min-width:100px">
-                    <label class="field-label" data-i18n="ot_threshold_hour">기준 시 (0~23)</label>
+                    <label class="field-label" data-i18n="ot_threshold_hour">Batas Jam (0~23)</label>
                     <input class="field" type="number" id="ot-hour" min="0" max="23" value="18" style="margin-bottom:0">
                 </div>
                 <div style="flex:1;min-width:100px">
-                    <label class="field-label" data-i18n="ot_threshold_min">기준 분 (0~59)</label>
+                    <label class="field-label" data-i18n="ot_threshold_min">Batas Menit (0~59)</label>
                     <input class="field" type="number" id="ot-min" min="0" max="59" value="0" style="margin-bottom:0">
                 </div>
                 <div style="padding-bottom:1px">
-                    <button class="btn btn-amber btn-sm" style="width:auto;padding:11px 18px" onclick="saveOTSettings()" data-i18n="btn_save">저장</button>
+                    <button class="btn btn-amber btn-sm" style="width:auto;padding:11px 18px" onclick="saveOTSettings()" data-i18n="btn_save">Simpan</button>
                 </div>
             </div>
             <p style="font-size:12px;color:var(--text-hint);margin-top:10px" id="ot-current-label"></p>
@@ -456,26 +456,26 @@
 
         <!-- 작성 박스 -->
         <div class="diary-write-box">
-            <label class="field-label" style="margin-bottom:8px">오늘의 업무 일지 작성</label>
-            <textarea id="diary-text" placeholder="오늘 진행한 작업, 특이사항 등을 자유롭게 작성하세요..."></textarea>
+            <label class="field-label" style="margin-bottom:8px">Tulis Jurnal Kerja Hari Ini</label>
+            <textarea id="diary-text" placeholder="Tulis pekerjaan hari ini, catatan khusus, dll..."></textarea>
             <div class="diary-photo-row" id="diary-preview-row">
                 <button class="diary-add-photo-btn" onclick="document.getElementById('diary-file-input').click()">
                     <span class="icon">📷</span>
-                    <span>사진 추가</span>
+                    <span>Tambah Foto</span>
                 </button>
                 <input type="file" id="diary-file-input" accept="image/*" multiple style="display:none" onchange="handleDiaryPhotos(this)">
             </div>
             <div class="diary-submit-row">
-                <button class="btn btn-blue btn-sm" style="width:auto;padding:10px 20px" id="btn-diary-submit" onclick="submitDiary()">일지 등록</button>
+                <button class="btn btn-blue btn-sm" style="width:auto;padding:10px 20px" id="btn-diary-submit" onclick="submitDiary()">Simpan Jurnal</button>
             </div>
         </div>
 
         <!-- 날짜 필터 -->
         <div class="diary-date-bar">
-            <div class="section-title" id="diary-list-title">업무 일지</div>
+            <div class="section-title" id="diary-list-title">Jurnal Kerja</div>
             <input type="date" id="diary-filter-date" onchange="applyDiaryFilter()">
-            <button class="filter-btn" onclick="clearDiaryFilter()">전체 보기</button>
-            <span id="diary-admin-note" class="hidden" style="font-size:11px;color:var(--text-hint);margin-left:auto">관리자는 전체 일지를 볼 수 있습니다</span>
+            <button class="filter-btn" onclick="clearDiaryFilter()">Lihat Semua</button>
+            <span id="diary-admin-note" class="hidden" style="font-size:11px;color:var(--text-hint);margin-left:auto">Admin dapat melihat semua jurnal</span>
         </div>
 
         <div id="diary-list" class="diary-list"></div>
@@ -561,7 +561,7 @@ ko:{
     t_pw_changed:'비밀번호가 변경되었습니다.',
     t_pw_change_fail:'변경 실패: ',
     t_summary_no_user:'등록된 직원이 없습니다.',
-    btn_pw_change:'변경',
+    btn_pw_change:t('btn_pw_change'),
     tab_diary:'업무 일지',
     diary_placeholder:'오늘 진행한 작업, 특이사항 등을 자유롭게 작성하세요...',
     diary_submit:'일지 등록',
@@ -576,7 +576,7 @@ ko:{
     diary_load_fail:'일지 로드 실패: ',
     diary_photo_size:'사진 한 장당 최대 800KB까지 가능합니다.',
     diary_photo_max:'사진은 최대 5장까지 첨부할 수 있습니다.',
-    diary_admin_note:'관리자는 전체 일지를 볼 수 있습니다',
+    diary_admin_note:'Admin dapat melihat semua jurnal',
     diary_list_title:'업무 일지',
     diary_edit:'수정',
     diary_edit_save:'저장',
@@ -976,8 +976,8 @@ function renderOTLogs(logs) {
     tbody.innerHTML = '';
     const totalMins = logs.reduce((s,l)=>s+(l.overtimeMinutes||0), 0);
     const tH = Math.floor(totalMins/60), tM = totalMins%60;
-    document.getElementById('ot-days').innerText        = `${logs.length}${currentLang==='ko'?'일':'hari'}`;
-    document.getElementById('ot-total-hours').innerText = `${tH}${currentLang==='ko'?'시간':'j'} ${tM}${currentLang==='ko'?'분':'m'}`;
+    document.getElementById('ot-days').innerText        = `${logs.length} hari`;
+    document.getElementById('ot-total-hours').innerText = `${tH}j ${tM}m`;
     document.getElementById('ot-threshold-disp').innerText = `${otHour}:${String(otMin).padStart(2,'0')}`;
     if (!logs.length) { tbody.innerHTML=`<tr><td colspan="4" class="empty-msg">${t('ot_none')}</td></tr>`; return; }
     logs.forEach(log => {
@@ -1120,7 +1120,7 @@ function renderUsers() {
         pc.innerHTML=`<label style="cursor:pointer;font-size:18px;display:inline-block" title="📷">📷<input type="file" accept="image/*" style="display:none" data-target-id="${u.docId}" onchange="handleAvatarUpload(this,'${u.docId}')"></label>`;
         // 비밀번호 변경 버튼
         const pwc = row.insertCell(5);
-        pwc.innerHTML = `<button class="del-btn" style="color:var(--blue);font-size:13px;padding:4px 8px" onclick="openPwModal('${u.docId}')" title="비밀번호 변경">🔑</button>`;
+        pwc.innerHTML = `<button class="del-btn" style="color:var(--blue);font-size:13px;padding:4px 8px" onclick="openPwModal('${u.docId}')" title="Ganti Kata Sandi">🔑</button>`;
 
         // 삭제
         const dc = row.insertCell(6);
@@ -1224,7 +1224,7 @@ window.renderSummary = function() {
     const targetDate = dateInput.value || todayStr();
     dateInput.value = targetDate;
     document.getElementById('summary-date-label').innerText =
-        targetDate === todayStr() ? '오늘 직원 현황' : targetDate + ' 직원 현황';
+        targetDate === todayStr() ? 'Status Pegawai Hari Ini' : targetDate + ' Status Pegawai';
 
     grid.innerHTML = '';
     if (!allUsers.length) {
@@ -1246,11 +1246,11 @@ window.renderSummary = function() {
         else if (outLog)          cardClass = 'checked-out';
         else if (inLog)           cardClass = 'checked-in';
 
-        const statusText = outLog && otMins > 0 ? '야근' :
-                           outLog ? '퇴근' : inLog ? '출근중' : '미출근';
+        const statusText = outLog && otMins > 0 ? 'Lembur' :
+                           outLog ? 'Pulang' : inLog ? 'Bekerja' : 'Belum Absen';
         const statusColor = {
-            '야근':'var(--amber)', '퇴근':'var(--blue)',
-            '출근중':'var(--green)', '미출근':'var(--text-hint)'
+            'Lembur':'var(--amber)', 'Pulang':'var(--blue)',
+            'Bekerja':'var(--green)', 'Belum Absen':'var(--text-hint)'
         }[statusText];
 
         const inTime  = inLog  ? inLog.time.split(' ').slice(-1)[0]  : '-';
@@ -1271,15 +1271,15 @@ window.renderSummary = function() {
             </div>
             <div class="su-times">
                 <div class="su-time-item">
-                    <span class="label">출근</span>
+                    <span class="label">Masuk</span>
                     <span class="val">${inTime}</span>
                 </div>
                 <div class="su-time-item">
-                    <span class="label">퇴근</span>
+                    <span class="label">Pulang</span>
                     <span class="val">${outTime}</span>
                 </div>
                 <div class="su-time-item">
-                    <span class="label">야근</span>
+                    <span class="label">Lembur</span>
                     <span class="val ot">${otStr}</span>
                 </div>
             </div>`;
@@ -1294,7 +1294,7 @@ let pwModalTargetId = null;
 window.openPwModal = function(docId) {
     if (!isAdmin) return;
     pwModalTargetId = docId;
-    document.getElementById('pw-modal-target-label').innerText = `대상 계정: ${docId}`;
+    document.getElementById('pw-modal-target-label').innerText = `Akun: ${docId}`;
     document.getElementById('modal-new-pw').value  = '';
     document.getElementById('modal-new-pw2').value = '';
     document.getElementById('pw-modal').classList.remove('hidden');
@@ -1332,7 +1332,7 @@ window.addEventListener('beforeinstallprompt', e => {
 });
 window.addEventListener('appinstalled', () => {
     document.getElementById('pwa-banner').style.display = 'none';
-    toast('앱이 설치되었어요! 🎉');
+    toast('Aplikasi berhasil dipasang! 🎉');
 });
 document.getElementById('pwa-install-btn').addEventListener('click', async () => {
     if (!deferredPrompt) return;
@@ -1517,9 +1517,9 @@ window.closeViewer = function() {
 // ═══════════════════════════════════════════
 //  업무 일지 수정
 // ═══════════════════════════════════════════
-let editingDiaryId   = null;   // 현재 수정 중인 일지 ID
-let editPendingPhotos = [];    // 수정 중 새로 추가한 사진 (base64)
-let editKeepPhotos    = [];    // 기존 사진 중 유지할 것들
+let editingDiaryId   = null;   // ID jurnal yang sedang diedit
+let editPendingPhotos = [];    // Foto baru (base64)
+let editKeepPhotos    = [];    // Foto lama yang dipertahankan
 
 window.startEditDiary = function(id) {
     // 이미 다른 카드 수정 중이면 먼저 닫기
@@ -1543,7 +1543,7 @@ window.startEditDiary = function(id) {
     if (bodyEl)   bodyEl.style.display   = 'none';
     if (photosEl) photosEl.style.display = 'none';
 
-    // 수정 UI 삽입
+    // Masukkan UI edit
     const area = document.getElementById('diary-edit-area-' + id);
     area.innerHTML = `
         <div class="diary-edit-box">
@@ -1551,7 +1551,7 @@ window.startEditDiary = function(id) {
             <div class="diary-edit-photo-row" id="edit-photo-row-${id}"></div>
             <div class="diary-edit-actions">
                 <label class="filter-btn" style="cursor:pointer;display:inline-flex;align-items:center;gap:4px">
-                    📷 사진 추가
+                    📷 Tambah Foto
                     <input type="file" accept="image/*" multiple style="display:none"
                            onchange="handleEditPhotos(this,'${id}')">
                 </label>
@@ -1568,7 +1568,7 @@ window.startEditDiary = function(id) {
     document.getElementById('edit-textarea-' + id).focus();
 };
 
-// 수정 중 사진 추가
+// Tambah foto saat edit
 window.handleEditPhotos = function(input, id) {
     const files = Array.from(input.files);
     const total = editKeepPhotos.length + editPendingPhotos.length + files.length;
@@ -1587,20 +1587,20 @@ window.handleEditPhotos = function(input, id) {
     input.value = '';
 };
 
-// 수정 UI의 사진 미리보기 렌더링
+// Render preview foto edit
 function renderEditPhotoRow(id) {
     const row = document.getElementById('edit-photo-row-' + id);
     if (!row) return;
     row.innerHTML = '';
 
-    // 기존 사진 (삭제 가능)
+    // Foto lama (bisa dihapus)
     editKeepPhotos.forEach((p, idx) => {
         const wrap = document.createElement('div');
         wrap.className = 'diary-photo-preview';
         wrap.innerHTML = `<img src="${p}" alt=""><button class="diary-photo-remove" onclick="removeEditKeepPhoto(${idx},'${id}')">✕</button>`;
         row.appendChild(wrap);
     });
-    // 새로 추가한 사진
+    // Foto baru
     editPendingPhotos.forEach((p, idx) => {
         const wrap = document.createElement('div');
         wrap.className = 'diary-photo-preview';
@@ -1618,7 +1618,7 @@ window.removeEditNewPhoto = function(idx, id) {
     renderEditPhotoRow(id);
 };
 
-// 수정 취소
+// Batalkan edit
 window.cancelEditDiary = function() {
     if (!editingDiaryId) return;
     const id = editingDiaryId;
@@ -1638,7 +1638,7 @@ window.cancelEditDiary = function() {
     editKeepPhotos    = [];
 };
 
-// 수정 저장
+// Simpan edit
 window.saveEditDiary = async function(id) {
     const textarea = document.getElementById('edit-textarea-' + id);
     const newText  = textarea ? textarea.value.trim() : '';
@@ -1662,7 +1662,7 @@ window.saveEditDiary = async function(id) {
     }
 };
 
-// XSS 방지 이스케이프
+// Escape XSS
 function escapeHtml(str) {
     return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
