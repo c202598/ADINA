@@ -569,6 +569,8 @@ import { getFirestore, collection, addDoc, deleteDoc, getDocs,
          doc, query, orderBy, where, onSnapshot,
          serverTimestamp, setDoc, getDoc, updateDoc }
     from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject }
+    from "https://www.gstatic.com/firebasejs/12.11.0/firebase-storage.js";
 
 // ═══════════════════════════════════════════
 //  다국어 사전
@@ -858,8 +860,9 @@ const firebaseConfig = {
     messagingSenderId:"83328769962",
     appId:"1:83328769962:web:73bdc3d0df5a3076fe95d3"
 };
-const app  = initializeApp(firebaseConfig);
-const db   = getFirestore(app);
+const app     = initializeApp(firebaseConfig);
+const db      = getFirestore(app);
+const storage = getStorage(app);
 const UCOL = "users", ACOL = "attendance_records", SCOL = "settings", OT_DOC = "overtime_config", DCOL = "diary";
 
 let currentUser = null, isAdmin = false;
@@ -1647,16 +1650,15 @@ window.handleDiaryVideo = function(input) {
     const file = input.files[0];
     input.value = '';
     if (!file) return;
+    if (diaryPendingVideo) return toast(t('diary_video_only_one'), true);
     if (file.size > videoMaxMb * 1024 * 1024) {
         toast(t('diary_video_size', {mb: videoMaxMb}), true);
         return;
     }
-    const reader = new FileReader();
-    reader.onload = e => {
-        diaryPendingVideo = { name: file.name, base64: e.target.result, sizeMb: (file.size/1024/1024).toFixed(1) };
-        renderPhotoPreview();
-    };
-    reader.readAsDataURL(file);
+    // File 객체 보관 (base64 변환 X — Firestore 1MB 제한 우회)
+    const previewUrl = URL.createObjectURL(file);
+    diaryPendingVideo = { file, name: file.name, previewUrl, sizeMb: (file.size/1024/1024).toFixed(1) };
+    renderPhotoPreview();
 };
 
 
@@ -1678,7 +1680,7 @@ function renderPhotoPreview() {
     if (diaryPendingVideo) {
         const wrap = document.createElement('div');
         wrap.className = 'diary-video-preview';
-        wrap.innerHTML = `<video src="${diaryPendingVideo.base64}" muted playsinline></video>
+        wrap.innerHTML = `<video src="${diaryPendingVideo.previewUrl}" muted playsinline></video>
             <span class="diary-video-badge">🎬 ${diaryPendingVideo.sizeMb}MB</span>
             <button class="diary-photo-remove" onclick="removeDiaryVideo()" style="top:2px;right:2px">✕</button>`;
         row.insertBefore(wrap, insertBefore);
@@ -1706,16 +1708,35 @@ window.submitDiary = async function() {
             month:'numeric', day:'numeric', weekday:'short',
             hour:'2-digit', minute:'2-digit', hour12: false
         });
+
+        // 동영상: Firebase Storage 업로드 후 URL 획득
+        let videoUrl  = null;
+        let videoName = null;
+        if (diaryPendingVideo) {
+            const file      = diaryPendingVideo.file;
+            const storePath = `diary_videos/${currentUser.id}_${Date.now()}_${file.name}`;
+            const storageRef = ref(storage, storePath);
+            await new Promise((resolve, reject) => {
+                const task = uploadBytesResumable(storageRef, file);
+                task.on('state_changed', null, reject, () => resolve(task.snapshot));
+            });
+            videoUrl  = await getDownloadURL(storageRef);
+            videoName = storePath;
+        }
+
         await addDoc(collection(db, DCOL), {
             userId:    currentUser.id,
             text:      text,
             photos:    [...diaryPendingPhotos],
-            video:     diaryPendingVideo ? diaryPendingVideo.base64 : null,
+            videoUrl:  videoUrl,
+            videoName: videoName,
             date:      todayStr(),
             time:      timeStr,
             timestamp: serverTimestamp()
         });
+
         // 초기화
+        if (diaryPendingVideo?.previewUrl) URL.revokeObjectURL(diaryPendingVideo.previewUrl);
         document.getElementById('diary-text').value = '';
         diaryPendingPhotos = [];
         diaryPendingVideo  = null;
@@ -1728,11 +1749,16 @@ window.submitDiary = async function() {
     }
 };
 
-// 일지 삭제
+// 일지 삭제 (Storage 동영상도 함께 삭제)
 window.deleteDiary = async function(id, ownerId) {
     if (!isAdmin && ownerId !== currentUser.id) return;
     if (!confirm(t('diary_del_confirm'))) return;
     try {
+        // Storage 동영상 삭제
+        const entry = allDiary.find(d => d.id === id);
+        if (entry?.videoName) {
+            try { await deleteObject(ref(storage, entry.videoUrlName)); } catch(_) {}
+        }
         await deleteDoc(doc(db, DCOL, id));
         toast(t('diary_del_done'));
     } catch(e) { toast(t('diary_del_fail') + e.message, true); }
@@ -1759,9 +1785,9 @@ function renderDiary(entries) {
                 `<img class="diary-photo-thumb" src="${p}" alt="" onclick="openViewer('${p}')">`
               ).join('')}</div>`
             : '';
-        const videoHtml = entry.video
+        const videoHtml = entry.videoUrl
             ? `<div class="diary-photos" style="margin-top:6px">
-                <video class="diary-video-thumb" src="${entry.video}" controls style="width:120px;height:80px;border-radius:8px;cursor:pointer" onclick="openMediaViewer('${entry.video}')"></video>
+                <video class="diary-video-thumb" src="${entry.videoUrl}" controls style="width:120px;height:80px;border-radius:8px;cursor:pointer" onclick="openMediaViewer('${entry.videoUrl}')"></video>
                </div>`
             : '';
 
