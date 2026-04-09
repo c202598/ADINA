@@ -210,7 +210,7 @@
         .diary-card.editing{border-color:var(--blue);box-shadow:0 0 0 2px rgba(26,115,232,0.12)}
 
         /* 헤더 설치 버튼 */
-        .btn-install-header{display:none;align-items:center;gap:5px;padding:5px 12px;background:var(--blue);color:white;border:none;border-radius:16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;transition:opacity .15s}
+        .btn-install-header{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:var(--blue);color:white;border:none;border-radius:16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;transition:opacity .15s}
         .btn-install-header:hover{opacity:.85}
         .btn-install-header.visible{display:inline-flex}
 
@@ -245,7 +245,7 @@
     </style>
 </head>
 <body>
-<div id="pwa-banner" style="display:none">
+<div id="pwa-banner">
     <div class="pwa-banner">
         <div class="pwa-banner-text">
             <strong id="pwa-title" data-i18n="pwa_title">📱 앱으로 설치하기</strong>
@@ -1005,6 +1005,7 @@ function enterApp() {
     document.getElementById('ot-filter-to').value   = today;
 
     applyI18n();
+    showGreetingCardOnEnter();
     startLogsListener();
     startDiaryListener();
     if (isAdmin) startUsersListener();
@@ -1556,46 +1557,38 @@ document.getElementById('pw-modal').addEventListener('click', function(e) {
 // ── PWA 설치 ──
 let deferredPrompt = null;
 
-function showInstallUI() {
-    // 헤더 버튼 표시
-    const headerBtn = document.getElementById('btn-install-header');
-    if (headerBtn) headerBtn.classList.add('visible');
-    // 배너도 표시
-    document.getElementById('pwa-banner').style.display = '';
-}
-function hideInstallUI() {
-    const headerBtn = document.getElementById('btn-install-header');
-    if (headerBtn) headerBtn.classList.remove('visible');
-    document.getElementById('pwa-banner').style.display = 'none';
-}
-
+// beforeinstallprompt: prompt 저장 (실제 설치 가능할 때)
 window.addEventListener('beforeinstallprompt', e => {
     e.preventDefault();
     deferredPrompt = e;
-    showInstallUI();
 });
+
 window.addEventListener('appinstalled', () => {
-    hideInstallUI();
     deferredPrompt = null;
     toast(t('pwa_installed'));
 });
 
-// 헤더 버튼 & 배너 버튼 공통 설치 함수
+// 설치 버튼 클릭 — prompt 가능하면 실행, 아니면 안내
 window.doInstall = async function() {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') hideInstallUI();
-    deferredPrompt = null;
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+    } else {
+        // iOS or 이미 설치됨
+        toast(currentLang === 'ko'
+            ? '브라우저 메뉴 → "홈 화면에 추가"를 이용하세요 📲'
+            : 'Gunakan menu browser → "Tambah ke layar utama" 📲');
+    }
 };
 
-// 배너 설치 버튼도 doInstall 사용
-document.getElementById('pwa-install-btn').addEventListener('click', () => doInstall());
-
+// 배너 닫기 (버튼은 항상 유지)
 window.dismissPWA = function() {
     document.getElementById('pwa-banner').style.display = 'none';
-    // 헤더 버튼은 남겨둠 (재설치 가능)
 };
+
+// 배너 설치 버튼
+document.getElementById('pwa-install-btn').addEventListener('click', () => doInstall());
 
 // 서비스 워커 등록
 if ('serviceWorker' in navigator) {
