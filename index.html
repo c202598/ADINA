@@ -198,6 +198,17 @@
         .photo-viewer img{max-width:95vw;max-height:90vh;border-radius:8px;object-fit:contain}
         .photo-viewer-close{position:fixed;top:16px;right:20px;color:white;font-size:30px;cursor:pointer;background:none;border:none}
         .diary-empty{text-align:center;color:var(--text-hint);padding:28px 0;font-size:13px}
+        .diary-doc-preview{position:relative;display:inline-flex;align-items:center;gap:8px;background:#f8f9fa;border:1px solid var(--border);border-radius:8px;padding:8px 10px;flex-shrink:0;max-width:180px}
+        .diary-doc-icon{font-size:22px;flex-shrink:0;line-height:1}
+        .diary-doc-info{min-width:0}
+        .diary-doc-name{font-size:11px;font-weight:600;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:110px}
+        .diary-doc-size{font-size:10px;color:var(--text-hint);margin-top:1px}
+        .diary-doc-remove{position:absolute;top:-6px;right:-6px;background:var(--red);color:white;border:none;border-radius:50%;width:18px;height:18px;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+        .diary-doc-card{display:inline-flex;align-items:center;gap:8px;background:#f8f9fa;border:1px solid var(--border);border-radius:8px;padding:9px 12px;text-decoration:none;color:var(--text-primary);transition:background .15s;margin-top:6px;max-width:100%}
+        .diary-doc-card:hover{background:#f0f0f0}
+        .diary-doc-card-name{font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
+        .diary-doc-card-meta{font-size:11px;color:var(--text-hint);margin-top:1px}
+
 
         .diary-card-edit{background:transparent;border:none;cursor:pointer;color:var(--text-hint);font-size:12px;padding:2px 6px;border-radius:4px}
         .diary-card-edit:hover{color:var(--blue);background:var(--blue-light)}
@@ -542,8 +553,13 @@
                     <span class="icon">🎬</span>
                     <span data-i18n="diary_add_video">동영상 추가</span>
                 </button>
+                <button class="diary-add-photo-btn" onclick="document.getElementById('diary-doc-input').click()">
+                    <span class="icon">📎</span>
+                    <span data-i18n="diary_add_doc">파일 추가</span>
+                </button>
                 <input type="file" id="diary-photo-input" accept="image/*" multiple style="display:none" onchange="handleDiaryPhotos(this)">
                 <input type="file" id="diary-video-input" accept="video/*" style="display:none" onchange="handleDiaryVideo(this)">
+                <input type="file" id="diary-doc-input" accept=".pdf,.xlsx,.xls,.pptx,.ppt,.docx,.doc,.csv,.zip,.txt" multiple style="display:none" onchange="handleDiaryDocs(this)">
             </div>
             <div class="diary-submit-row">
                 <button class="btn btn-blue btn-sm" style="width:auto;padding:10px 20px" id="btn-diary-submit" data-i18n="diary_submit" onclick="submitDiary()">일지 등록</button>
@@ -701,6 +717,9 @@ ko:{
     summary_date_label:'직원 현황',
     header_install:'📲 설치',
     diary_add_video:'동영상 추가',
+    diary_add_doc:'파일 추가',
+    diary_doc_max:'파일은 최대 5개까지 첨부할 수 있습니다.',
+    diary_doc_size:'파일 크기는 50MB 이하여야 합니다.',
     diary_video_size:'동영상은 {mb}MB 이하여야 합니다.',
     diary_video_only_one:'동영상은 1개만 첨부 가능합니다.',
     video_settings_title:'동영상 업로드 설정',
@@ -837,6 +856,9 @@ id:{
     summary_date_label:'Status Pegawai',
     header_install:'📲 Pasang',
     diary_add_video:'Tambah Video',
+    diary_add_doc:'Tambah File',
+    diary_doc_max:'Maksimal 5 file.',
+    diary_doc_size:'Ukuran file maksimal 50MB.',
     diary_video_size:'Video maksimal {mb}MB.',
     diary_video_only_one:'Hanya bisa melampirkan 1 video.',
     video_settings_title:'Pengaturan Unggah Video',
@@ -869,7 +891,8 @@ let currentUser = null, isAdmin = false;
 let allLogs = [], allUsers = [], allDiary = [];
 let unsubLogs = null, unsubUsers = null, unsubDiary = null;
 let diaryPendingPhotos = [];
-let diaryPendingVideo = null; // {name, base64, sizeMb}
+let diaryPendingVideo = null; // {file, name, previewUrl, sizeMb}
+let diaryPendingDocs  = [];   // [{file, name, sizeMb, ext}]
 let videoMaxMb = 30;          // 관리자 설정 가능
 let greetingConfig = { morning:'', noon:'', afternoon:'', evening:'', night:'' };
 let currentLang = 'ko';
@@ -1685,6 +1708,18 @@ function renderPhotoPreview() {
             <button class="diary-photo-remove" onclick="removeDiaryVideo()" style="top:2px;right:2px">✕</button>`;
         row.insertBefore(wrap, insertBefore);
     }
+    // 문서 미리보기
+    diaryPendingDocs.forEach((doc, idx) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'diary-doc-preview';
+        wrap.innerHTML = `<span class="diary-doc-icon">${getDocIcon(doc.ext)}</span>
+            <div class="diary-doc-info">
+                <div class="diary-doc-name">${doc.name}</div>
+                <div class="diary-doc-size">${doc.sizeMb}MB</div>
+            </div>
+            <button class="diary-doc-remove" onclick="removeDiaryDoc(${idx})">✕</button>`;
+        row.insertBefore(wrap, insertBefore);
+    });
 }
 
 window.removeDiaryPhoto = function(idx) {
@@ -1695,8 +1730,45 @@ window.removeDiaryVideo = function() {
     diaryPendingVideo = null;
     renderPhotoPreview();
 };
+window.removeDiaryDoc = function(idx) {
+    diaryPendingDocs.splice(idx, 1);
+    renderPhotoPreview();
+};
 
 // 일지 등록
+// ── 파일 확장자 → 아이콘 ──
+function getDocIcon(ext) {
+    const map = {
+        xlsx:'📊', xls:'📊', csv:'📊',
+        pptx:'📑', ppt:'📑',
+        docx:'📝', doc:'📝',
+        pdf:'📕', txt:'📄', zip:'🗜️'
+    };
+    return map[ext] || '📎';
+}
+
+// ── 문서 업로드 핸들러 ──
+window.handleDiaryDocs = function(input) {
+    const files = Array.from(input.files);
+    input.value = '';
+    if (diaryPendingDocs.length + files.length > 5) {
+        return toast(t('diary_doc_max'), true);
+    }
+    files.forEach(file => {
+        if (file.size > 50 * 1024 * 1024) {
+            toast(t('diary_doc_size'), true); return;
+        }
+        const ext = file.name.split('.').pop().toLowerCase();
+        diaryPendingDocs.push({
+            file,
+            name:   file.name,
+            sizeMb: (file.size / 1024 / 1024).toFixed(1),
+            ext
+        });
+    });
+    renderPhotoPreview();
+};
+
 window.submitDiary = async function() {
     const text = document.getElementById('diary-text').value.trim();
     if (!text) return toast(t('diary_empty_text'), true);
@@ -1748,12 +1820,34 @@ window.submitDiary = async function() {
 
         setBtnLoad('btn-diary-submit', true, t('diary_submitting'));
 
+        // 문서 파일들: Storage 업로드
+        const docFiles = [];
+        if (diaryPendingDocs.length > 0) {
+            for (let i = 0; i < diaryPendingDocs.length; i++) {
+                const d = diaryPendingDocs[i];
+                const btn = document.getElementById('btn-diary-submit');
+                if (btn) btn.innerHTML = '<span class="spinner"></span> 파일 ' + (i+1) + '/' + diaryPendingDocs.length + ' 업로드 중...';
+                const safeName   = d.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+                const storePath  = 'diary_docs/' + currentUser.id + '_' + Date.now() + '_' + safeName;
+                const storageRef = ref(storage, storePath);
+                await new Promise((resolve, reject) => {
+                    const task = uploadBytesResumable(storageRef, d.file);
+                    task.on('state_changed', null, reject, () => resolve(task.snapshot));
+                });
+                const url = await getDownloadURL(storageRef);
+                docFiles.push({ name: d.name, url, storagePath: storePath, ext: d.ext, sizeMb: d.sizeMb });
+            }
+        }
+
+        setBtnLoad('btn-diary-submit', true, t('diary_submitting'));
+
         await addDoc(collection(db, DCOL), {
             userId:    currentUser.id,
             text:      text,
             photos:    [...diaryPendingPhotos],
             videoUrl:  videoUrl,
             videoName: videoName,
+            docs:      docFiles,
             date:      todayStr(),
             time:      timeStr,
             timestamp: serverTimestamp()
@@ -1764,6 +1858,7 @@ window.submitDiary = async function() {
         document.getElementById('diary-text').value = '';
         diaryPendingPhotos = [];
         diaryPendingVideo  = null;
+        diaryPendingDocs   = [];
         renderPhotoPreview();
         toast(t('diary_done'));
     } catch(e) {
@@ -1778,10 +1873,15 @@ window.deleteDiary = async function(id, ownerId) {
     if (!isAdmin && ownerId !== currentUser.id) return;
     if (!confirm(t('diary_del_confirm'))) return;
     try {
-        // Storage 동영상 삭제
+        // Storage 파일 삭제 (동영상 + 문서)
         const entry = allDiary.find(d => d.id === id);
         if (entry?.videoName) {
-            try { await deleteObject(ref(storage, entry.videoUrlName)); } catch(_) {}
+            try { await deleteObject(ref(storage, entry.videoName)); } catch(_) {}
+        }
+        if (entry?.docs?.length) {
+            for (const d of entry.docs) {
+                try { await deleteObject(ref(storage, d.storagePath)); } catch(_) {}
+            }
         }
         await deleteDoc(doc(db, DCOL, id));
         toast(t('diary_del_done'));
@@ -1820,9 +1920,21 @@ function renderDiary(entries) {
         card.className = 'diary-card';
         card.dataset.id = entry.id;
 
-        // 동영상 HTML — 중첩 백틱 충돌 방지를 위해 외부에서 생성
+        // 동영상 HTML
         const videoBlock = entry.videoUrl
             ? '<div style="margin-top:8px"><video src="' + entry.videoUrl + '" controls style="max-width:100%;max-height:220px;border-radius:8px;display:block"></video></div>'
+            : '';
+
+        // 문서 첨부 HTML
+        const docsBlock = (entry.docs && entry.docs.length > 0)
+            ? '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">' +
+              entry.docs.map(d =>
+                '<a href="' + d.url + '" target="_blank" rel="noopener" class="diary-doc-card">' +
+                '<span style="font-size:20px;flex-shrink:0">' + getDocIcon(d.ext) + '</span>' +
+                '<div><div class="diary-doc-card-name">' + d.name + '</div>' +
+                '<div class="diary-doc-card-meta">' + d.sizeMb + 'MB · 클릭하여 다운로드</div></div>' +
+                '</a>'
+              ).join('') + '</div>'
             : '';
 
         card.innerHTML = `
@@ -1838,6 +1950,7 @@ function renderDiary(entries) {
                 `<img class="diary-photo-thumb" src="${p}" alt="" onclick="openViewer('${p}')">`
             ).join('')}</div>
             <div id="diary-video-${entry.id}">${videoBlock}</div>
+            <div id="diary-docs-${entry.id}">${docsBlock}</div>
             <div id="diary-edit-area-${entry.id}"></div>
         `;
         list.appendChild(card);
