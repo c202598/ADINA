@@ -198,6 +198,49 @@
         .photo-viewer img{max-width:95vw;max-height:90vh;border-radius:8px;object-fit:contain}
         .photo-viewer-close{position:fixed;top:16px;right:20px;color:white;font-size:30px;cursor:pointer;background:none;border:none}
         .diary-empty{text-align:center;color:var(--text-hint);padding:28px 0;font-size:13px}
+        /* ── 댓글 ── */
+        .comment-section{margin-top:10px;border-top:1px solid var(--border);padding-top:10px}
+        .comment-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+        .comment-item{display:flex;align-items:flex-start;gap:8px;font-size:12px}
+        .comment-avatar{width:24px;height:24px;border-radius:50%;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--blue);flex-shrink:0;overflow:hidden}
+        .comment-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+        .comment-body{flex:1;min-width:0;background:#f8f9fa;border-radius:8px;padding:6px 10px}
+        .comment-author{font-weight:700;color:var(--text-primary);margin-bottom:2px}
+        .comment-text{color:var(--text-secondary);line-height:1.5;word-break:break-word}
+        .comment-time{font-size:10px;color:var(--text-hint);margin-top:2px;font-family:'IBM Plex Mono',monospace}
+        .comment-del{background:transparent;border:none;cursor:pointer;color:var(--text-hint);font-size:11px;padding:2px 4px;border-radius:3px;flex-shrink:0;align-self:flex-start;margin-top:4px}
+        .comment-del:hover{color:var(--red);background:var(--red-light)}
+        .comment-input-row{display:flex;gap:6px;align-items:flex-end}
+        .comment-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:white;outline:none;resize:none;line-height:1.5;min-height:34px;max-height:80px}
+        .comment-input:focus{border-color:var(--blue)}
+        .comment-submit{background:var(--blue);color:white;border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;flex-shrink:0}
+        .comment-submit:hover{opacity:.88}
+        .comment-toggle{background:transparent;border:none;cursor:pointer;color:var(--text-hint);font-size:11px;padding:2px 0;margin-top:6px;font-family:'Noto Sans KR',sans-serif}
+        .comment-toggle:hover{color:var(--blue)}
+        .comment-empty{font-size:12px;color:var(--text-hint);padding:4px 0}
+
+        /* ── 댓글 ── */
+        .comment-section{margin-top:10px;border-top:1px solid var(--border);padding-top:10px}
+        .comment-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+        .comment-item{display:flex;align-items:flex-start;gap:8px;padding:6px 8px;border-radius:6px;background:var(--bg);position:relative}
+        .comment-item:hover .comment-del{opacity:1}
+        .comment-avatar{width:24px;height:24px;border-radius:50%;background:#e8f0fe;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#1a73e8;flex-shrink:0;overflow:hidden}
+        .comment-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+        .comment-body{flex:1;min-width:0}
+        .comment-author{font-size:11px;font-weight:700;color:var(--text-primary);margin-bottom:2px}
+        .comment-text{font-size:12px;color:var(--text-secondary);line-height:1.5;word-break:break-word}
+        .comment-time{font-size:10px;color:var(--text-hint);margin-top:2px;font-family:'IBM Plex Mono',monospace}
+        .comment-del{position:absolute;top:4px;right:6px;background:transparent;border:none;cursor:pointer;color:var(--text-hint);font-size:11px;opacity:0;transition:opacity .15s;padding:2px 4px;border-radius:3px}
+        .comment-del:hover{color:var(--red)}
+        .comment-input-row{display:flex;gap:6px;align-items:center}
+        .comment-input{flex:1;border:1px solid var(--border);border-radius:16px;padding:7px 14px;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:white;outline:none;transition:border-color .15s}
+        .comment-input:focus{border-color:var(--blue)}
+        .comment-submit-btn{background:var(--blue);color:white;border:none;border-radius:50%;width:30px;height:30px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s}
+        .comment-submit-btn:hover{opacity:.85}
+        .comment-toggle{background:transparent;border:none;cursor:pointer;font-size:11px;color:var(--text-hint);padding:0;margin-top:6px;display:flex;align-items:center;gap:4px}
+        .comment-toggle:hover{color:var(--blue)}
+        .comment-empty{font-size:12px;color:var(--text-hint);padding:4px 0}
+
         /* ── 일정 관리 ── */
         .schedule-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
         .schedule-month-nav{display:flex;align-items:center;gap:8px}
@@ -835,6 +878,15 @@ ko:{
     sch_no_title:'제목을 입력하세요.',
     sch_no_start:'시작일을 입력하세요.',
     sch_load_fail:'일정 로드 실패: ',
+    comment_placeholder:'댓글을 입력하세요...',
+    comment_empty:'댓글이 없습니다.',
+    comment_toggle_show:'댓글 {n}개 보기',
+    comment_toggle_hide:'댓글 숨기기',
+    comment_del_confirm:'이 댓글을 삭제하시겠습니까?',
+    comment_del_done:'댓글이 삭제되었습니다.',
+    comment_del_fail:'삭제 실패: ',
+    comment_save_fail:'댓글 등록 실패: ',
+    comment_load_fail:'댓글 로드 실패: ',
     sch_btn_today:'오늘',
     sch_dow:['일','월','화','수','목','금','토'],
     sch_month_label:'{y}년 {m}월',
@@ -877,6 +929,16 @@ ko:{
     diary_del_confirm:'이 일지를 삭제하시겠습니까?',
     diary_del_done:'삭제되었습니다.',
     diary_del_fail:'삭제 실패: ',
+    comment_placeholder:'댓글을 입력하세요...',
+    comment_submit:'등록',
+    comment_empty:'댓글이 없습니다.',
+    comment_del_confirm:'댓글을 삭제하시겠습니까?',
+    comment_del_done:'댓글이 삭제되었습니다.',
+    comment_save_fail:'댓글 저장 실패: ',
+    comment_del_fail:'댓글 삭제 실패: ',
+    comment_toggle_show:'💬 댓글 보기',
+    comment_toggle_hide:'💬 댓글 숨기기',
+    comment_count:'💬 댓글 {n}개',
     diary_save_fail:'등록 실패: ',
     diary_load_fail:'일지 로드 실패: ',
     diary_photo_size:'사진 한 장당 최대 800KB까지 가능합니다.',
@@ -1016,6 +1078,15 @@ id:{
     sch_no_title:'Masukkan judul jadwal.',
     sch_no_start:'Masukkan tanggal mulai.',
     sch_load_fail:'Gagal memuat jadwal: ',
+    comment_placeholder:'Tulis komentar...',
+    comment_empty:'Belum ada komentar.',
+    comment_toggle_show:'Lihat {n} komentar',
+    comment_toggle_hide:'Sembunyikan komentar',
+    comment_del_confirm:'Hapus komentar ini?',
+    comment_del_done:'Komentar berhasil dihapus.',
+    comment_del_fail:'Gagal menghapus: ',
+    comment_save_fail:'Gagal mengirim komentar: ',
+    comment_load_fail:'Gagal memuat komentar: ',
     sch_btn_today:'Hari Ini',
     sch_dow:['Min','Sen','Sel','Rab','Kam','Jum','Sab'],
     sch_month_label:'{m} {y}',
@@ -1058,6 +1129,16 @@ id:{
     diary_del_confirm:'Hapus jurnal ini?',
     diary_del_done:'Berhasil dihapus.',
     diary_del_fail:'Gagal menghapus: ',
+    comment_placeholder:'Tulis komentar...',
+    comment_submit:'Kirim',
+    comment_empty:'Belum ada komentar.',
+    comment_del_confirm:'Hapus komentar ini?',
+    comment_del_done:'Komentar dihapus.',
+    comment_save_fail:'Gagal menyimpan komentar: ',
+    comment_del_fail:'Gagal menghapus komentar: ',
+    comment_toggle_show:'💬 Lihat komentar',
+    comment_toggle_hide:'💬 Sembunyikan komentar',
+    comment_count:'💬 {n} komentar',
     diary_save_fail:'Gagal menyimpan: ',
     diary_load_fail:'Gagal memuat jurnal: ',
     diary_photo_size:'Ukuran foto maksimal 800KB per foto.',
@@ -1117,13 +1198,17 @@ const firebaseConfig = {
 const app     = initializeApp(firebaseConfig);
 const db      = getFirestore(app);
 const storage = getStorage(app);
-const UCOL = "users", ACOL = "attendance_records", SCOL = "settings", OT_DOC = "overtime_config", DCOL = "diary", ECOL = "schedules";
+const UCOL = "users", ACOL = "attendance_records", SCOL = "settings", OT_DOC = "overtime_config", DCOL = "diary", ECOL = "schedules", CCOL = "comments";
 
 let currentUser = null, isAdmin = false;
 let allLogs = [], allUsers = [], allDiary = [], allSchedules = [];
-let unsubLogs = null, unsubUsers = null, unsubDiary = null, unsubSchedules = null;
+let allComments = [];   // 댓글 전체 캐시 {id, diaryId, userId, text, timestamp}
+let unsubLogs = null, unsubUsers = null, unsubDiary = null, unsubSchedules = null, unsubComments = null;
 let calYear = new Date().getFullYear(), calMonth = new Date().getMonth();
-let calSelectedDate = new Date().toISOString().slice(0,10);
+let calSelectedDate = (function(){
+    const d = new Date();
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+})();
 let editingSchId = null;
 let diaryPendingPhotos = [];
 let diaryPendingVideo = null; // {file, name, previewUrl, sizeMb}
@@ -1301,6 +1386,7 @@ function enterApp() {
     startLogsListener();
     startDiaryListener();
     startScheduleListener();
+    startCommentsListener();
     if (isAdmin) startUsersListener();
     if (isAdmin) document.getElementById('diary-admin-note').classList.remove('hidden');
 }
@@ -1321,6 +1407,8 @@ window.doLogout = function() {
     if (unsubUsers) unsubUsers();
     if (unsubDiary) unsubDiary();
     if (unsubSchedules) unsubSchedules();
+    if (unsubComments)  unsubComments();
+    allComments = [];
     location.reload();
 };
 
@@ -1722,7 +1810,18 @@ window.exportOTCSV = function() {
 // ═══════════════════════════════════════════
 //  유틸
 // ═══════════════════════════════════════════
-function todayStr() { return new Date().toISOString().slice(0,10); }
+function todayStr() {
+    const d = new Date();
+    return d.getFullYear() + '-' +
+        String(d.getMonth()+1).padStart(2,'0') + '-' +
+        String(d.getDate()).padStart(2,'0');
+}
+// 날짜 객체를 로컬 기준 YYYY-MM-DD 로 변환 (toISOString은 UTC라 시차 버그 발생)
+function dateToLocalStr(date) {
+    return date.getFullYear() + '-' +
+        String(date.getMonth()+1).padStart(2,'0') + '-' +
+        String(date.getDate()).padStart(2,'0');
+}
 function setRecordLoad(type,on) {
     const btn=document.getElementById(type==='checkin'?'btn-in':'btn-out');
     btn.disabled=on; btn.innerHTML=on?`<span class="spinner"></span>`:(type==='checkin'?t('btn_checkin'):t('btn_checkout'));
@@ -1907,7 +2006,7 @@ function startDiaryListener() {
 // 날짜 필터 적용
 window.applyDiaryFilter = function() {
     const dateVal = document.getElementById('diary-filter-date').value;
-    let entries = allDiary;
+    let entries = allDiary;  // 모든 사용자가 전체 일지 열람 가능
     if (dateVal) entries = entries.filter(d => d.date === dateVal);
     renderDiary(entries);
 };
@@ -2221,8 +2320,13 @@ function renderDiary(entries) {
             <div id="diary-video-${entry.id}">${videoBlock}</div>
             <div id="diary-docs-${entry.id}">${docsBlock}</div>
             <div id="diary-edit-area-${entry.id}"></div>
+            <div id="diary-comment-${entry.id}" class="comment-section" style="display:none"></div>
+            <button class="comment-toggle" onclick="toggleComments('${entry.id}')">
+                <span id="comment-count-badge-${entry.id}">${t('comment_toggle_show')}</span>
+            </button>
         `;
         list.appendChild(card);
+        loadCommentCount(entry.id);
     });
 }
 
@@ -2530,7 +2634,7 @@ function renderCalendar() {
 function makeDayCell(y, m, d, otherMonth) {
     // 실제 날짜 계산 (월 오버플로 처리)
     const date    = new Date(y, m, d);
-    const dateStr = date.toISOString().slice(0, 10);
+    const dateStr = dateToLocalStr(date);
     const dow     = date.getDay();
     const todayStr2 = todayStr();
 
@@ -2733,6 +2837,234 @@ window.deleteSchedule = async function(id) {
         toast(t('sch_del_done'));
     } catch(e) { toast(t('sch_del_fail') + e.message, true); }
 };
+
+
+// ═══════════════════════════════════════════
+//  댓글 기능
+
+// 댓글 실시간 리스너
+function startCommentsListener() {
+    const q = query(collection(db, CCOL), orderBy('createdAt', 'asc'));
+    unsubComments = onSnapshot(q, snap => {
+        allComments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        // 열려있는 댓글 섹션 갱신
+        document.querySelectorAll('.comment-section').forEach(el => {
+            if (el.dataset.open === 'true') {
+                renderComments(el.id.replace('diary-comment-', ''));
+            }
+        });
+        // 댓글 수 배지 갱신
+        document.querySelectorAll('[id^="comment-toggle-label-"]').forEach(el => {
+            const diaryId = el.id.replace('comment-toggle-label-', '');
+            const section = document.getElementById('diary-comment-' + diaryId);
+            if (section && section.dataset.open !== 'true') {
+                const cnt = allComments.filter(cm => cm.diaryId === diaryId).length;
+                el.innerText = t('comment_toggle_show').replace('{n}', cnt);
+            }
+        });
+    }, e => console.error(t('comment_load_fail') + e.message));
+}
+
+// ═══════════════════════════════════════════
+
+// 댓글 섹션 토글
+window.toggleComments = async function(diaryId) {
+    const section = document.getElementById('diary-comment-' + diaryId);
+    if (!section) return;
+    const isOpen = section.dataset.open === 'true';
+    const labelEl = document.getElementById('comment-toggle-label-' + diaryId);
+    if (isOpen) {
+        section.style.display = 'none';
+        section.dataset.open = 'false';
+        if (labelEl) {
+            const cnt = parseInt(section.dataset.count || '0');
+            labelEl.innerText = t('comment_toggle_show').replace('{n}', cnt);
+        }
+    } else {
+        section.style.display = 'block';
+        section.dataset.open = 'true';
+        if (labelEl) labelEl.innerText = t('comment_toggle_hide');
+        await renderComments(diaryId);
+    }
+};
+
+// 댓글 렌더링
+async function renderComments(diaryId) {
+    const section = document.getElementById('diary-comment-' + diaryId);
+    if (!section) return;
+    section.innerHTML = '<div class="comment-empty">...</div>';
+    try {
+        const snap = await getDocs(query(
+            collection(db, CCOL),
+            where('diaryId', '==', diaryId),
+            orderBy('createdAt', 'asc')
+        ));
+        const comments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        // 카운트 저장
+        section.dataset.count = comments.length;
+        const labelEl = document.getElementById('comment-toggle-label-' + diaryId);
+        if (labelEl && section.dataset.open === 'true') {
+            labelEl.innerText = t('comment_toggle_hide');
+        }
+
+        section.innerHTML = '';
+
+        // 댓글 목록
+        const listDiv = document.createElement('div');
+        listDiv.className = 'comment-list';
+        if (!comments.length) {
+            const empty = document.createElement('div');
+            empty.className = 'comment-empty';
+            empty.textContent = t('comment_empty');
+            listDiv.appendChild(empty);
+        } else {
+            comments.forEach(cm => listDiv.appendChild(makeCommentItem(cm, diaryId)));
+        }
+
+        // 입력창 행
+        const inputRow = document.createElement('div');
+        inputRow.className = 'comment-input-row';
+
+        const u = allUsers.find(u => u.docId === currentUser.id);
+        const avDiv = document.createElement('div');
+        avDiv.className = 'comment-avatar';
+        if (u && u.photoBase64) {
+            avDiv.innerHTML = '<img src="' + u.photoBase64 + '" alt="">';
+        } else {
+            avDiv.textContent = (currentUser.id || '?').slice(0, 2).toUpperCase();
+        }
+
+        const input = document.createElement('input');
+        input.className = 'comment-input';
+        input.placeholder = t('comment_placeholder');
+        input.type = 'text';
+        input.onkeydown = function(e) {
+            if (e.key === 'Enter') submitComment(diaryId, input);
+        };
+
+        const sendBtn = document.createElement('button');
+        sendBtn.className = 'comment-submit-btn';
+        sendBtn.textContent = '▶';
+        sendBtn.onclick = function() { submitComment(diaryId, input); };
+
+        inputRow.appendChild(avDiv);
+        inputRow.appendChild(input);
+        inputRow.appendChild(sendBtn);
+
+        section.appendChild(listDiv);
+        section.appendChild(inputRow);
+    } catch(e) {
+        section.innerHTML = '<div class="comment-empty">' + t('comment_load_fail') + e.message + '</div>';
+    }
+}
+
+// 댓글 아이템 DOM 생성
+function makeCommentItem(cm, diaryId) {
+    const u = allUsers.find(u => u.docId === cm.userId);
+    const item = document.createElement('div');
+    item.className = 'comment-item';
+
+    const avDiv = document.createElement('div');
+    avDiv.className = 'comment-avatar';
+    if (u && u.photoBase64) {
+        avDiv.innerHTML = '<img src="' + u.photoBase64 + '" alt="">';
+    } else {
+        avDiv.textContent = (cm.userId || '?').slice(0, 2).toUpperCase();
+    }
+
+    const body = document.createElement('div');
+    body.className = 'comment-body';
+
+    const author = document.createElement('div');
+    author.className = 'comment-author';
+    author.textContent = cm.userId || '-';
+
+    const text = document.createElement('div');
+    text.className = 'comment-text';
+    text.textContent = cm.text || '';
+
+    const timeEl = document.createElement('div');
+    timeEl.className = 'comment-time';
+    timeEl.textContent = cm.timeStr || '';
+
+    body.appendChild(author);
+    body.appendChild(text);
+    body.appendChild(timeEl);
+    item.appendChild(avDiv);
+    item.appendChild(body);
+
+    if (isAdmin || cm.userId === currentUser.id) {
+        const delBtn = document.createElement('button');
+        delBtn.className = 'comment-del';
+        delBtn.textContent = '✕';
+        delBtn.onclick = function() { deleteComment(cm.id, diaryId); };
+        item.appendChild(delBtn);
+    }
+    return item;
+}
+
+// 댓글 등록
+async function submitComment(diaryId, inputEl) {
+    const text = inputEl.value.trim();
+    if (!text) return;
+    inputEl.disabled = true;
+    try {
+        const now = new Date();
+        const timeStr = now.toLocaleString(
+            currentLang === 'ko' ? 'ko-KR' : 'id-ID',
+            { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }
+        );
+        await addDoc(collection(db, CCOL), {
+            diaryId,
+            userId:    currentUser.id,
+            text,
+            timeStr,
+            createdAt: serverTimestamp()
+        });
+        await renderComments(diaryId);
+    } catch(e) {
+        toast(t('comment_save_fail') + e.message, true);
+    } finally {
+        inputEl.disabled = false;
+        inputEl.focus();
+    }
+}
+
+// 댓글 삭제
+window.deleteComment = async function(commentId, diaryId) {
+    if (!confirm(t('comment_del_confirm'))) return;
+    try {
+        await deleteDoc(doc(db, CCOL, commentId));
+        toast(t('comment_del_done'));
+        await renderComments(diaryId);
+        // 레이블 카운트 갱신
+        const snap = await getDocs(query(collection(db, CCOL), where('diaryId', '==', diaryId)));
+        const section = document.getElementById('diary-comment-' + diaryId);
+        if (section) section.dataset.count = snap.size;
+        const labelEl = document.getElementById('comment-toggle-label-' + diaryId);
+        if (labelEl && section && section.dataset.open !== 'true') {
+            labelEl.innerText = t('comment_toggle_show').replace('{n}', snap.size);
+        }
+    } catch(e) {
+        toast(t('comment_del_fail') + e.message, true);
+    }
+};
+
+// 댓글 수 초기 로드
+async function loadCommentCount(diaryId) {
+    try {
+        const snap = await getDocs(query(
+            collection(db, CCOL),
+            where('diaryId', '==', diaryId)
+        ));
+        const n = snap.size;
+        const section = document.getElementById('diary-comment-' + diaryId);
+        if (section) section.dataset.count = n;
+        const labelEl = document.getElementById('comment-toggle-label-' + diaryId);
+        if (labelEl) labelEl.innerText = t('comment_toggle_show').replace('{n}', n);
+    } catch(_) {}
+}
 
 
 applyI18n();
