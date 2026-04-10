@@ -73,9 +73,19 @@
         /* 패널 */
         .section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
         .section-title{font-size:12px;font-weight:700;color:var(--text-hint);letter-spacing:.06em;text-transform:uppercase}
-        .panel-tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+        .panel-tabs{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}
         .panel-tab{padding:7px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text-secondary);font-family:'Noto Sans KR',sans-serif;transition:all .15s;white-space:nowrap}
         .panel-tab.active{background:var(--blue);color:white;border-color:var(--blue)}
+        .admin-menu-toggle{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:20px;border:1px solid #bfdbfe;background:#e8f0fe;color:#0c447c;font-size:12px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;margin-bottom:8px;transition:background .15s;white-space:nowrap}
+        .admin-menu-toggle:hover{background:#d2e3fc}
+        .admin-menu-toggle .amt-arrow{font-size:10px;display:inline-block;transition:transform .2s;margin-left:2px}
+        .admin-menu-toggle.open .amt-arrow{transform:rotate(180deg)}
+        .admin-panel-tabs{display:none;flex-wrap:wrap;gap:4px;padding:10px 12px;background:#f0f7ff;border-radius:12px;border:1px solid #bfdbfe;margin-bottom:8px}
+        .admin-panel-tabs.open{display:flex}
+        .admin-panel-tab{padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #bfdbfe;background:white;color:#185fa5;font-family:'Noto Sans KR',sans-serif;transition:all .15s;white-space:nowrap}
+        .admin-panel-tab.active{background:var(--blue);color:white;border-color:var(--blue)}
+        .admin-panel-tab:hover:not(.active){background:#e8f0fe}
+        .admin-menu-label{font-size:10px;font-weight:700;color:#185fa5;letter-spacing:.06em;text-transform:uppercase;width:100%;margin-bottom:4px}
 
         /* 필터 */
         .filter-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
@@ -198,6 +208,41 @@
         .photo-viewer img{max-width:95vw;max-height:90vh;border-radius:8px;object-fit:contain}
         .photo-viewer-close{position:fixed;top:16px;right:20px;color:white;font-size:30px;cursor:pointer;background:none;border:none}
         .diary-empty{text-align:center;color:var(--text-hint);padding:28px 0;font-size:13px}
+        /* ── 통계 대시보드 ── */
+        .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:18px}
+        .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;text-align:center}
+        .stat-card-label{font-size:11px;color:var(--text-hint);margin-bottom:6px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+        .stat-card-value{font-size:26px;font-weight:700;color:var(--text-primary);font-family:'IBM Plex Mono',monospace}
+        .stat-card-sub{font-size:11px;color:var(--text-secondary);margin-top:3px}
+        .stat-card.blue  .stat-card-value{color:var(--blue)}
+        .stat-card.green .stat-card-value{color:var(--green)}
+        .stat-card.amber .stat-card-value{color:var(--amber)}
+        .stat-card.red   .stat-card-value{color:var(--red)}
+        .stats-section-title{font-size:13px;font-weight:700;color:var(--text-secondary);margin:18px 0 10px;letter-spacing:.04em;text-transform:uppercase}
+        .stats-bar-wrap{margin-bottom:10px}
+        .stats-bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text-secondary);margin-bottom:4px}
+        .stats-bar-track{background:var(--border);border-radius:4px;height:8px;overflow:hidden}
+        .stats-bar-fill{height:100%;border-radius:4px;transition:width .4s ease}
+        .stats-bar-fill.blue {background:var(--blue)}
+        .stats-bar-fill.green{background:var(--green)}
+        .stats-bar-fill.amber{background:var(--amber)}
+        .stats-bar-fill.red  {background:var(--red)}
+        .stats-user-table{width:100%;border-collapse:collapse;font-size:12px}
+        .stats-user-table th{text-align:left;padding:6px 8px;color:var(--text-hint);font-weight:600;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase}
+        .stats-user-table td{padding:8px 8px;border-bottom:1px solid var(--border);color:var(--text-primary)}
+        .stats-user-table tr:last-child td{border-bottom:none}
+        .stats-user-table tr:hover td{background:var(--bg)}
+        .stats-filter-row{display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+        .stats-month-select{border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 10px;font-size:13px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:var(--surface);outline:none}
+        .stats-month-select:focus{border-color:var(--blue)}
+        .btn-export-pdf{padding:8px 16px;background:#e24b4a;color:white;border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;display:flex;align-items:center;gap:6px}
+        .btn-export-pdf:hover{opacity:.88}
+        .stats-empty{text-align:center;color:var(--text-hint);padding:32px 0;font-size:13px}
+        .status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+        .status-dot.green{background:var(--green)}
+        .status-dot.red{background:var(--red)}
+        .status-dot.amber{background:var(--amber)}
+
         /* ── 댓글 ── */
         .comment-section{margin-top:10px;border-top:1px solid var(--border);padding-top:10px}
         .comment-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
@@ -237,8 +282,12 @@
         .comment-input:focus{border-color:var(--blue)}
         .comment-submit-btn{background:var(--blue);color:white;border:none;border-radius:50%;width:30px;height:30px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s}
         .comment-submit-btn:hover{opacity:.85}
-        .comment-toggle{background:transparent;border:none;cursor:pointer;font-size:11px;color:var(--text-hint);padding:0;margin-top:6px;display:flex;align-items:center;gap:4px}
+        .comment-toggle{background:transparent;border:none;cursor:pointer;font-size:12px;color:var(--text-hint);padding:4px 0;margin-top:6px;display:inline-flex;align-items:center;gap:6px;font-family:'Noto Sans KR',sans-serif;transition:color .15s}
         .comment-toggle:hover{color:var(--blue)}
+        .comment-toggle:hover .cmt-badge{background:#dbeafe;color:#1e40af}
+        .cmt-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;background:var(--bg);border:1px solid var(--border);color:var(--text-secondary);transition:all .15s;line-height:1.4}
+        .cmt-badge.has-comments{background:#e8f0fe;border-color:#bfdbfe;color:#1a73e8}
+        .cmt-badge.open{background:#1a73e8;color:white;border-color:#1a73e8}
         .comment-empty{font-size:12px;color:var(--text-hint);padding:4px 0}
 
         /* ── 일정 관리 ── */
@@ -467,21 +516,25 @@
 <div class="card hidden" id="records-card">
 
     <!-- 관리자 탭 -->
-    <div id="admin-tabs" class="hidden panel-tabs">
+    <!-- 공통 탭 (관리자 + 일반 모두 표시) -->
+    <div id="common-tabs" class="hidden panel-tabs">
         <button class="panel-tab active" onclick="switchPanel('records')"  data-i18n="tab_records">출퇴근 기록</button>
-        <button class="panel-tab"        onclick="switchPanel('summary')"  data-i18n="tab_summary">직원 현황</button>
-        <button class="panel-tab"        onclick="switchPanel('overtime')" data-i18n="tab_overtime">야근 기록</button>
         <button class="panel-tab"        onclick="switchPanel('diary')"    data-i18n="tab_diary">업무 일지</button>
         <button class="panel-tab"        onclick="switchPanel('schedule')" data-i18n="tab_schedule">일정</button>
-        <button class="panel-tab"        onclick="switchPanel('users')"    data-i18n="tab_users">회원 관리</button>
-        <button class="panel-tab"        onclick="switchPanel('settings')" data-i18n="tab_settings">설정</button>
     </div>
-    <!-- 일반 탭 -->
-    <div id="user-tabs" class="hidden panel-tabs">
-        <button class="panel-tab active" onclick="switchPanel('records')"  data-i18n="tab_records">출퇴근 기록</button>
-        <button class="panel-tab"        onclick="switchPanel('overtime')" data-i18n="tab_overtime">야근 기록</button>
-        <button class="panel-tab"        onclick="switchPanel('diary')"    data-i18n="tab_diary">업무 일지</button>
-        <button class="panel-tab"        onclick="switchPanel('schedule')" data-i18n="tab_schedule">일정</button>
+    <!-- 관리자 전용 토글 메뉴 -->
+    <div id="admin-menu-wrap" class="hidden">
+        <button class="admin-menu-toggle" id="admin-menu-toggle-btn" onclick="toggleAdminMenu()" data-i18n="admin_menu_toggle">
+            ⚙️ 관리자 메뉴 <span class="amt-arrow">▼</span>
+        </button>
+        <div class="admin-panel-tabs" id="admin-panel-tabs">
+            <div class="admin-menu-label" data-i18n="admin_menu_label">관리자 전용</div>
+            <button class="admin-panel-tab" onclick="switchPanel('summary')"  data-i18n="tab_summary">직원 현황</button>
+            <button class="admin-panel-tab" onclick="switchPanel('overtime')" data-i18n="tab_overtime">야근 기록</button>
+            <button class="admin-panel-tab" onclick="switchPanel('stats')"    data-i18n="tab_stats">통계</button>
+            <button class="admin-panel-tab" onclick="switchPanel('users')"    data-i18n="tab_users">회원 관리</button>
+            <button class="admin-panel-tab" onclick="switchPanel('settings')" data-i18n="tab_settings">설정</button>
+        </div>
     </div>
 
     <!-- ① 출퇴근 기록 -->
@@ -622,6 +675,25 @@
             </div>
             <p style="font-size:12px;color:var(--text-hint);margin-top:10px" id="ot-current-label"></p>
         </div>
+        <!-- 지각 기준 설정 -->
+        <div class="admin-box" style="margin-top:12px">
+            <div class="admin-box-title" data-i18n="late_settings_title">지각 기준 설정</div>
+            <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px" data-i18n="late_settings_desc">출근 시각이 아래 시각 이후이면 지각으로 처리됩니다.</p>
+            <div class="ot-settings-row">
+                <div style="flex:1;min-width:100px">
+                    <label class="field-label" data-i18n="late_threshold_hour">기준 시 (0~23)</label>
+                    <input class="field" type="number" id="late-hour" min="0" max="23" value="9" style="margin-bottom:0">
+                </div>
+                <div style="flex:1;min-width:100px">
+                    <label class="field-label" data-i18n="late_threshold_min">기준 분 (0~59)</label>
+                    <input class="field" type="number" id="late-min" min="0" max="59" value="0" style="margin-bottom:0">
+                </div>
+                <div style="padding-bottom:1px">
+                    <button class="btn btn-amber btn-sm" style="width:auto;padding:11px 18px" onclick="saveLateSettings()" data-i18n="btn_save">저장</button>
+                </div>
+            </div>
+            <p style="font-size:12px;color:var(--text-hint);margin-top:10px" id="late-current-label"></p>
+        </div>
         <!-- 인사말 설정 (관리자) -->
         <div class="admin-box" style="margin-top:12px">
             <div class="admin-box-title" data-i18n="greeting_settings_title">시간대별 인사말 설정</div>
@@ -726,6 +798,51 @@
                 <button class="btn btn-blue"  onclick="saveSchedule()" id="btn-sch-save" data-i18n="btn_save">저장</button>
             </div>
         </div>
+    </div>
+
+
+    <!-- ⑦ 통계 대시보드 (관리자 전용) -->
+    <div id="panel-stats" class="hidden">
+
+        <!-- 필터 행 -->
+        <div class="stats-filter-row">
+            <select class="stats-month-select" id="stats-month-sel" onchange="renderStats()"></select>
+            <button class="btn btn-blue btn-sm" style="width:auto;padding:8px 16px" onclick="renderStats()" data-i18n="btn_refresh">새로고침</button>
+            <button class="btn-export-pdf" onclick="exportMonthlyReport()">
+                📄 <span data-i18n="btn_export_report">월간 리포트 PDF</span>
+            </button>
+        </div>
+
+        <!-- 요약 카드 -->
+        <div class="stats-grid" id="stats-summary-cards"></div>
+
+        <!-- 직원별 출퇴근 현황 테이블 -->
+        <div class="stats-section-title" data-i18n="stats_per_user">직원별 현황</div>
+        <div style="overflow-x:auto">
+            <table class="stats-user-table" id="stats-user-table">
+                <thead>
+                    <tr>
+                        <th data-i18n="stats_th_user">직원</th>
+                        <th data-i18n="stats_th_days">출근일</th>
+                        <th data-i18n="stats_th_late">지각</th>
+                        <th data-i18n="stats_th_ot">야근</th>
+                        <th data-i18n="stats_th_avg_in">평균 출근</th>
+                        <th data-i18n="stats_th_avg_out">평균 퇴근</th>
+                        <th data-i18n="stats_th_rate">출근율</th>
+                    </tr>
+                </thead>
+                <tbody id="stats-user-tbody"></tbody>
+            </table>
+        </div>
+
+        <!-- 요일별 출근 현황 -->
+        <div class="stats-section-title" data-i18n="stats_by_dow">요일별 출근 현황</div>
+        <div id="stats-dow-bars"></div>
+
+        <!-- 시간대별 출근 분포 -->
+        <div class="stats-section-title" data-i18n="stats_by_hour">출근 시간대 분포</div>
+        <div id="stats-hour-bars"></div>
+
     </div>
 
     <!-- ⑤ 업무 일지 -->
@@ -878,10 +995,39 @@ ko:{
     sch_no_title:'제목을 입력하세요.',
     sch_no_start:'시작일을 입력하세요.',
     sch_load_fail:'일정 로드 실패: ',
+    admin_menu_toggle:'⚙️ 관리자 메뉴',
+    admin_menu_label:'관리자 전용',
+    late_settings_title:'지각 기준 설정',
+    late_settings_desc:'출근 시각이 아래 시각 이후이면 지각으로 처리됩니다.',
+    late_threshold_hour:'기준 시 (0~23)',
+    late_threshold_min:'기준 분 (0~59)',
+    t_late_saved:'지각 기준이 저장되었습니다.',
+    t_late_save_fail:'저장 실패: ',
+    late_current_label:'현재 지각 기준: ',
+    tab_stats:'통계',
+    btn_refresh:'새로고침',
+    btn_export_report:'월간 리포트 PDF',
+    stats_per_user:'직원별 현황',
+    stats_by_dow:'요일별 출근 현황',
+    stats_by_hour:'출근 시간대 분포',
+    stats_th_user:'직원', stats_th_days:'출근일', stats_th_late:'지각',
+    stats_th_ot:'야근', stats_th_avg_in:'평균 출근', stats_th_avg_out:'평균 퇴근',
+    stats_th_rate:'출근율',
+    stats_total_checkin:'총 출근 횟수', stats_total_ot:'총 야근 횟수',
+    stats_avg_checkin:'평균 출근 시간', stats_avg_checkout:'평균 퇴근 시간',
+    stats_late_count:'지각 횟수', stats_work_days:'영업일',
+    stats_dow:['일','월','화','수','목','금','토'],
+    stats_no_data:'해당 월 출퇴근 데이터가 없습니다.',
+    stats_late_std:'지각 기준: 09:00',
+    report_title:'ADINA 월간 출퇴근 리포트',
+    report_generated:'생성일: ',
+    report_period:'집계 기간: ',
     comment_placeholder:'댓글을 입력하세요...',
     comment_empty:'댓글이 없습니다.',
-    comment_toggle_show:'댓글 {n}개 보기',
+    comment_toggle_show:'댓글 {n}개',
     comment_toggle_hide:'댓글 숨기기',
+    comment_none:'💬 댓글',
+    comment_count:'💬 {n}개',
     comment_del_confirm:'이 댓글을 삭제하시겠습니까?',
     comment_del_done:'댓글이 삭제되었습니다.',
     comment_del_fail:'삭제 실패: ',
@@ -1078,10 +1224,39 @@ id:{
     sch_no_title:'Masukkan judul jadwal.',
     sch_no_start:'Masukkan tanggal mulai.',
     sch_load_fail:'Gagal memuat jadwal: ',
+    admin_menu_toggle:'⚙️ Menu Admin',
+    admin_menu_label:'Khusus Admin',
+    late_settings_title:'Pengaturan Batas Terlambat',
+    late_settings_desc:'Jika waktu masuk melebihi waktu ini, dianggap terlambat.',
+    late_threshold_hour:'Jam (0~23)',
+    late_threshold_min:'Menit (0~59)',
+    t_late_saved:'Pengaturan terlambat berhasil disimpan.',
+    t_late_save_fail:'Gagal menyimpan: ',
+    late_current_label:'Batas terlambat saat ini: ',
+    tab_stats:'Statistik',
+    btn_refresh:'Muat Ulang',
+    btn_export_report:'Laporan PDF Bulanan',
+    stats_per_user:'Status Per Karyawan',
+    stats_by_dow:'Kehadiran Per Hari',
+    stats_by_hour:'Distribusi Jam Masuk',
+    stats_th_user:'Karyawan', stats_th_days:'Hari Masuk', stats_th_late:'Terlambat',
+    stats_th_ot:'Lembur', stats_th_avg_in:'Rata Masuk', stats_th_avg_out:'Rata Pulang',
+    stats_th_rate:'Tingkat Hadir',
+    stats_total_checkin:'Total Absensi', stats_total_ot:'Total Lembur',
+    stats_avg_checkin:'Rata-rata Masuk', stats_avg_checkout:'Rata-rata Pulang',
+    stats_late_count:'Jumlah Terlambat', stats_work_days:'Hari Kerja',
+    stats_dow:['Min','Sen','Sel','Rab','Kam','Jum','Sab'],
+    stats_no_data:'Tidak ada data absensi bulan ini.',
+    stats_late_std:'Standar terlambat: 09:00',
+    report_title:'Laporan Absensi Bulanan ADINA',
+    report_generated:'Dibuat: ',
+    report_period:'Periode: ',
     comment_placeholder:'Tulis komentar...',
     comment_empty:'Belum ada komentar.',
-    comment_toggle_show:'Lihat {n} komentar',
+    comment_toggle_show:'{n} komentar',
     comment_toggle_hide:'Sembunyikan komentar',
+    comment_none:'💬 Komentar',
+    comment_count:'💬 {n}',
     comment_del_confirm:'Hapus komentar ini?',
     comment_del_done:'Komentar berhasil dihapus.',
     comment_del_fail:'Gagal menghapus: ',
@@ -1217,6 +1392,7 @@ let videoMaxMb = 30;          // 관리자 설정 가능
 let greetingConfig = { morning:'', noon:'', afternoon:'', evening:'', night:'' };
 let currentLang = 'ko';
 let otHour = 18, otMin = 0;
+let lateHour = 9, lateMin = 0;  // 지각 기준 시간
 let currentPanel = 'records';
 
 // ═══════════════════════════════════════════
@@ -1239,7 +1415,7 @@ window.setLang = function(lang) {
     showGreetingCard();
 
     // 관리자 전용 갱신
-    if (isAdmin) { updateOTLabel(); updateVideoLabel(); }
+    if (isAdmin) { updateOTLabel(); updateVideoLabel(); updateLateLabel(); }
 
     // ── 현재 보고 있는 탭에 맞춰 즉시 렌더 ──
     switch (currentPanel) {
@@ -1257,6 +1433,9 @@ window.setLang = function(lang) {
             break;
         case 'schedule':
             renderCalendar();
+            break;
+        case 'stats':
+            renderStats();
             break;
         case 'users':
             if (isAdmin) renderUsers();
@@ -1318,9 +1497,11 @@ async function loadOTSettings() {
     try {
         const snap = await getDoc(doc(db, SCOL, OT_DOC));
         if (snap.exists()) {
-            otHour    = snap.data().hour     ?? 18;
-            otMin     = snap.data().min      ?? 0;
+            otHour    = snap.data().hour      ?? 18;
+            otMin     = snap.data().min       ?? 0;
             videoMaxMb = snap.data().videoMaxMb ?? 30;
+            lateHour  = snap.data().lateHour  ?? 9;
+            lateMin   = snap.data().lateMin   ?? 0;
         }
     } catch(_) {}
 }
@@ -1354,17 +1535,20 @@ function enterApp() {
 
     if (isAdmin) {
         document.getElementById('badge-admin').classList.remove('hidden');
-        document.getElementById('admin-tabs').classList.remove('hidden');
+        document.getElementById('common-tabs').classList.remove('hidden');
+        document.getElementById('admin-menu-wrap').classList.remove('hidden');
         document.getElementById('rec-del-header').innerText = t('col_del_label');
         document.getElementById('rec-title').innerText = t('all_records');
         document.getElementById('ot-title').innerText  = t('ot_all_records');
         document.getElementById('btn-csv').classList.remove('hidden');
         document.getElementById('btn-csv-ot').classList.remove('hidden');
         document.getElementById('ot-filter-user').style.display = '';
-        document.getElementById('ot-hour').value = otHour;
-        document.getElementById('ot-min').value  = otMin;
+        document.getElementById('ot-hour').value   = otHour;
+        document.getElementById('ot-min').value    = otMin;
+        document.getElementById('late-hour').value = lateHour;
+        document.getElementById('late-min').value  = lateMin;
         document.getElementById('video-max-mb').value = videoMaxMb;
-        updateOTLabel(); updateVideoLabel();
+        updateOTLabel(); updateVideoLabel(); updateLateLabel();
         // 인사말 설정값 채우기
         document.getElementById('greet-morning').value   = greetingConfig.morning;
         document.getElementById('greet-noon').value      = greetingConfig.noon;
@@ -1372,7 +1556,7 @@ function enterApp() {
         document.getElementById('greet-evening').value   = greetingConfig.evening;
         document.getElementById('greet-night').value     = greetingConfig.night;
     } else {
-        document.getElementById('user-tabs').classList.remove('hidden');
+        document.getElementById('common-tabs').classList.remove('hidden');
     }
 
     const today = todayStr();
@@ -1387,7 +1571,7 @@ function enterApp() {
     startDiaryListener();
     startScheduleListener();
     startCommentsListener();
-    if (isAdmin) startUsersListener();
+    startUsersListener();  // 프로필 사진 표시를 위해 모든 사용자에게 필요
     if (isAdmin) document.getElementById('diary-admin-note').classList.remove('hidden');
 }
 
@@ -1403,6 +1587,11 @@ function setMainAvatar(base64, id) {
 window.doLogout = function() {
     if (!confirm(t('t_logout_confirm'))) return;
     document.getElementById('greeting-card').classList.add('hidden');
+    document.getElementById('common-tabs').classList.add('hidden');
+    document.getElementById('admin-menu-wrap').classList.add('hidden');
+    // 관리자 메뉴 닫기
+    document.getElementById('admin-panel-tabs').classList.remove('open');
+    document.getElementById('admin-menu-toggle-btn').classList.remove('open');
     if (unsubLogs)  unsubLogs();
     if (unsubUsers) unsubUsers();
     if (unsubDiary) unsubDiary();
@@ -1417,18 +1606,25 @@ window.doLogout = function() {
 // ═══════════════════════════════════════════
 window.switchPanel = function(panel) {
     currentPanel = panel;
-    ['records','summary','overtime','diary','schedule','users','settings'].forEach(p => {
+    ['records','summary','overtime','diary','schedule','stats','users','settings'].forEach(p => {
         const el = document.getElementById('panel-'+p);
         if (el) el.classList.toggle('hidden', p !== panel);
     });
-    document.querySelectorAll('.panel-tab').forEach(btn => {
-        const map = {tab_records:'records',tab_overtime:'overtime',tab_diary:'diary',tab_schedule:'schedule',tab_users:'users',tab_settings:'settings',tab_summary:'summary'};
-        btn.classList.toggle('active', map[btn.getAttribute('data-i18n')] === panel);
+    const tabMap = {tab_records:'records',tab_overtime:'overtime',tab_diary:'diary',tab_schedule:'schedule',tab_stats:'stats',tab_users:'users',tab_settings:'settings',tab_summary:'summary'};
+    document.querySelectorAll('.panel-tab, .admin-panel-tab').forEach(btn => {
+        btn.classList.toggle('active', tabMap[btn.getAttribute('data-i18n')] === panel);
     });
+    // 관리자 전용 탭 선택 시 메뉴 자동 펼치기
+    const adminPanels = ['summary','overtime','stats','users','settings'];
+    if (adminPanels.includes(panel)) {
+        document.getElementById('admin-panel-tabs').classList.add('open');
+        document.getElementById('admin-menu-toggle-btn').classList.add('open');
+    }
     if (panel === 'overtime') applyOTFilter();
     if (panel === 'summary') renderSummary();
     if (panel === 'diary') applyDiaryFilter();
     if (panel === 'schedule') renderCalendar();
+    if (panel === 'stats') renderStats();
 };
 
 // ═══════════════════════════════════════════
@@ -1446,7 +1642,10 @@ function startUsersListener() {
     const q = query(collection(db, UCOL), orderBy("createdAt","asc"));
     unsubUsers = onSnapshot(q, snap => {
         allUsers = snap.docs.map(d=>({docId:d.id,...d.data()}));
-        renderUsers(); buildOTUserFilter();
+        // 관리자만 회원 관리 UI 갱신
+        if (isAdmin) { renderUsers(); buildOTUserFilter(); }
+        // 모든 사용자: 일지/댓글의 아바타 갱신
+        applyDiaryFilter();
     }, e => toast(t('t_user_load_fail')+e.message, true));
 }
 
@@ -1660,6 +1859,28 @@ function updateOTLabel() {
     const el = document.getElementById('ot-current-label');
     if (el) el.innerText = t('ot_current',{h:otHour, m:String(otMin).padStart(2,'0')});
 }
+function updateLateLabel() {
+    const el = document.getElementById('late-current-label');
+    if (el) el.innerText = t('late_current_label') +
+        String(lateHour).padStart(2,'0') + ':' + String(lateMin).padStart(2,'0');
+}
+
+window.saveLateSettings = async function() {
+    const h = parseInt(document.getElementById('late-hour').value) || 0;
+    const m = parseInt(document.getElementById('late-min').value)  || 0;
+    if (h < 0 || h > 23 || m < 0 || m > 59) return toast(t('t_ot_invalid'), true);
+    try {
+        // 기존 설정 문서에 lateHour/lateMin 추가 저장
+        const snap = await getDoc(doc(db, SCOL, OT_DOC));
+        const existing = snap.exists() ? snap.data() : {};
+        await setDoc(doc(db, SCOL, OT_DOC), { ...existing, lateHour: h, lateMin: m });
+        lateHour = h; lateMin = m;
+        updateLateLabel();
+        toast(t('t_late_saved'));
+    } catch(e) { toast(t('t_late_save_fail') + e.message, true); }
+};
+
+
 
 // ═══════════════════════════════════════════
 //  프로필 사진
@@ -2321,8 +2542,8 @@ function renderDiary(entries) {
             <div id="diary-docs-${entry.id}">${docsBlock}</div>
             <div id="diary-edit-area-${entry.id}"></div>
             <div id="diary-comment-${entry.id}" class="comment-section" style="display:none"></div>
-            <button class="comment-toggle" onclick="toggleComments('${entry.id}')">
-                <span id="comment-count-badge-${entry.id}">${t('comment_toggle_show')}</span>
+            <button class="comment-toggle" id="comment-toggle-btn-${entry.id}" onclick="toggleComments('${entry.id}')">
+                <span class="cmt-badge" id="comment-count-badge-${entry.id}">💬 &middot;&middot;&middot;</span>
             </button>
         `;
         list.appendChild(card);
@@ -2854,13 +3075,14 @@ function startCommentsListener() {
             }
         });
         // 댓글 수 배지 갱신
-        document.querySelectorAll('[id^="comment-toggle-label-"]').forEach(el => {
-            const diaryId = el.id.replace('comment-toggle-label-', '');
+        // 배지 갱신
+        document.querySelectorAll('[id^="comment-count-badge-"]').forEach(el => {
+            const diaryId = el.id.replace('comment-count-badge-', '');
             const section = document.getElementById('diary-comment-' + diaryId);
-            if (section && section.dataset.open !== 'true') {
-                const cnt = allComments.filter(cm => cm.diaryId === diaryId).length;
-                el.innerText = t('comment_toggle_show').replace('{n}', cnt);
-            }
+            const cnt = allComments.filter(cm => cm.diaryId === diaryId).length;
+            if (section) section.dataset.count = cnt;
+            const isOpen = section && section.dataset.open === 'true';
+            updateCommentBadge(diaryId, cnt, isOpen);
         });
     }, e => console.error(t('comment_load_fail') + e.message));
 }
@@ -2872,18 +3094,15 @@ window.toggleComments = async function(diaryId) {
     const section = document.getElementById('diary-comment-' + diaryId);
     if (!section) return;
     const isOpen = section.dataset.open === 'true';
-    const labelEl = document.getElementById('comment-toggle-label-' + diaryId);
+    const cnt = parseInt(section.dataset.count || '0');
     if (isOpen) {
         section.style.display = 'none';
         section.dataset.open = 'false';
-        if (labelEl) {
-            const cnt = parseInt(section.dataset.count || '0');
-            labelEl.innerText = t('comment_toggle_show').replace('{n}', cnt);
-        }
+        updateCommentBadge(diaryId, cnt, false);
     } else {
         section.style.display = 'block';
         section.dataset.open = 'true';
-        if (labelEl) labelEl.innerText = t('comment_toggle_hide');
+        updateCommentBadge(diaryId, cnt, true);
         await renderComments(diaryId);
     }
 };
@@ -2901,12 +3120,9 @@ async function renderComments(diaryId) {
         ));
         const comments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-        // 카운트 저장
+        // 카운트 저장 + 배지 갱신
         section.dataset.count = comments.length;
-        const labelEl = document.getElementById('comment-toggle-label-' + diaryId);
-        if (labelEl && section.dataset.open === 'true') {
-            labelEl.innerText = t('comment_toggle_hide');
-        }
+        updateCommentBadge(diaryId, comments.length, true);
 
         section.innerHTML = '';
 
@@ -3042,9 +3258,9 @@ window.deleteComment = async function(commentId, diaryId) {
         const snap = await getDocs(query(collection(db, CCOL), where('diaryId', '==', diaryId)));
         const section = document.getElementById('diary-comment-' + diaryId);
         if (section) section.dataset.count = snap.size;
-        const labelEl = document.getElementById('comment-toggle-label-' + diaryId);
-        if (labelEl && section && section.dataset.open !== 'true') {
-            labelEl.innerText = t('comment_toggle_show').replace('{n}', snap.size);
+        // 닫혀 있으면 배지만 갱신
+        if (section && section.dataset.open !== 'true') {
+            updateCommentBadge(diaryId, snap.size, false);
         }
     } catch(e) {
         toast(t('comment_del_fail') + e.message, true);
@@ -3061,10 +3277,327 @@ async function loadCommentCount(diaryId) {
         const n = snap.size;
         const section = document.getElementById('diary-comment-' + diaryId);
         if (section) section.dataset.count = n;
-        const labelEl = document.getElementById('comment-toggle-label-' + diaryId);
-        if (labelEl) labelEl.innerText = t('comment_toggle_show').replace('{n}', n);
+        updateCommentBadge(diaryId, n, false);
     } catch(_) {}
 }
+
+// 배지 업데이트 헬퍼
+function updateCommentBadge(diaryId, n, isOpen) {
+    const badge = document.getElementById('comment-count-badge-' + diaryId);
+    if (!badge) return;
+    if (isOpen) {
+        badge.className = 'cmt-badge open';
+        badge.innerHTML = '💬 ' + t('comment_toggle_hide');
+    } else if (n > 0) {
+        badge.className = 'cmt-badge has-comments';
+        badge.innerHTML = '💬 ' + n + (currentLang === 'ko' ? '개' : '');
+    } else {
+        badge.className = 'cmt-badge';
+        badge.innerHTML = t('comment_none');
+    }
+}
+
+
+// ═══════════════════════════════════════════
+//  출퇴근 통계 대시보드 & 월간 리포트 (관리자 전용)
+// ═══════════════════════════════════════════
+
+// 월 선택 셀렉트 초기화
+function initStatsMonthSelect() {
+    const sel = document.getElementById('stats-month-sel');
+    if (!sel || sel.options.length > 0) return;
+    const now = new Date();
+    for (let i = 0; i < 12; i++) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const val = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+        const label = d.getFullYear() + '년 ' + (d.getMonth()+1) + '월';
+        const opt = document.createElement('option');
+        opt.value = val; opt.textContent = label;
+        sel.appendChild(opt);
+    }
+}
+
+// 통계 렌더링
+window.renderStats = function() {
+    if (!isAdmin) return;
+    initStatsMonthSelect();
+    const sel = document.getElementById('stats-month-sel');
+    const ym  = sel ? sel.value : '';
+    if (!ym) return;
+
+    // 해당 월 로그 필터
+    const logs = allLogs.filter(l => l.date && l.date.startsWith(ym));
+    const checkins  = logs.filter(l => l.type === 'checkin');
+    const checkouts = logs.filter(l => l.type === 'checkout');
+
+    // 영업일 계산 (해당 월 평일 수)
+    const [y, m] = ym.split('-').map(Number);
+    let workDays = 0;
+    const daysInMonth = new Date(y, m, 0).getDate();
+    for (let d = 1; d <= daysInMonth; d++) {
+        const dow = new Date(y, m-1, d).getDay();
+        if (dow !== 0 && dow !== 6) workDays++;
+    }
+
+    // 평균 시간 계산 헬퍼
+    function avgTime(timeList) {
+        if (!timeList.length) return '-';
+        const mins = timeList.map(t => {
+            if (!t) return null;
+            const parts = t.match(/(\d{1,2}):(\d{2})/);
+            return parts ? parseInt(parts[1])*60 + parseInt(parts[2]) : null;
+        }).filter(v => v !== null);
+        if (!mins.length) return '-';
+        const avg = Math.round(mins.reduce((a,b)=>a+b,0) / mins.length);
+        return String(Math.floor(avg/60)).padStart(2,'0') + ':' + String(avg%60).padStart(2,'0');
+    }
+
+    // 지각 기준 (설정값 사용)
+    const lateStd = lateHour * 60 + lateMin;
+    function isLate(timeStr) {
+        if (!timeStr) return false;
+        const p = timeStr.match(/(\d{1,2}):(\d{2})/);
+        return p ? (parseInt(p[1])*60 + parseInt(p[2])) > lateStd : false;
+    }
+
+    // 야근 기준
+    const otStd = otHour * 60 + otMin;
+    function isOT(timeStr) {
+        if (!timeStr) return false;
+        const p = timeStr.match(/(\d{1,2}):(\d{2})/);
+        return p ? (parseInt(p[1])*60 + parseInt(p[2])) >= otStd : false;
+    }
+
+    const totalLate = checkins.filter(l => isLate(l.time)).length;
+    const totalOT   = checkouts.filter(l => isOT(l.time)).length;
+    const avgIn     = avgTime(checkins.map(l => l.time));
+    const avgOut    = avgTime(checkouts.map(l => l.time));
+
+    // ── 요약 카드 ──
+    const cardsEl = document.getElementById('stats-summary-cards');
+    if (cardsEl) {
+        cardsEl.innerHTML = '';
+        const cards = [
+            { label: t('stats_total_checkin'), value: checkins.length + '회', cls: 'blue' },
+            { label: t('stats_work_days'),     value: workDays + '일',        cls: '' },
+            { label: t('stats_avg_checkin'),   value: avgIn,                  cls: 'green' },
+            { label: t('stats_avg_checkout'),  value: avgOut,                 cls: '' },
+            { label: t('stats_late_count'),    value: totalLate + '회',       cls: totalLate > 0 ? 'amber' : 'green' },
+            { label: t('stats_total_ot'),      value: totalOT + '회',         cls: totalOT > 0 ? 'red' : '' },
+        ];
+        cards.forEach(card => {
+            const el = document.createElement('div');
+            el.className = 'stat-card ' + card.cls;
+            el.innerHTML = '<div class="stat-card-label">' + card.label + '</div>' +
+                           '<div class="stat-card-value">' + card.value + '</div>';
+            cardsEl.appendChild(el);
+        });
+    }
+
+    // ── 직원별 테이블 ──
+    const tbody = document.getElementById('stats-user-tbody');
+    if (tbody) {
+        tbody.innerHTML = '';
+        if (!checkins.length) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = '<td colspan="7" style="text-align:center;color:var(--text-hint);padding:20px">' + t('stats_no_data') + '</td>';
+            tbody.appendChild(tr);
+        } else {
+            const userIds = [...new Set(checkins.map(l => l.userId))].sort();
+            userIds.forEach(uid => {
+                const uCheckins  = checkins.filter(l => l.userId === uid);
+                const uCheckouts = checkouts.filter(l => l.userId === uid);
+                const uDays  = new Set(uCheckins.map(l => l.date)).size;
+                const uLate  = uCheckins.filter(l => isLate(l.time)).length;
+                const uOT    = uCheckouts.filter(l => isOT(l.time)).length;
+                const uAvgIn  = avgTime(uCheckins.map(l => l.time));
+                const uAvgOut = avgTime(uCheckouts.map(l => l.time));
+                const rate   = workDays > 0 ? Math.round(uDays / workDays * 100) : 0;
+                const rateColor = rate >= 90 ? 'green' : rate >= 70 ? 'amber' : 'red';
+                const tr = document.createElement('tr');
+                tr.innerHTML =
+                    '<td style="font-weight:600">' + uid + '</td>' +
+                    '<td>' + uDays + '일</td>' +
+                    '<td>' + (uLate > 0 ? '<span style="color:var(--amber);font-weight:600">' + uLate + '회</span>' : '-') + '</td>' +
+                    '<td>' + (uOT   > 0 ? '<span style="color:var(--red);font-weight:600">'   + uOT   + '회</span>' : '-') + '</td>' +
+                    '<td>' + uAvgIn  + '</td>' +
+                    '<td>' + uAvgOut + '</td>' +
+                    '<td><span class="status-dot ' + rateColor + '"></span>' + rate + '%</td>';
+                tbody.appendChild(tr);
+            });
+        }
+    }
+
+    // ── 요일별 바 차트 ──
+    const dowEl = document.getElementById('stats-dow-bars');
+    if (dowEl) {
+        dowEl.innerHTML = '';
+        const dowNames = STRINGS[currentLang].stats_dow || STRINGS.ko.stats_dow;
+        const dowCounts = [0,1,2,3,4,5,6].map(d => checkins.filter(l => {
+            if (!l.date) return false;
+            return new Date(l.date + 'T12:00:00').getDay() === d;
+        }).length);
+        const maxDow = Math.max(...dowCounts, 1);
+        dowNames.forEach((name, i) => {
+            const pct = Math.round(dowCounts[i] / maxDow * 100);
+            const color = i === 0 ? 'red' : i === 6 ? 'blue' : 'green';
+            const wrap = document.createElement('div');
+            wrap.className = 'stats-bar-wrap';
+            wrap.innerHTML = '<div class="stats-bar-label"><span>' + name + '</span><span>' + dowCounts[i] + '회</span></div>' +
+                '<div class="stats-bar-track"><div class="stats-bar-fill ' + color + '" style="width:' + pct + '%"></div></div>';
+            dowEl.appendChild(wrap);
+        });
+    }
+
+    // ── 시간대별 출근 분포 ──
+    const hourEl = document.getElementById('stats-hour-bars');
+    if (hourEl) {
+        hourEl.innerHTML = '';
+        const hourBuckets = {};
+        checkins.forEach(l => {
+            if (!l.time) return;
+            const p = l.time.match(/(\d{1,2}):/);
+            if (p) {
+                const h = parseInt(p[1]);
+                hourBuckets[h] = (hourBuckets[h] || 0) + 1;
+            }
+        });
+        const hours = Object.keys(hourBuckets).map(Number).sort((a,b)=>a-b);
+        const maxH = Math.max(...Object.values(hourBuckets), 1);
+        if (!hours.length) {
+            hourEl.innerHTML = '<div class="stats-empty">' + t('stats_no_data') + '</div>';
+        } else {
+            hours.forEach(h => {
+                const cnt = hourBuckets[h];
+                const pct = Math.round(cnt / maxH * 100);
+                const color = h < 9 ? 'green' : h === 9 ? 'amber' : 'red';
+                const wrap = document.createElement('div');
+                wrap.className = 'stats-bar-wrap';
+                wrap.innerHTML = '<div class="stats-bar-label"><span>' + String(h).padStart(2,'0') + ':00</span><span>' + cnt + '명</span></div>' +
+                    '<div class="stats-bar-track"><div class="stats-bar-fill ' + color + '" style="width:' + pct + '%"></div></div>';
+                hourEl.appendChild(wrap);
+            });
+        }
+    }
+};
+
+// ── 월간 리포트 PDF 출력 ──
+window.exportMonthlyReport = function() {
+    if (!isAdmin) return;
+    initStatsMonthSelect();
+    const sel = document.getElementById('stats-month-sel');
+    const ym  = sel ? sel.value : '';
+    if (!ym) return;
+
+    const [y, m] = ym.split('-').map(Number);
+    const monthLabel = y + '년 ' + m + '월';
+    const logs = allLogs.filter(l => l.date && l.date.startsWith(ym));
+    const checkins  = logs.filter(l => l.type === 'checkin');
+    const checkouts = logs.filter(l => l.type === 'checkout');
+
+    const lateStd = lateHour * 60 + lateMin;
+    const otStd   = otHour * 60 + otMin;
+
+    function isLate(t2) {
+        if (!t2) return false;
+        const p = t2.match(/(\d{1,2}):(\d{2})/);
+        return p ? parseInt(p[1])*60+parseInt(p[2]) > lateStd : false;
+    }
+    function isOT(t2) {
+        if (!t2) return false;
+        const p = t2.match(/(\d{1,2}):(\d{2})/);
+        return p ? parseInt(p[1])*60+parseInt(p[2]) >= otStd : false;
+    }
+    function avgTimeCalc(arr) {
+        const mins = arr.map(t2 => {
+            if (!t2) return null;
+            const p = t2.match(/(\d{1,2}):(\d{2})/);
+            return p ? parseInt(p[1])*60+parseInt(p[2]) : null;
+        }).filter(v => v !== null);
+        if (!mins.length) return '-';
+        const avg = Math.round(mins.reduce((a,b)=>a+b,0)/mins.length);
+        return String(Math.floor(avg/60)).padStart(2,'0')+':'+String(avg%60).padStart(2,'0');
+    }
+
+    // 영업일
+    let workDays = 0;
+    const dim = new Date(y, m, 0).getDate();
+    for (let d = 1; d <= dim; d++) {
+        const dow = new Date(y, m-1, d).getDay();
+        if (dow !== 0 && dow !== 6) workDays++;
+    }
+
+    const userIds = [...new Set(allUsers.map(u => u.docId))].sort();
+    let rows = '';
+    userIds.forEach(uid => {
+        const uIn  = checkins.filter(l => l.userId === uid);
+        const uOut = checkouts.filter(l => l.userId === uid);
+        const days = new Set(uIn.map(l => l.date)).size;
+        const late = uIn.filter(l => isLate(l.time)).length;
+        const ot   = uOut.filter(l => isOT(l.time)).length;
+        const aIn  = avgTimeCalc(uIn.map(l => l.time));
+        const aOut = avgTimeCalc(uOut.map(l => l.time));
+        const rate = workDays > 0 ? Math.round(days/workDays*100) : 0;
+        const rateColor = rate >= 90 ? '#1e8c4a' : rate >= 70 ? '#d97706' : '#dc2626';
+        rows += '<tr>' +
+            '<td style="font-weight:600;padding:8px 10px;border-bottom:1px solid #e5e7eb">' + uid + '</td>' +
+            '<td style="padding:8px 10px;border-bottom:1px solid #e5e7eb;text-align:center">' + days + '일</td>' +
+            '<td style="padding:8px 10px;border-bottom:1px solid #e5e7eb;text-align:center;color:' + (late>0?'#d97706':'#374151') + '">' + (late||'-') + '</td>' +
+            '<td style="padding:8px 10px;border-bottom:1px solid #e5e7eb;text-align:center;color:' + (ot>0?'#dc2626':'#374151') + '">' + (ot||'-') + '</td>' +
+            '<td style="padding:8px 10px;border-bottom:1px solid #e5e7eb;text-align:center">' + aIn  + '</td>' +
+            '<td style="padding:8px 10px;border-bottom:1px solid #e5e7eb;text-align:center">' + aOut + '</td>' +
+            '<td style="padding:8px 10px;border-bottom:1px solid #e5e7eb;text-align:center;font-weight:700;color:' + rateColor + '">' + rate + '%</td>' +
+            '</tr>';
+    });
+
+    const now = new Date();
+    const generatedAt = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+
+    const html = '<!DOCTYPE html><html><head><meta charset="UTF-8">' +
+        '<title>ADINA ' + monthLabel + ' 리포트</title>' +
+        '<style>body{font-family:"Noto Sans KR",Arial,sans-serif;margin:32px;color:#111}' +
+        'h1{font-size:22px;margin-bottom:4px;color:#1a73e8}' +
+        '.sub{font-size:13px;color:#6b7280;margin-bottom:24px}' +
+        '.summary{display:flex;gap:16px;margin-bottom:28px;flex-wrap:wrap}' +
+        '.scard{background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:14px 18px;min-width:120px}' +
+        '.scard-label{font-size:11px;color:#9ca3af;font-weight:600;text-transform:uppercase;margin-bottom:4px}' +
+        '.scard-value{font-size:22px;font-weight:700}' +
+        'table{width:100%;border-collapse:collapse;font-size:13px}' +
+        'th{background:#f3f4f6;padding:10px 10px;text-align:left;font-size:11px;text-transform:uppercase;color:#6b7280;border-bottom:2px solid #e5e7eb}' +
+        '@media print{body{margin:16px}}' +
+        '</style></head><body>' +
+        '<h1>ADINA ' + t('report_title') + '</h1>' +
+        '<div class="sub">' + t('report_period') + monthLabel + ' &nbsp;|&nbsp; ' + t('report_generated') + generatedAt + '</div>' +
+        '<div class="summary">' +
+        '<div class="scard"><div class="scard-label">' + t('stats_total_checkin') + '</div><div class="scard-value" style="color:#1a73e8">' + checkins.length + '회</div></div>' +
+        '<div class="scard"><div class="scard-label">' + t('stats_work_days') + '</div><div class="scard-value">' + workDays + '일</div></div>' +
+        '<div class="scard"><div class="scard-label">' + t('stats_late_count') + '</div><div class="scard-value" style="color:#d97706">' + checkins.filter(l=>isLate(l.time)).length + '회</div></div>' +
+        '<div class="scard"><div class="scard-label">' + t('stats_total_ot') + '</div><div class="scard-value" style="color:#dc2626">' + checkouts.filter(l=>isOT(l.time)).length + '회</div></div>' +
+        '</div>' +
+        '<table><thead><tr>' +
+        '<th>직원</th><th>출근일</th><th>지각</th><th>야근</th><th>평균 출근</th><th>평균 퇴근</th><th>출근율</th>' +
+        '</tr></thead><tbody>' + rows + '</tbody></table>' +
+        '</body></html>';
+
+    const win = window.open('', '_blank');
+    if (win) {
+        win.document.write(html);
+        win.document.close();
+        setTimeout(() => win.print(), 500);
+    } else {
+        toast('팝업이 차단되었습니다. 팝업을 허용해 주세요.', true);
+    }
+};
+
+
+// 관리자 메뉴 토글
+window.toggleAdminMenu = function() {
+    const tabs = document.getElementById('admin-panel-tabs');
+    const btn  = document.getElementById('admin-menu-toggle-btn');
+    const isOpen = tabs.classList.contains('open');
+    tabs.classList.toggle('open', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+};
 
 
 applyI18n();
