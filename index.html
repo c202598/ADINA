@@ -86,11 +86,261 @@
             --btn-checkout-bg:#fffbf5; --btn-checkout-color:#d97706;
             --greeting-bg:#fffbf5; --greeting-border:#fde8c8; --greeting-accent:#f59e0b;
         }
+        /* ═══════════════════════════════════════════
+           PC 레이아웃 (769px 이상)
+        ═══════════════════════════════════════════ */
+        @media (min-width: 769px) {
+
+            body { padding: 0; background: var(--bg); }
+
+            /* 전체 앱 래퍼 */
+            .pc-layout {
+                display: flex;
+                flex-direction: column;
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            /* 로그인 화면은 중앙 정렬 유지 */
+            .pc-login-wrap {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: calc(100vh - 52px);
+                padding: 20px;
+            }
+            .pc-login-wrap .card { margin: 0; width: 100%; max-width: 400px; }
+
+            /* ── PC 헤더 ── */
+            .app-header {
+                position: sticky; top: 0; z-index: 100;
+                height: 52px;
+                background: var(--header-bg);
+                border-bottom: 1px solid var(--header-border);
+                padding: 0 24px;
+                display: grid;
+                grid-template-columns: auto 1fr auto;
+                align-items: center;
+                gap: 16px;
+                margin: 0 !important;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .app-header img { height: 26px; flex-shrink: 0; }
+            .pc-header-greeting {
+                justify-self: center;
+                font-size: 13px; font-weight: 600;
+                color: var(--text-secondary);
+                padding: 5px 16px;
+                background: var(--greeting-bg);
+                border-radius: 20px;
+                white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+                max-width: 400px;
+                width: 100%;
+                text-align: center;
+            }
+            .header-right {
+                justify-self: end;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                flex-shrink: 0;
+            }
+
+            /* ── PC 바디: 사이드바 + 콘텐츠 ── */
+            .pc-app-body {
+                display: flex;
+                flex: 1;
+                overflow: hidden;
+            }
+
+            /* ── 사이드바 ── */
+            .pc-sidebar {
+                width: 210px;
+                flex-shrink: 0;
+                background: var(--surface);
+                border-right: 1px solid var(--border);
+                display: flex;
+                flex-direction: column;
+                overflow-y: auto;
+                padding: 12px 0;
+            }
+            .pc-nav-section { padding: 0 8px; margin-bottom: 4px; }
+            .pc-nav-label {
+                font-size: 9px; font-weight: 700;
+                color: var(--text-hint);
+                text-transform: uppercase; letter-spacing: .08em;
+                padding: 6px 10px 4px;
+            }
+            .pc-nav-item {
+                display: flex; align-items: center; gap: 9px;
+                padding: 8px 10px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 13px; font-weight: 500;
+                color: var(--text-secondary);
+                margin-bottom: 1px;
+                transition: background .12s, color .12s;
+                border: none; background: transparent; width: 100%;
+                font-family: 'Noto Sans KR', sans-serif;
+                text-align: left;
+            }
+            .pc-nav-item:hover { background: var(--bg); color: var(--text-primary); }
+            .pc-nav-item.pc-active {
+                background: var(--tab-active-bg);
+                color: var(--tab-active-color);
+                font-weight: 700;
+            }
+            .pc-nav-icon { font-size: 15px; flex-shrink: 0; width: 20px; text-align: center; }
+            .pc-nav-divider { border: none; border-top: 1px solid var(--border); margin: 8px 10px; }
+            .pc-admin-nav-label {
+                font-size: 9px; font-weight: 700;
+                color: var(--admin-menu-color);
+                text-transform: uppercase; letter-spacing: .08em;
+                padding: 6px 10px 4px;
+                display: flex; align-items: center; gap: 5px;
+            }
+            .pc-admin-nav-label::before {
+                content: ''; width: 6px; height: 6px;
+                border-radius: 50%;
+                background: var(--admin-menu-color);
+                flex-shrink: 0;
+            }
+            .pc-nav-item.pc-admin-item {
+                color: var(--admin-menu-color);
+            }
+            .pc-nav-item.pc-admin-item:hover {
+                background: var(--admin-menu-bg);
+            }
+            .pc-nav-item.pc-admin-item.pc-active {
+                background: var(--tab-active-bg);
+                color: var(--tab-active-color);
+            }
+
+            /* 사이드바 하단 사용자 정보 */
+            .pc-sidebar-user {
+                margin-top: auto;
+                border-top: 1px solid var(--border);
+                padding: 12px 10px;
+            }
+            .pc-sidebar-user-row {
+                display: flex; align-items: center; gap: 8px;
+                margin-bottom: 8px;
+            }
+            .pc-sidebar-logout {
+                width: 100%; padding: 7px;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                background: transparent;
+                color: var(--text-secondary);
+                font-size: 12px; font-weight: 600;
+                cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+                transition: background .12s;
+            }
+            .pc-sidebar-logout:hover { background: var(--bg); }
+
+            /* ── 메인 콘텐츠 영역 ── */
+            .pc-main-content {
+                flex: 1;
+                overflow-y: auto;
+                padding: 20px;
+                background: var(--bg);
+            }
+
+            /* ── PC 요약 카드 행 ── */
+            .pc-stat-strip {
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 12px;
+                margin-bottom: 18px;
+            }
+            .pc-stat-strip-card {
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                padding: 14px 16px;
+            }
+            .pc-stat-strip-val {
+                font-size: 22px; font-weight: 800;
+                font-family: 'IBM Plex Mono', monospace;
+                margin-bottom: 2px;
+            }
+            .pc-stat-strip-lbl {
+                font-size: 10px; color: var(--text-hint);
+                font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
+            }
+
+            /* ── 2컬럼 그리드 ── */
+            .pc-two-col {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+                margin-bottom: 14px;
+            }
+            .pc-two-col-wide {
+                display: grid;
+                grid-template-columns: 2fr 1fr;
+                gap: 14px;
+                margin-bottom: 14px;
+            }
+            .pc-full-col { margin-bottom: 14px; }
+
+            /* ── PC 패널 카드 ── */
+            .pc-panel {
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            .pc-panel-hd {
+                padding: 12px 16px;
+                border-bottom: 1px solid var(--border);
+                font-size: 13px; font-weight: 700;
+                color: var(--text-primary);
+                display: flex; align-items: center; justify-content: space-between;
+            }
+            .pc-panel-bd { padding: 14px 16px; }
+
+            /* 모바일 전용 요소 PC에서 숨기기 */
+            .card#auth-card { max-width: 400px; }
+            #main-card { display: none !important; }
+            #greeting-card { display: none !important; }
+            #records-card { display: none !important; }
+            #common-tabs { display: none !important; }
+            #admin-menu-wrap { display: none !important; }
+            .pc-sidebar { display: flex; }
+            .pc-app-body { display: flex; }
+            .pc-main-content { display: block; }
+            .pc-mobile-only { display: none !important; }
+        }
+
+        /* 모바일: PC 요소 숨기기 */
+        @media (max-width: 768px) {
+            .pc-sidebar { display: none !important; }
+            .pc-app-body { display: block !important; }
+            .pc-main-content { display: none !important; }
+            .pc-stat-strip { display: none !important; }
+            .pc-header-greeting { display: none !important; }
+            .pc-desktop-only { display: none !important; }
+            /* 모바일 헤더: 좁은 화면 전용 */
+            .app-header {
+                max-width: 680px !important;
+                margin: 0 auto 16px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                position: static !important;
+                border-bottom: none !important;
+                padding: 0 !important;
+                grid-template-columns: unset !important;
+            }
+        }
+
         *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
         body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text-primary);min-height:100vh;padding:16px}
         .hidden{display:none!important}
 
-        .app-header{max-width:680px;margin:0 auto 16px;display:flex;align-items:center;justify-content:space-between}
+
         .app-title{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--text-secondary);letter-spacing:.05em}
         .header-right{display:flex;align-items:center;gap:12px}
         .clock{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;color:var(--blue)}
@@ -102,8 +352,8 @@
         .card{max-width:680px;margin:0 auto 12px;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);padding:20px}
 
         .field-label{font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:5px;display:block}
-        .field{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:#fafafa;outline:none;transition:border-color .15s;margin-bottom:12px}
-        .field:focus{border-color:var(--blue);background:white}
+        .field{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:var(--surface);outline:none;transition:border-color .15s,background .15s;margin-bottom:12px}
+        .field:focus{border-color:var(--accent);background:var(--surface)}
 
         .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 18px;border:none;border-radius:var(--radius-sm);font-family:'Noto Sans KR',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .1s;color:white;width:100%}
         .btn:active{transform:scale(0.98)}
@@ -154,7 +404,7 @@
         .filter-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
         .filter-bar input[type="date"]{flex:1;min-width:120px;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:#fafafa;outline:none}
         .filter-bar input[type="date"]:focus{border-color:var(--blue)}
-        .filter-select{padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:'Noto Sans KR',sans-serif;background:#fafafa;color:var(--text-primary);outline:none}
+        .filter-select{padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:'Noto Sans KR',sans-serif;background:var(--surface);color:var(--text-primary);outline:none}
         .filter-btn{padding:8px 12px;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-weight:500;color:var(--text-secondary);cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap}
         .filter-btn:hover{background:var(--bg)}
         .filter-btn.csv{color:var(--green);border-color:var(--green)}
@@ -166,8 +416,8 @@
         tbody td{padding:10px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
         tbody tr:last-child td{border-bottom:none}
         tbody tr:hover td{background:#fafbfc}
-        tbody tr.ot-row td{background:#fffbeb}
-        tbody tr.ot-row:hover td{background:#fef3c7}
+        tbody tr.ot-row td{background:var(--amber-light);color:var(--text-primary)}
+        tbody tr.ot-row:hover td{background:var(--amber-light);opacity:.85}
 
         .type-chip{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
         .type-in{background:var(--green-light);color:var(--green)}
@@ -184,7 +434,7 @@
         .pw-toggle{background:none;border:none;cursor:pointer;font-size:13px;color:var(--text-hint);margin-left:4px;vertical-align:middle}
         .role-chip{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
         .role-admin{background:var(--blue-light);color:var(--blue)}
-        .role-user{background:#f3f4f6;color:var(--text-secondary)}
+        .role-user{background:var(--border);color:var(--text-secondary)}
         .mini-avatar{width:30px;height:30px;border-radius:50%;background:var(--blue-light);color:var(--blue);font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;vertical-align:middle;border:1px solid var(--border);margin-right:6px;flex-shrink:0}
         .mini-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
         .user-id-cell{display:flex;align-items:center}
@@ -197,7 +447,7 @@
         .role-select:focus{border-color:var(--blue)}
 
         /* 야근 */
-        .ot-summary{background:var(--amber-light);border:1px solid #fcd34d;border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:14px;font-size:13px}
+        .ot-summary{background:var(--amber-light);border:1px solid var(--amber);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:14px;font-size:13px}
         .ot-summary-title{font-weight:700;color:var(--amber);margin-bottom:6px;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
         .ot-summary-row{display:flex;gap:20px;flex-wrap:wrap}
         .ot-summary-item{color:var(--text-secondary)}
@@ -216,7 +466,7 @@
         .pwa-banner{max-width:680px;margin:0 auto 12px;background:var(--blue);color:white;border-radius:var(--radius);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:var(--shadow)}
         .pwa-banner-text{font-size:13px;font-weight:500;line-height:1.4}
         .pwa-banner-text strong{display:block;font-size:14px;margin-bottom:2px}
-        .btn-pwa-install{background:white;color:var(--blue);border:none;border-radius:var(--radius-sm);padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Noto Sans KR',sans-serif;flex-shrink:0}
+        .btn-pwa-install{background:var(--surface);color:var(--accent);border:none;border-radius:var(--radius-sm);padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Noto Sans KR',sans-serif;flex-shrink:0}
         .btn-pwa-dismiss{background:transparent;border:none;color:rgba(255,255,255,0.7);font-size:18px;cursor:pointer;padding:0 4px;line-height:1}
 
         /* ── 아이디별 출퇴근 요약 ── */
@@ -245,7 +495,7 @@
         .diary-date-bar input[type="date"]{padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:#fafafa;outline:none}
         .diary-date-bar input[type="date"]:focus{border-color:var(--blue)}
         .diary-write-box{background:var(--bg);border-radius:var(--radius-sm);padding:14px;margin-bottom:16px;border:1px dashed var(--border)}
-        .diary-write-box textarea{width:100%;min-height:80px;resize:vertical;border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:white;outline:none;transition:border-color .15s;line-height:1.6}
+        .diary-write-box textarea{width:100%;min-height:80px;resize:vertical;border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:var(--surface);outline:none;transition:border-color .15s;line-height:1.6}
         .diary-write-box textarea:focus{border-color:var(--blue)}
         .diary-photo-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
         .diary-photo-preview{position:relative;width:64px;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--border);flex-shrink:0}
@@ -307,7 +557,7 @@
         .stats-user-table tr:hover td{background:var(--bg)}
         .stats-filter-row{display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
         .stats-month-select{border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 10px;font-size:13px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:var(--surface);outline:none}
-        .stats-month-select:focus{border-color:var(--blue)}
+        .stats-month-select:focus{border-color:var(--accent)}
         .btn-export-pdf{padding:8px 16px;background:#e24b4a;color:white;border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;display:flex;align-items:center;gap:6px}
         .btn-export-pdf:hover{opacity:.88}
         .btn-export-xlsx{padding:8px 16px;background:#1e8c4a;color:white;border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;display:flex;align-items:center;gap:6px}
@@ -338,8 +588,8 @@
         .detail-log-table .col-late{color:var(--amber);font-weight:700}
         .detail-log-table .col-ot{color:var(--red);font-weight:700}
         .detail-log-table .col-normal{color:var(--green)}
-        .tag-late{display:inline-block;font-size:9px;padding:1px 5px;border-radius:8px;background:#fff7e6;color:#d97706;font-weight:700;margin-left:4px;font-family:'Noto Sans KR',sans-serif}
-        .tag-ot{display:inline-block;font-size:9px;padding:1px 5px;border-radius:8px;background:#fff0f0;color:#dc2626;font-weight:700;margin-left:4px;font-family:'Noto Sans KR',sans-serif}
+        .tag-late{display:inline-block;font-size:9px;padding:1px 5px;border-radius:8px;background:var(--amber-light);color:var(--amber);font-weight:700;margin-left:4px;font-family:'Noto Sans KR',sans-serif}
+        .tag-ot{display:inline-block;font-size:9px;padding:1px 5px;border-radius:8px;background:var(--red-light);color:var(--red);font-weight:700;margin-left:4px;font-family:'Noto Sans KR',sans-serif}
         .stats-user-row-btn{background:transparent;border:none;cursor:pointer;color:var(--blue);font-size:12px;padding:2px 6px;border-radius:4px;font-family:'Noto Sans KR',sans-serif;font-weight:600}
         .stats-user-row-btn:hover{background:var(--blue-light)}
         .status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
@@ -360,7 +610,7 @@
         .comment-del{background:transparent;border:none;cursor:pointer;color:var(--text-hint);font-size:11px;padding:2px 4px;border-radius:3px;flex-shrink:0;align-self:flex-start;margin-top:4px}
         .comment-del:hover{color:var(--red);background:var(--red-light)}
         .comment-input-row{display:flex;gap:6px;align-items:flex-end}
-        .comment-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:white;outline:none;resize:none;line-height:1.5;min-height:34px;max-height:80px}
+        .comment-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:var(--surface);outline:none;resize:none;line-height:1.5;min-height:34px;max-height:80px}
         .comment-input:focus{border-color:var(--blue)}
         .comment-submit{background:var(--blue);color:white;border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;flex-shrink:0}
         .comment-submit:hover{opacity:.88}
@@ -382,13 +632,13 @@
         .comment-del{position:absolute;top:4px;right:6px;background:transparent;border:none;cursor:pointer;color:var(--text-hint);font-size:11px;opacity:0;transition:opacity .15s;padding:2px 4px;border-radius:3px}
         .comment-del:hover{color:var(--red)}
         .comment-input-row{display:flex;gap:6px;align-items:center}
-        .comment-input{flex:1;border:1px solid var(--border);border-radius:16px;padding:7px 14px;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:white;outline:none;transition:border-color .15s}
+        .comment-input{flex:1;border:1px solid var(--border);border-radius:16px;padding:7px 14px;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:var(--surface);outline:none;transition:border-color .15s}
         .comment-input:focus{border-color:var(--blue)}
         .comment-submit-btn{background:var(--blue);color:white;border:none;border-radius:50%;width:30px;height:30px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s}
         .comment-submit-btn:hover{opacity:.85}
         .comment-toggle{background:transparent;border:none;cursor:pointer;font-size:12px;color:var(--text-hint);padding:4px 0;margin-top:6px;display:inline-flex;align-items:center;gap:6px;font-family:'Noto Sans KR',sans-serif;transition:color .15s}
         .comment-toggle:hover{color:var(--blue)}
-        .comment-toggle:hover .cmt-badge{background:#dbeafe;color:#1e40af}
+        .comment-toggle:hover .cmt-badge{background:var(--blue-light);color:var(--blue)}
         .cmt-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;background:var(--bg);border:1px solid var(--border);color:var(--text-secondary);transition:all .15s;line-height:1.4}
         .cmt-badge.has-comments{background:#e8f0fe;border-color:#bfdbfe;color:#1a73e8}
         .cmt-badge.open{background:#1a73e8;color:white;border-color:#1a73e8}
@@ -421,22 +671,22 @@
         .cal-day-num.sun{color:#d93025}
         .cal-day-num.sat{color:#1a73e8}
         .cal-event-dot{font-size:10px;line-height:1.4;padding:1px 4px;border-radius:3px;margin-bottom:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer;display:block;width:100%;box-sizing:border-box}
-        .cal-event-dot.cat-work    {background:#dbeafe;color:#1e3a5f}
-        .cal-event-dot.cat-personal{background:#e6f4ec;color:#085041}
-        .cal-event-dot.cat-meeting {background:#faeeda;color:#633806}
-        .cal-event-dot.cat-holiday {background:#fce8e6;color:#a32d2d}
-        .cal-event-dot.cat-etc     {background:#f3f4f6;color:#444}
+        .cal-event-dot.cat-work    {background:var(--blue-light);color:var(--blue)}
+        .cal-event-dot.cat-personal{background:var(--green-light);color:var(--green)}
+        .cal-event-dot.cat-meeting {background:var(--amber-light);color:var(--amber)}
+        .cal-event-dot.cat-holiday {background:var(--red-light);color:var(--red)}
+        .cal-event-dot.cat-etc     {background:var(--border);color:var(--text-secondary)}
         .cal-more{font-size:10px;color:var(--blue);padding:1px 4px;font-weight:600;cursor:pointer;display:inline-block}
         /* 연속 일정 바 레이어 */
         .cal-events-layer{position:absolute;top:0;left:0;right:0;pointer-events:none;z-index:2;overflow:visible}
         .cal-grid-wrap{position:relative;margin-bottom:16px}
         .cal-span-bar{position:absolute;height:16px;border-radius:3px;font-size:10px;line-height:16px;padding:0 5px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer;pointer-events:all;box-sizing:border-box;z-index:3}
-        .cal-span-bar.cat-work    {background:#dbeafe;color:#1e3a5f}
-        .cal-span-bar.cat-personal{background:#e6f4ec;color:#085041}
-        .cal-span-bar.cat-meeting {background:#faeeda;color:#633806}
-        .cal-span-bar.cat-holiday {background:#fce8e6;color:#a32d2d}
-        .cal-span-bar.cat-etc     {background:#f3f4f6;color:#444}
-        .cal-span-bar.cat-hday-kr {background:#fff0f0;color:#b91c1c}
+        .cal-span-bar.cat-work    {background:var(--blue-light);color:var(--blue)}
+        .cal-span-bar.cat-personal{background:var(--green-light);color:var(--green)}
+        .cal-span-bar.cat-meeting {background:var(--amber-light);color:var(--amber)}
+        .cal-span-bar.cat-holiday {background:var(--red-light);color:var(--red)}
+        .cal-span-bar.cat-etc     {background:var(--border);color:var(--text-secondary)}
+        .cal-span-bar.cat-hday-kr {background:var(--red-light);color:var(--red)}
         .cal-span-bar.starts      {border-radius:3px 0 0 3px}
         .cal-span-bar.ends        {border-radius:0 3px 3px 0}
         .cal-span-bar.middle      {border-radius:0}
@@ -444,20 +694,20 @@
         .cal-span-bar.continuation{padding-left:2px;opacity:.9}
         .cal-holiday-badge{display:flex;flex-wrap:wrap;gap:1px;margin-bottom:1px}
         .cal-hday{font-size:9px;line-height:1.3;padding:1px 3px;border-radius:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;width:100%;display:block;box-sizing:border-box}
-        .cal-hday.kr{background:#fff0f0;color:#b91c1c;border-left:2px solid #ef4444}
-        .cal-hday.id{background:#fff7ed;color:#c2410c;border-left:2px solid #f97316}
-        .cal-hday.both{background:#fdf4ff;color:#7e22ce;border-left:2px solid #a855f7}
+        .cal-hday.kr{background:var(--red-light);color:var(--red);border-left:2px solid var(--red)}
+        .cal-hday.id{background:var(--amber-light);color:var(--amber);border-left:2px solid var(--amber)}
+        .cal-hday.both{background:var(--blue-light);color:var(--blue);border-left:2px solid var(--blue)}
         /* D-day 뱃지 */
         .dday-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;padding:1px 5px;border-radius:10px;margin-left:6px;vertical-align:middle;white-space:nowrap;flex-shrink:0}
-        .dday-badge.today{background:#1a73e8;color:white}
-        .dday-badge.soon {background:#fce8e6;color:#d93025}
-        .dday-badge.near {background:#fff7ed;color:#c2410c}
-        .dday-badge.far  {background:#f3f4f6;color:#6b7280}
+        .dday-badge.today{background:var(--accent);color:#fff}
+        .dday-badge.soon {background:var(--red-light);color:var(--red)}
+        .dday-badge.near {background:var(--amber-light);color:var(--amber)}
+        .dday-badge.far  {background:var(--border);color:var(--text-hint)}
         .schedule-item-title-row{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
-        .schedule-item-bar.cat-hday-kr{background:#ef4444}
-        .schedule-item-bar.cat-hday-id{background:#f97316}
-        .cal-event-dot.cat-hday-kr{background:#fff0f0;color:#b91c1c}
-        .cal-event-dot.cat-hday-id{background:#fff7ed;color:#c2410c}
+        .schedule-item-bar.cat-hday-kr{background:var(--red)}
+        .schedule-item-bar.cat-hday-id{background:var(--amber)}
+        .cal-event-dot.cat-hday-kr{background:var(--red-light);color:var(--red)}
+        .cal-event-dot.cat-hday-id{background:var(--amber-light);color:var(--amber)}
         /* 공휴일 범례 */
         .hday-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;font-size:11px;color:var(--text-secondary)}
         .hday-legend-item{display:flex;align-items:center;gap:4px}
@@ -469,11 +719,11 @@
         .schedule-list-header{font-size:12px;font-weight:700;color:var(--text-hint);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}
         .schedule-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:12px;position:relative}
         .schedule-item-bar{width:4px;border-radius:2px;align-self:stretch;flex-shrink:0}
-        .schedule-item-bar.cat-work    {background:#378add}
-        .schedule-item-bar.cat-personal{background:#1d9e75}
-        .schedule-item-bar.cat-meeting {background:#ba7517}
-        .schedule-item-bar.cat-holiday {background:#e24b4a}
-        .schedule-item-bar.cat-etc     {background:#888780}
+        .schedule-item-bar.cat-work    {background:var(--blue)}
+        .schedule-item-bar.cat-personal{background:var(--green)}
+        .schedule-item-bar.cat-meeting {background:var(--amber)}
+        .schedule-item-bar.cat-holiday {background:var(--red)}
+        .schedule-item-bar.cat-etc     {background:var(--text-hint)}
         .schedule-item-body{flex:1;min-width:0}
         .schedule-item-title{font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:3px}
         .schedule-item-meta{font-size:12px;color:var(--text-secondary)}
@@ -486,22 +736,32 @@
 
         /* 일정 모달 */
         .sch-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
-        .sch-modal{background:var(--surface);border-radius:var(--radius);padding:22px;width:100%;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,0.2)}
+        .sch-modal{background:var(--surface);border-radius:var(--radius);padding:22px;width:100%;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,0.2);box-sizing:border-box;overflow:hidden}
+
+        /* 다크 테마 placeholder 대비 */
+        input::placeholder, textarea::placeholder {
+            color: var(--text-hint);
+            opacity: 1;
+        }
+        select option {
+            background: var(--surface);
+            color: var(--text-primary);
+        }
         .allday-toggle-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:8px 10px;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border)}
         .allday-toggle-row label{font-size:13px;font-weight:600;color:var(--text-primary);cursor:pointer;flex:1}
-        .allday-switch{position:relative;width:38px;height:22px;flex-shrink:0}
-        .allday-switch input{opacity:0;width:0;height:0;position:absolute}
-        .allday-slider{position:absolute;inset:0;background:var(--border);border-radius:11px;cursor:pointer;transition:background .2s}
+        .allday-switch{position:relative;width:38px;height:22px;flex-shrink:0;cursor:pointer}
+        .allday-switch input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2;margin:0}
+        .allday-slider{position:absolute;inset:0;background:var(--border);border-radius:11px;transition:background .2s;pointer-events:none}
         .allday-slider:before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:white;border-radius:50%;transition:transform .2s}
-        .allday-switch input:checked + .allday-slider{background:var(--blue)}
+        .allday-switch input:checked + .allday-slider{background:var(--accent)}
         .allday-switch input:checked + .allday-slider:before{transform:translateX(16px)}
 
         /* ── 시간 직접 입력 + 선택기 ── */
-        .time-input-wrap{display:flex;align-items:center;gap:0;margin-bottom:12px}
-        .time-text-input{flex:1;border:1px solid var(--border);border-right:none;border-radius:var(--radius-sm) 0 0 var(--radius-sm);padding:10px 12px;font-size:14px;font-family:'IBM Plex Mono',monospace;color:var(--text-primary);background:white;outline:none;transition:border-color .15s;min-width:0}
+        .time-input-wrap{display:flex;align-items:center;gap:0;margin-bottom:12px;overflow:hidden}
+        .time-text-input{flex:1;min-width:0;border:1px solid var(--border);border-right:none;border-radius:var(--radius-sm) 0 0 var(--radius-sm);padding:10px 12px;font-size:14px;font-family:'IBM Plex Mono',monospace;color:var(--text-primary);background:var(--surface);outline:none;transition:border-color .15s;overflow:hidden}
         .time-text-input:focus{border-color:var(--blue)}
         .time-text-input.invalid{border-color:var(--red)}
-        .time-pick-btn{padding:0 10px;height:42px;border:1px solid var(--border);border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--bg);cursor:pointer;font-size:15px;color:var(--text-secondary);flex-shrink:0;transition:background .15s;position:relative;overflow:hidden}
+        .time-pick-btn{padding:0 10px;height:42px;border:1px solid var(--border);border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--surface);cursor:pointer;font-size:15px;color:var(--text-secondary);flex-shrink:0;transition:background .15s;position:relative;overflow:hidden}
         .time-pick-btn:hover{background:var(--blue-light);border-color:var(--blue)}
         .time-pick-btn input[type=time]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
         .time-hint{font-size:11px;color:var(--text-hint);margin-top:-8px;margin-bottom:8px}
@@ -514,8 +774,12 @@
 
         .time-fields{transition:opacity .2s}
         .time-fields.disabled{opacity:.35;pointer-events:none}
+        .time-fields.sch-field-row{display:flex;gap:8px;flex-wrap:wrap}
+        .time-fields.sch-field-row > div{flex:1;min-width:120px;max-width:100%;overflow:hidden}
+        .time-input-wrap{display:flex;align-items:center;gap:0;overflow:hidden}
+        .time-text-input{min-width:0;flex:1}
         .time-input-wrap{position:relative;display:flex;align-items:center;margin-bottom:12px}
-        .time-text-input{flex:1;border:1px solid var(--border);border-radius:var(--radius-sm) 0 0 var(--radius-sm);padding:10px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:white;outline:none;transition:border-color .15s;border-right:none}
+        .time-text-input{flex:1;border:1px solid var(--border);border-radius:var(--radius-sm) 0 0 var(--radius-sm);padding:10px 12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:var(--surface);outline:none;transition:border-color .15s;border-right:none}
         .time-text-input:focus{border-color:var(--blue);z-index:1}
         .time-text-input.invalid{border-color:var(--red);background:#fff5f5}
         .time-pick-btn{padding:0 10px;height:42px;border:1px solid var(--border);border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--bg);cursor:pointer;font-size:14px;color:var(--text-secondary);transition:background .15s;flex-shrink:0;display:flex;align-items:center}
@@ -525,8 +789,8 @@
         .sch-modal-title{font-size:16px;font-weight:700;margin-bottom:16px;color:var(--text-primary)}
         .sch-field-row{display:flex;gap:8px}
         .sch-field-row .field{flex:1}
-        .cat-select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:#fafafa;outline:none;margin-bottom:12px}
-        .cat-select:focus{border-color:var(--blue)}
+        .cat-select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:var(--surface);outline:none;margin-bottom:12px}
+        .cat-select:focus{border-color:var(--accent)}
         .sch-actions{display:flex;gap:8px;margin-top:4px}
         .sch-actions .btn{flex:1;padding:11px}
         .sch-all-header{font-size:12px;font-weight:700;color:var(--text-hint);letter-spacing:.05em;text-transform:uppercase;margin:16px 0 8px}
@@ -546,7 +810,8 @@
         .diary-card-edit{background:transparent;border:none;cursor:pointer;color:var(--text-hint);font-size:12px;padding:2px 6px;border-radius:4px}
         .diary-card-edit:hover{color:var(--blue);background:var(--blue-light)}
         .diary-edit-box{background:#eef4fd;border:1.5px solid var(--blue);border-radius:var(--radius-sm);padding:12px;margin-top:8px}
-        .diary-edit-box textarea{width:100%;min-height:72px;resize:vertical;border:1px solid #b8d0f5;border-radius:var(--radius-sm);padding:9px 11px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:white;outline:none;line-height:1.6}
+        .diary-edit-box .field{background:var(--surface);color:var(--text-primary)}
+        .diary-edit-box textarea{width:100%;min-height:72px;resize:vertical;border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 11px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text-primary);background:var(--surface);outline:none;line-height:1.6}
         .diary-edit-box textarea:focus{border-color:var(--blue)}
         .diary-edit-photo-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center}
         .diary-edit-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
@@ -630,18 +895,25 @@
 <!-- 헤더 -->
 <div class="app-header">
     <img src="data:image/jpeg;base64,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" alt="ADINA" style="height:28px;object-fit:contain;display:block">
+    <span class="pc-header-greeting pc-desktop-only" id="pc-header-greeting">🌅 환영합니다</span>
     <div class="header-right">
         <button class="btn-install-header" id="btn-install-header" onclick="doInstall()" data-i18n="header_install">📲 설치</button>
         <div class="lang-switcher">
             <button class="lang-btn active" id="lang-ko" onclick="setLang('ko')">KO</button>
             <button class="lang-btn"        id="lang-id" onclick="setLang('id')">ID</button>
         </div>
+        <div id="theme-toggle-wrap" style="position:relative">
+            <button id="theme-toggle-btn" onclick="toggleThemeMenu()" title="테마 변경" style="width:32px;height:32px;border-radius:50%;bordms:center;justify-content:center;font-size:15px;transition:border-color .15s">🎨</button>
+            <div id="theme-dropdown" style="display:none;position:absolute;right:0;top:40px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px;box-shadow:0 8px 24px rgba(0,0,0,0.2);z-index:999;min-width:180px">
+                <div id="theme-dropdown-list"></div>
+            </div>
+        </div>
         <div id="clock" class="clock">00:00:00</div>
     </div>
 </div>
 
 <!-- 인증 카드 -->
-
+<div class="pc-login-wrap" id="pc-login-wrap">
 <div class="card" id="auth-card">
     <label class="field-label" data-i18n="label_id">아이디</label>
     <input class="field" type="text" id="login-id" data-i18n-placeholder="ph_id" placeholder="아이디 입력" autocomplete="username">
@@ -649,7 +921,133 @@
     <input class="field" type="password" id="login-pw" data-i18n-placeholder="ph_pw" placeholder="비밀번호 입력" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
     <button class="btn btn-blue" id="btn-login" onclick="doLogin()" data-i18n="btn_login">로그인</button>
 </div>
+</div>
 
+<!-- PC 앱 바디 -->
+<div class="pc-app-body" id="pc-app-body" style="display:none">
+
+  <!-- PC 사이드바 -->
+  <nav class="pc-sidebar" id="pc-sidebar">
+    <div class="pc-nav-section">
+      <div class="pc-nav-label" data-i18n="tab_records">메뉴</div>
+      <button class="pc-nav-item pc-active" id="pc-nav-records" onclick="pcSwitchPanel('records')">
+        <span class="pc-nav-icon">📋</span><span data-i18n="tab_records">출퇴근 기록</span>
+      </button>
+      <button class="pc-nav-item" id="pc-nav-diary" onclick="pcSwitchPanel('diary')">
+        <span class="pc-nav-icon">📓</span><span data-i18n="tab_diary">업무 일지</span>
+      </button>
+      <button class="pc-nav-item" id="pc-nav-schedule" onclick="pcSwitchPanel('schedule')">
+        <span class="pc-nav-icon">📅</span><span data-i18n="tab_schedule">일정</span>
+      </button>
+    </div>
+    <hr class="pc-nav-divider" id="pc-admin-divider" style="display:none">
+    <div class="pc-nav-section" id="pc-admin-section" style="display:none">
+      <div class="pc-admin-nav-label" data-i18n="admin_menu_label">관리자</div>
+      <button class="pc-nav-item pc-admin-item" id="pc-nav-summary" onclick="pcSwitchPanel('summary')">
+        <span class="pc-nav-icon">👥</span><span data-i18n="tab_summary">직원 현황</span>
+      </button>
+      <button class="pc-nav-item pc-admin-item" id="pc-nav-overtime" onclick="pcSwitchPanel('overtime')">
+        <span class="pc-nav-icon">🌙</span><span data-i18n="tab_overtime">야근 기록</span>
+      </button>
+      <button class="pc-nav-item pc-admin-item" id="pc-nav-stats" onclick="pcSwitchPanel('stats')">
+        <span class="pc-nav-icon">📊</span><span data-i18n="tab_stats">통계</span>
+      </button>
+      <button class="pc-nav-item pc-admin-item" id="pc-nav-users" onclick="pcSwitchPanel('users')">
+        <span class="pc-nav-icon">👤</span><span data-i18n="tab_users">회원 관리</span>
+      </button>
+      <button class="pc-nav-item pc-admin-item" id="pc-nav-settings" onclick="pcSwitchPanel('settings')">
+        <span class="pc-nav-icon">⚙️</span><span data-i18n="tab_settings">설정</span>
+      </button>
+    </div>
+    <!-- 하단 사용자 정보 -->
+    <div class="pc-sidebar-user">
+      <div class="pc-sidebar-user-row">
+        <div class="avatar" id="pc-sidebar-avatar" style="width:32px;height:32px;font-size:11px">
+          <span id="pc-sidebar-avatar-txt">?</span>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-primary)" id="pc-sidebar-name"></div>
+          <div style="font-size:10px;color:var(--text-hint)" id="pc-sidebar-badge"></div>
+        </div>
+      </div>
+      <button class="pc-sidebar-logout" onclick="doLogout()" data-i18n="btn_logout">로그아웃</button>
+    </div>
+  </nav>
+
+  <!-- PC 메인 콘텐츠 -->
+  <div class="pc-main-content" id="pc-main-content">
+
+    <!-- PC 출퇴근 기록 -->
+    <div id="pc-panel-records">
+      <div class="pc-stat-strip" id="pc-stat-strip">
+        <div class="pc-stat-strip-card">
+          <div class="pc-stat-strip-val" style="color:var(--blue)" id="pc-stat-checkin-count">0명</div>
+          <div class="pc-stat-strip-lbl" data-i18n="pc_stat_today_in">오늘 출근</div>
+        </div>
+        <div class="pc-stat-strip-card">
+          <div class="pc-stat-strip-val" style="color:var(--red)" id="pc-stat-absent-count">0명</div>
+          <div class="pc-stat-strip-lbl" data-i18n="pc_stat_absent">미출근</div>
+        </div>
+        <div class="pc-stat-strip-card">
+          <div class="pc-stat-strip-val" style="color:var(--amber)" id="pc-stat-late-count">0명</div>
+          <div class="pc-stat-strip-lbl" data-i18n="pc_stat_late">지각</div>
+        </div>
+        <div class="pc-stat-strip-card">
+          <div class="pc-stat-strip-val" style="color:var(--green)" id="pc-stat-work-time">-</div>
+          <div class="pc-stat-strip-lbl" data-i18n="pc_stat_work_time">내 근무시간</div>
+        </div>
+      </div>
+      <div class="pc-two-col">
+        <div class="pc-panel">
+          <div class="pc-panel-hd">
+            <span data-i18n="btn_checkin">내 출퇴근</span>
+            <span style="font-size:11px;color:var(--text-hint);font-weight:500" id="pc-today-date"></span>
+          </div>
+          <div class="pc-panel-bd">
+            <div style="display:flex;gap:8px;margin-bottom:12px">
+              <button class="btn btn-green" style="flex:1" id="pc-btn-in" onclick="record('checkin')" data-i18n="btn_checkin">출근하기</button>
+              <button class="btn btn-red"   style="flex:1" id="pc-btn-out" onclick="record('checkout')" data-i18n="btn_checkout">퇴근하기</button>
+            </div>
+            <div style="display:flex;gap:16px;flex-wrap:wrap;padding:10px 12px;background:var(--bg);border-radius:8px;font-size:12px">
+              <div><div style="font-size:10px;color:var(--text-hint);font-weight:700;text-transform:uppercase;margin-bottom:2px" data-i18n="today_checkin">출근</div><div style="font-family:monospace;font-weight:700;font-size:13px" id="pc-today-in">-</div></div>
+              <div><div style="font-size:10px;color:var(--text-hint);font-weight:700;text-transform:uppercase;margin-bottom:2px" data-i18n="today_checkout">퇴근</div><div style="font-family:monospace;font-weight:700;font-size:13px" id="pc-today-out">-</div></div>
+              <div><div style="font-size:10px;color:var(--text-hint);font-weight:700;text-transform:uppercase;margin-bottom:2px">근무</div><div style="font-family:monospace;font-weight:700;font-size:13px;color:var(--blue)" id="pc-work-elapsed">-</div></div>
+              <div><div style="font-size:10px;color:var(--text-hint);font-weight:700;text-transform:uppercase;margin-bottom:2px" data-i18n="today_ot">야근기준</div><div style="font-family:monospace;font-weight:700;font-size:13px" id="pc-ot-threshold">-</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="pc-panel">
+          <div class="pc-panel-hd" data-i18n="tab_summary">오늘 직원 현황</div>
+          <div class="pc-panel-bd" id="pc-user-status-list" style="max-height:200px;overflow-y:auto"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PC 업무 일지 (기존 panel-diary 재사용) -->
+    <div id="pc-panel-diary" style="display:none"></div>
+
+    <!-- PC 일정 (기존 panel-schedule 재사용) -->
+    <div id="pc-panel-schedule" style="display:none"></div>
+
+    <!-- PC 직원현황 -->
+    <div id="pc-panel-summary" style="display:none"></div>
+
+    <!-- PC 야근기록 -->
+    <div id="pc-panel-overtime" style="display:none"></div>
+
+    <!-- PC 통계 -->
+    <div id="pc-panel-stats" style="display:none"></div>
+
+    <!-- PC 회원관리 -->
+    <div id="pc-panel-users" style="display:none"></div>
+
+    <!-- PC 설정 -->
+    <div id="pc-panel-settings" style="display:none"></div>
+
+  </div>
+</div>
+
+<!-- 모바일 전용 요소 -->
 <!-- 메인 카드 -->
 <!-- 시간대별 인사말 카드 -->
 <div id="greeting-card" class="greeting-card hidden"></div>
@@ -815,12 +1213,6 @@
 
     <!-- ④ 설정 (관리자) -->
     <div id="panel-settings" class="hidden">
-        <!-- 테마 설정 -->
-        <div class="admin-box" style="margin-bottom:12px">
-            <div class="admin-box-title" data-i18n="theme_settings_title">테마 설정</div>
-            <p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px" data-i18n="theme_settings_desc">앱의 색상 테마를 선택하세요.</p>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px" id="theme-picker-row"></div>
-        </div>
         <!-- 동영상 용량 설정 -->
         <div class="admin-box" style="margin-bottom:12px">
             <div class="admin-box-title" data-i18n="video_settings_title">동영상 업로드 설정</div>
@@ -835,6 +1227,21 @@
                 </div>
             </div>
             <p style="font-size:12px;color:var(--text-hint);margin-top:10px" id="video-current-label"></p>
+        </div>
+        <!-- 사진 용량 설정 -->
+        <div class="admin-box" style="margin-bottom:12px">
+            <div class="admin-box-title" data-i18n="photo_settings_title">사진 업로드 설정</div>
+            <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px" data-i18n="photo_settings_desc">업무 일지에 첨부할 수 있는 사진 한 장당 최대 용량을 설정합니다.</p>
+            <div class="ot-settings-row">
+                <div style="flex:1;min-width:120px">
+                    <label class="field-label" data-i18n="photo_max_kb">최대 용량 (KB)</label>
+                    <input class="field" type="number" id="photo-max-kb" min="100" max="5000" value="800" style="margin-bottom:0">
+                </div>
+                <div style="padding-bottom:1px">
+                    <button class="btn btn-amber btn-sm" style="width:auto;padding:11px 18px" onclick="savePhotoSettings()" data-i18n="btn_save">저장</button>
+                </div>
+            </div>
+            <p style="font-size:12px;color:var(--text-hint);margin-top:10px" id="photo-current-label"></p>
         </div>
         <div class="admin-box">
             <div class="admin-box-title" data-i18n="ot_settings_title">야근 기준 설정</div>
@@ -942,82 +1349,6 @@
     </div>
 
     <!-- 일정 추가/수정 모달 -->
-    <div id="sch-modal" class="sch-modal-overlay hidden" onclick="if(event.target===this)closeSchModal()">
-        <div class="sch-modal">
-            <div class="sch-modal-title" id="sch-modal-title"></div>
-            <label class="field-label" data-i18n="sch_label_title">제목</label>
-            <input class="field" type="text" id="sch-title" data-i18n-placeholder="sch_title_placeholder" placeholder="일정 제목">
-            <div class="sch-field-row">
-                <div style="flex:1">
-                    <label class="field-label" data-i18n="sch_label_start">시작일</label>
-                    <input class="field" type="date" id="sch-start">
-                </div>
-                <div style="flex:1">
-                    <label class="field-label" data-i18n="sch_label_end">종료일</label>
-                    <input class="field" type="date" id="sch-end">
-                </div>
-            </div>
-            <!-- 종일 토글 -->
-            <div class="allday-toggle-row">
-                <label for="sch-allday" data-i18n="sch_allday_toggle">종일</label>
-                <div class="allday-switch">
-                    <input type="checkbox" id="sch-allday" onchange="toggleAlldayMode(this.checked)">
-                    <span class="allday-slider"></span>
-                </div>
-            </div>
-            <!-- 시간 필드 (종일 OFF시 표시) -->
-            <div class="time-fields sch-field-row" id="sch-time-fields">
-                <div style="flex:1">
-                    <label class="field-label" data-i18n="sch_label_time_start">시작 시간</label>
-                    <div class="time-input-wrap">
-                        <input class="time-text-input" type="text" id="sch-time-start"
-                               placeholder="09:00" maxlength="5"
-                               oninput="onTimeInput(this)"
-                               onblur="onTimeBlur(this)">
-                        <button type="button" class="time-pick-btn" title="시간 선택">
-                            🕐
-                            <input type="time" tabindex="-1"
-                                   onchange="applyPickerTime(this,'sch-time-start')">
-                        </button>
-                    </div>
-                </div>
-                <div style="flex:1">
-                    <label class="field-label" data-i18n="sch_label_time_end">종료 시간</label>
-                    <div class="time-input-wrap">
-                        <input class="time-text-input" type="text" id="sch-time-end"
-                               placeholder="18:00" maxlength="5"
-                               oninput="onTimeInput(this)"
-                               onblur="onTimeBlur(this)">
-                        <button type="button" class="time-pick-btn" title="시간 선택">
-                            🕐
-                            <input type="time" tabindex="-1"
-                                   onchange="applyPickerTime(this,'sch-time-end')">
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <label class="field-label" data-i18n="sch_label_category">카테고리</label>
-            <select class="cat-select" id="sch-cat">
-                <option value="work"     data-i18n="sch_cat_work">업무</option>
-                <option value="meeting"  data-i18n="sch_cat_meeting">회의</option>
-                <option value="personal" data-i18n="sch_cat_personal">개인</option>
-                <option value="holiday"  data-i18n="sch_cat_holiday">휴일/공휴일</option>
-                <option value="etc"      data-i18n="sch_cat_etc">기타</option>
-            </select>
-            <!-- 색상 선택 -->
-            <label class="field-label" data-i18n="sch_label_color">색상</label>
-            <div class="color-picker-row" id="sch-color-row"></div>
-            <input type="hidden" id="sch-color" value="">
-            <label class="field-label" data-i18n="sch_label_desc">메모 (선택)</label>
-            <input class="field" type="text" id="sch-desc" data-i18n-placeholder="sch_desc_placeholder" placeholder="추가 메모" style="margin-bottom:12px">
-            <label class="field-label" data-i18n="sch_label_author">작성자</label>
-            <input class="field" type="text" id="sch-author" placeholder="" readonly style="background:#f5f5f5;margin-bottom:12px">
-            <div class="sch-actions">
-                <button class="btn btn-ghost" onclick="closeSchModal()" data-i18n="btn_cancel">취소</button>
-                <button class="btn btn-blue"  onclick="saveSchedule()" id="btn-sch-save" data-i18n="btn_save">저장</button>
-            </div>
-        </div>
-    </div>
 
 
     <!-- ⑦ 통계 대시보드 (관리자 전용) -->
@@ -1164,7 +1495,7 @@ ko:{
     label_id:'아이디', label_pw:'비밀번호',
     ph_id:'아이디 입력', ph_pw:'비밀번호 입력',
     btn_login:'로그인', btn_logout:'로그아웃',
-    badge_admin:'관리자', badge_no_checkin:'미출근',
+    badge_admin:'관리자', badge_no_checkin:'미출근', badge_in:'출근중',
     badge_checkin:'출근중', badge_checkout:'퇴근', badge_ot:'야근중',
     today_checkin:'출근', today_checkout:'퇴근', today_ot:'야근',
     btn_checkin:'출근하기', btn_checkout:'퇴근하기',
@@ -1263,6 +1594,8 @@ ko:{
     sch_no_title:'제목을 입력하세요.',
     sch_no_start:'시작일을 입력하세요.',
     sch_load_fail:'일정 로드 실패: ',
+    pc_stat_today_in:'오늘 출근', pc_stat_absent:'미출근',
+    pc_stat_late:'지각', pc_stat_work_time:'내 근무시간',
     theme_settings_title:'테마 설정',
     theme_settings_desc:'앱의 색상 테마를 선택하세요. 선택 즉시 적용됩니다.',
     theme_default:'기본 (블루)',
@@ -1383,7 +1716,7 @@ ko:{
     comment_count:'💬 댓글 {n}개',
     diary_save_fail:'등록 실패: ',
     diary_load_fail:'일지 로드 실패: ',
-    diary_photo_size:'사진 한 장당 최대 800KB까지 가능합니다.',
+    diary_photo_size:'사진 한 장당 최대 {size}KB까지 가능합니다.',
     diary_photo_max:'사진은 최대 5장까지 첨부할 수 있습니다.',
     diary_admin_note:'관리자는 전체 일지를 볼 수 있습니다',
     diary_list_title:'업무 일지',
@@ -1416,6 +1749,12 @@ ko:{
     diary_doc_size:'파일 크기는 50MB 이하여야 합니다.',
     diary_video_size:'동영상은 {mb}MB 이하여야 합니다.',
     diary_video_only_one:'동영상은 1개만 첨부 가능합니다.',
+    photo_settings_title:'사진 업로드 설정',
+    photo_settings_desc:'업무 일지에 첨부할 수 있는 사진 한 장당 최대 용량을 설정합니다.',
+    photo_max_kb:'최대 용량 (KB)',
+    t_photo_saved:'사진 용량 설정이 저장되었습니다.',
+    t_photo_save_fail:'저장 실패: ',
+    photo_current_label:'현재 사진 최대 용량: ',
     video_settings_title:'동영상 업로드 설정',
     video_settings_desc:'업무 일지에 첨부할 수 있는 동영상 최대 용량을 설정합니다.',
     video_max_mb:'최대 용량 (MB)',
@@ -1429,7 +1768,7 @@ id:{
     label_id:'ID Pengguna', label_pw:'Kata Sandi',
     ph_id:'Masukkan ID', ph_pw:'Masukkan kata sandi',
     btn_login:'Masuk', btn_logout:'Keluar',
-    badge_admin:'Admin', badge_no_checkin:'Belum Absen',
+    badge_admin:'Admin', badge_no_checkin:'Belum Absen', badge_in:'Sedang Bekerja',
     badge_checkin:'Sedang Bekerja', badge_checkout:'Sudah Pulang', badge_ot:'Lembur',
     today_checkin:'Masuk', today_checkout:'Pulang', today_ot:'Lembur',
     btn_checkin:'Absen Masuk', btn_checkout:'Absen Pulang',
@@ -1528,6 +1867,8 @@ id:{
     sch_no_title:'Masukkan judul jadwal.',
     sch_no_start:'Masukkan tanggal mulai.',
     sch_load_fail:'Gagal memuat jadwal: ',
+    pc_stat_today_in:'Masuk Hari Ini', pc_stat_absent:'Tidak Hadir',
+    pc_stat_late:'Terlambat', pc_stat_work_time:'Jam Kerja Saya',
     theme_settings_title:'Pengaturan Tema',
     theme_settings_desc:'Pilih tema warna aplikasi. Langsung diterapkan.',
     theme_default:'Default (Biru)',
@@ -1651,7 +1992,7 @@ id:{
     comment_count:'💬 {n} komentar',
     diary_save_fail:'Gagal menyimpan: ',
     diary_load_fail:'Gagal memuat jurnal: ',
-    diary_photo_size:'Ukuran foto maksimal 800KB per foto.',
+    diary_photo_size:'Ukuran foto maksimal {size}KB per foto.',
     diary_photo_max:'Maksimal 5 foto.',
     diary_admin_note:'Admin dapat melihat semua jurnal',
     diary_list_title:'Jurnal Kerja',
@@ -1684,6 +2025,12 @@ id:{
     diary_doc_size:'Ukuran file maksimal 50MB.',
     diary_video_size:'Video maksimal {mb}MB.',
     diary_video_only_one:'Hanya bisa melampirkan 1 video.',
+    photo_settings_title:'Pengaturan Unggah Foto',
+    photo_settings_desc:'Atur ukuran maksimal foto yang dapat dilampirkan di jurnal kerja.',
+    photo_max_kb:'Ukuran Maks (KB)',
+    t_photo_saved:'Pengaturan foto berhasil disimpan.',
+    t_photo_save_fail:'Gagal menyimpan: ',
+    photo_current_label:'Ukuran maks foto saat ini: ',
     video_settings_title:'Pengaturan Unggah Video',
     video_settings_desc:'Atur ukuran maksimal video yang dapat dilampirkan di jurnal kerja.',
     video_max_mb:'Ukuran Maksimal (MB)',
@@ -1724,6 +2071,7 @@ let diaryPendingPhotos = [];
 let diaryPendingVideo = null; // {file, name, previewUrl, sizeMb}
 let diaryPendingDocs  = [];   // [{file, name, sizeMb, ext}]
 let videoMaxMb = 30;          // 관리자 설정 가능
+let photoMaxKb = 800;         // 사진 최대 용량 (KB)
 let greetingConfig = { morning:'', noon:'', afternoon:'', evening:'', night:'' };
 let currentLang = 'ko';
 let otHour = 18, otMin = 0;
@@ -1753,36 +2101,26 @@ window.setLang = function(lang) {
     if (isAdmin) { updateOTLabel(); updateVideoLabel(); updateLateLabel(); }
 
     // ── 현재 보고 있는 탭에 맞춰 즉시 렌더 ──
-    switch (currentPanel) {
-        case 'records':
-            applyFilter();
-            break;
-        case 'summary':
-            renderSummary();
-            break;
-        case 'overtime':
-            applyOTFilter();
-            break;
-        case 'diary':
-            applyDiaryFilter();
-            break;
-        case 'schedule':
-            renderCalendar();
-            break;
-        case 'stats':
-            renderStats();
-            break;
-        case 'users':
-            if (isAdmin) renderUsers();
-            break;
-        case 'settings':
-            // 설정 탭은 data-i18n으로 처리되므로 applyI18n()으로 충분
-            break;
+    // PC 모드라면 pcSwitchPanel 재호출로 현재 패널 갱신
+    if (IS_PC && IS_PC()) {
+        pcSwitchPanel(currentPanel || 'records');
+        // PC 직원 현황 리스트 갱신
+        pcUpdateUserStatusList();
+        pcUpdateGreeting();
+        if (isAdmin) { updateOTLabel(); updateVideoLabel(); updateLateLabel(); updatePhotoLabel(); }
+    } else {
+        switch (currentPanel) {
+            case 'records':   applyFilter(); break;
+            case 'summary':   renderSummary(); break;
+            case 'overtime':  applyOTFilter(); break;
+            case 'diary':     applyDiaryFilter(); break;
+            case 'schedule':  renderCalendar(); break;
+            case 'stats':     renderStats(); break;
+            case 'users':     if (isAdmin) renderUsers(); break;
+        }
+        applyDiaryFilter();
+        if (isAdmin) renderUsers();
     }
-
-    // 현재 탭과 무관하게 백그라운드도 갱신
-    applyDiaryFilter();
-    if (isAdmin) renderUsers();
 };
 function applyI18n() {
     document.querySelectorAll('[data-i18n]').forEach(el => el.innerText = t(el.getAttribute('data-i18n')));
@@ -1837,6 +2175,7 @@ async function loadOTSettings() {
             videoMaxMb = snap.data().videoMaxMb ?? 30;
             lateHour  = snap.data().lateHour  ?? 9;
             lateMin   = snap.data().lateMin   ?? 0;
+            photoMaxKb = snap.data().photoMaxKb ?? 800;
         }
     } catch(_) {}
 }
@@ -1883,7 +2222,8 @@ function enterApp() {
         document.getElementById('late-hour').value = lateHour;
         document.getElementById('late-min').value  = lateMin;
         document.getElementById('video-max-mb').value = videoMaxMb;
-        updateOTLabel(); updateVideoLabel(); updateLateLabel();
+        document.getElementById('photo-max-kb').value = photoMaxKb;
+        updateOTLabel(); updateVideoLabel(); updateLateLabel(); updatePhotoLabel();
         // 인사말 설정값 채우기
         document.getElementById('greet-morning').value   = greetingConfig.morning;
         document.getElementById('greet-noon').value      = greetingConfig.noon;
@@ -1908,6 +2248,11 @@ function enterApp() {
     startCommentsListener();
     startUsersListener();  // 프로필 사진 표시를 위해 모든 사용자에게 필요
     if (isAdmin) document.getElementById('diary-admin-note').classList.remove('hidden');
+
+    // PC / 모바일 분기
+    if (IS_PC()) {
+        enterPCMode();
+    }
 }
 
 function setMainAvatar(base64, id) {
@@ -1940,6 +2285,8 @@ window.doLogout = function() {
 //  패널 전환
 // ═══════════════════════════════════════════
 window.switchPanel = function(panel) {
+    // PC 모드면 pcSwitchPanel 로 위임
+    if (IS_PC && IS_PC()) { pcSwitchPanel(panel); return; }
     currentPanel = panel;
     ['records','summary','overtime','diary','schedule','stats','users','settings'].forEach(p => {
         const el = document.getElementById('panel-'+p);
@@ -1960,7 +2307,7 @@ window.switchPanel = function(panel) {
     if (panel === 'diary') applyDiaryFilter();
     if (panel === 'schedule') renderCalendar();
     if (panel === 'stats') renderStats();
-    if (panel === 'settings') renderThemePicker();
+
 };
 
 // ═══════════════════════════════════════════
@@ -1971,6 +2318,7 @@ function startLogsListener() {
     unsubLogs = onSnapshot(q, snap => {
         allLogs = snap.docs.map(d=>({id:d.id,...d.data()}));
         applyFilter(); updateTodayStatus(); updateBtnState();
+        if (IS_PC()) { pcUpdateWorkTime(); pcUpdateStats(); }
         if (currentPanel==='overtime') applyOTFilter();
     }, e => toast(t('t_log_load_fail')+e.message, true));
 }
@@ -1982,6 +2330,7 @@ function startUsersListener() {
         if (isAdmin) { renderUsers(); buildOTUserFilter(); }
         // 모든 사용자: 일지/댓글의 아바타 갱신
         applyDiaryFilter();
+        if (IS_PC()) pcUpdateUserStatusList();
     }, e => toast(t('t_user_load_fail')+e.message, true));
 }
 
@@ -2200,6 +2549,24 @@ function updateLateLabel() {
     if (el) el.innerText = t('late_current_label') +
         String(lateHour).padStart(2,'0') + ':' + String(lateMin).padStart(2,'0');
 }
+
+function updatePhotoLabel() {
+    const el = document.getElementById('photo-current-label');
+    if (el) el.innerText = t('photo_current_label') + photoMaxKb + 'KB';
+}
+
+window.savePhotoSettings = async function() {
+    const kb = parseInt(document.getElementById('photo-max-kb').value) || 800;
+    if (kb < 100 || kb > 5000) return toast('100~5000KB 범위로 입력해주세요.', true);
+    try {
+        const snap = await getDoc(doc(db, SCOL, OT_DOC));
+        const existing = snap.exists() ? snap.data() : {};
+        await setDoc(doc(db, SCOL, OT_DOC), { ...existing, photoMaxKb: kb });
+        photoMaxKb = kb;
+        updatePhotoLabel();
+        toast(t('t_photo_saved'));
+    } catch(e) { toast(t('t_photo_save_fail') + e.message, true); }
+};
 
 window.saveLateSettings = async function() {
     const h = parseInt(document.getElementById('late-hour').value) || 0;
@@ -2580,7 +2947,7 @@ window.handleDiaryPhotos = function(input) {
         toast(t('diary_photo_max'), true); input.value=''; return;
     }
     files.forEach(file => {
-        if (file.size > 800 * 1024) { toast(t('diary_photo_size'), true); return; }
+        if (file.size > photoMaxKb * 1024) { toast(t('diary_photo_size').replace('{size}', photoMaxKb), true); return; }
         const reader = new FileReader();
         reader.onload = e => {
             resizeImg(e.target.result, 600).then(resized => {
@@ -2969,7 +3336,7 @@ window.handleEditPhotos = function(input, id) {
     const total = editKeepPhotos.length + editPendingPhotos.length + files.length;
     if (total > 5) { toast(t('diary_photo_max'), true); input.value=''; return; }
     files.forEach(file => {
-        if (file.size > 800 * 1024) { toast(t('diary_photo_size'), true); return; }
+        if (file.size > photoMaxKb * 1024) { toast(t('diary_photo_size').replace('{size}', photoMaxKb), true); return; }
         const reader = new FileReader();
         reader.onload = e => {
             resizeImg(e.target.result, 600).then(resized => {
@@ -4299,8 +4666,6 @@ window.toggleAlldayMode = function(isAllday) {
     if (!fields) return;
     if (isAllday) {
         fields.classList.add('disabled');
-        document.getElementById('sch-time-start').value = '';
-        document.getElementById('sch-time-end').value   = '';
     } else {
         fields.classList.remove('disabled');
     }
@@ -4494,13 +4859,13 @@ window.openStatsDetail = function(userId) {
         // 상태 태그
         const tags = [];
         if (!dayIn) {
-            tags.push('<span class="tag-late" style="background:#fee2e2;color:#dc2626">' + t('stats_tag_absent') + '</span>');
+            tags.push('<span class="tag-late" style="background:var(--red-light);color:var(--red)">' + t('stats_tag_absent') + '</span>');
         } else {
             if (inMins !== null && inMins > lateStd) {
                 tags.push('<span class="tag-late">' + t('stats_tag_late') + '</span>');
             }
             if (!dayOut) {
-                tags.push('<span class="tag-late" style="background:#f3f4f6;color:#6b7280">' + t('stats_tag_no_checkout') + '</span>');
+                tags.push('<span class="tag-late" style="background:var(--border);color:var(--text-secondary)">' + t('stats_tag_no_checkout') + '</span>');
             } else if (outMins !== null && outMins >= otStd) {
                 tags.push('<span class="tag-ot">' + t('stats_tag_ot') + '</span>');
             }
@@ -4512,8 +4877,11 @@ window.openStatsDetail = function(userId) {
         const dateLabel = date + ' (' + dowNames[dateObj.getDay()] + ')';
 
         // GPS 링크
-        const gpsHtml = dayIn?.lat
-            ? '<a href="https://maps.google.com/?q=' + dayIn.lat + ',' + dayIn.lng + '" target="_blank" style="color:var(--blue);font-size:11px">📍</a>'
+        // GPS: lat/lng 또는 latitude/longitude 필드 모두 지원
+        const lat = dayIn?.lat;
+        const lng = dayIn?.lon;
+        const gpsHtml = (lat && lng)
+            ? '<a href="https://maps.google.com/?q=' + lat + ',' + lng + '" target="_blank" style="color:var(--blue);font-size:11px">📍</a>'
             : '-';
 
         const isWeekend = dateObj.getDay() === 0 || dateObj.getDay() === 6;
@@ -4636,18 +5004,18 @@ window.exportMonthlyReport = function() {
                 workH = Math.floor(diff/60) + 'h ' + (diff%60) + 'm';
             }
             const tags = [];
-            if (!dayIn && !isWeekend) tags.push('<span style="color:#dc2626;font-size:10px">결근</span>');
-            else if (dayIn && isLate(dayIn.time)) tags.push('<span style="color:#d97706;font-size:10px">지각</span>');
-            if (dayOut && isOT(dayOut.time)) tags.push('<span style="color:#dc2626;font-size:10px">야근</span>');
+            if (!dayIn && !isWeekend) tags.push('<span style="color:var(--red);font-size:10px">결근</span>');
+            else if (dayIn && isLate(dayIn.time)) tags.push('<span style="color:var(--amber);font-size:10px">지각</span>');
+            if (dayOut && isOT(dayOut.time)) tags.push('<span style="color:var(--red);font-size:10px">야근</span>');
             dRows += '<tr style="background:' + (isWeekend?'#f9fafb':'#fff') + '">' +
                 '<td class="tc">' + dateStr + '(' + dowNames[dow] + ')</td>' +
                 '<td class="tc">' + inT + '</td>' +
                 '<td class="tc">' + outT + '</td>' +
                 '<td class="tc">' + workH + '</td>' +
-                '<td class="tc">' + (tags.join(' ') || '<span style="color:#1e8c4a;font-size:10px">✓</span>') + '</td>' +
+                '<td class="tc">' + (tags.join(' ') || '<span style="color:var(--green);font-size:10px">✓</span>') + '</td>' +
                 '</tr>';
         });
-        detailSections += '<h3 style="font-size:14px;margin:20px 0 6px;color:#1a73e8;border-bottom:1px solid #e5e7eb;padding-bottom:4px">' + uid + '</h3>' +
+        detailSections += '<h3 style="font-size:14px;margin:20px 0 6px;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:4px">' + uid + '</h3>' +
             '<table><thead><tr>' +
             '<th>날짜</th><th>출근</th><th>퇴근</th><th>근무시간</th><th>상태</th>' +
             '</tr></thead><tbody>' + dRows + '</tbody></table>';
@@ -4737,7 +5105,7 @@ window.exportMonthlyExcel = function() {
             const workMins = (inM!==null && outM!==null && outM>inM) ? (outM-inM) : '';
             const isLate2 = dayIn && inM!==null && inM>lateStd ? 'Y' : '';
             const isOT2   = dayOut && outM!==null && outM>=otStd ? 'Y' : '';
-            const gps = dayIn?.lat ? dayIn.lat+','+dayIn.lng : '';
+            const gps = dayIn?.lat ? dayIn.lat+','+(dayIn.lon||'') : '';
 
             csv += '"' + uid + '","' + dateStr + '","' + dowNames[dow] + '","' + inT + '","' + outT + '","' + workMins + '","' + isLate2 + '","' + isOT2 + '","' + gps + '"\n';
         }
@@ -4796,44 +5164,68 @@ function applyTheme(themeId) {
         html.setAttribute('data-theme', themeId);
     }
     localStorage.setItem('adina-theme', themeId);
-    renderThemePicker();
+    renderThemeDropdown();
 }
 
-function renderThemePicker() {
-    const row = document.getElementById('theme-picker-row');
-    if (!row) return;
-    row.innerHTML = '';
-    THEMES.forEach(th => {
-        const card = document.createElement('div');
-        card.className = 'theme-card' + (currentTheme === th.id ? ' active' : '');
-        card.onclick = () => { applyTheme(th.id); toast(t('theme_saved')); };
 
-        const preview = document.createElement('div');
-        preview.className = 'theme-card-preview';
-        preview.style.background = th.bg;
-        th.bars.forEach(color => {
-            const bar = document.createElement('div');
-            bar.className = 'theme-card-bar';
-            bar.style.background = color;
-            preview.appendChild(bar);
+
+function renderThemeDropdown() {
+    const list = document.getElementById('theme-dropdown-list');
+    if (!list) return;
+    list.innerHTML = '';
+    THEMES.forEach(th => {
+        const item = document.createElement('div');
+        item.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .12s';
+        item.onmouseenter = () => { item.style.background = 'var(--bg)'; };
+        item.onmouseleave = () => { item.style.background = 'transparent'; };
+        item.onclick = () => { applyTheme(th.id); toast(t('theme_saved')); closeThemeMenu(); };
+
+        // 미니 팔레트
+        const palette = document.createElement('div');
+        palette.style.cssText = 'display:flex;gap:3px;flex-shrink:0';
+        th.bars.slice(0,3).forEach(color => {
+            const dot = document.createElement('div');
+            dot.style.cssText = 'width:12px;height:12px;border-radius:50%;background:' + color;
+            palette.appendChild(dot);
         });
 
-        const label = document.createElement('div');
-        label.className = 'theme-card-label';
-        label.style.background = th.surface;
         const name = document.createElement('span');
         name.textContent = t(th.labelKey);
-        const check = document.createElement('div');
-        check.className = 'theme-card-check';
-        check.textContent = '✓';
-        label.appendChild(name);
-        label.appendChild(check);
+        name.style.cssText = 'font-size:13px;font-weight:600;color:var(--text-primary);flex:1';
 
-        card.appendChild(preview);
-        card.appendChild(label);
-        row.appendChild(card);
+        const check = document.createElement('div');
+        check.style.cssText = 'font-size:12px;color:var(--accent);font-weight:700;visibility:' + (currentTheme === th.id ? 'visible' : 'hidden');
+        check.textContent = '✓';
+
+        item.appendChild(palette);
+        item.appendChild(name);
+        item.appendChild(check);
+        list.appendChild(item);
     });
 }
+
+window.toggleThemeMenu = function() {
+    const dd = document.getElementById('theme-dropdown');
+    if (!dd) return;
+    const isOpen = dd.style.display !== 'none';
+    if (isOpen) {
+        dd.style.display = 'none';
+    } else {
+        dd.style.display = 'block';
+        renderThemeDropdown();
+    }
+};
+
+function closeThemeMenu() {
+    const dd = document.getElementById('theme-dropdown');
+    if (dd) dd.style.display = 'none';
+}
+
+// 외부 클릭 시 드롭다운 닫기
+document.addEventListener('click', function(e) {
+    const wrap = document.getElementById('theme-toggle-wrap');
+    if (wrap && !wrap.contains(e.target)) closeThemeMenu();
+});
 
 // 앱 시작 시 저장된 테마 복원
 function initTheme() {
@@ -4842,8 +5234,366 @@ function initTheme() {
 }
 
 
+// ── 헤더 테마 드롭다운 ──
+window.toggleThemeMenu = function() {
+    const dd = document.getElementById('theme-dropdown');
+    if (!dd) return;
+    const isOpen = dd.style.display !== 'none';
+    if (isOpen) {
+        dd.style.display = 'none';
+    } else {
+        renderThemeDropdown();
+        dd.style.display = 'block';
+    }
+};
+
+
+// 드롭다운 외부 클릭 시 닫기
+document.addEventListener('click', function(e) {
+    const wrap = document.getElementById('theme-toggle-wrap');
+    const dd   = document.getElementById('theme-dropdown');
+    if (wrap && dd && !wrap.contains(e.target)) {
+        dd.style.display = 'none';
+    }
+});
+
+
+// ═══════════════════════════════════════════
+//  PC 레이아웃 시스템
+// ═══════════════════════════════════════════
+
+const IS_PC = () => window.innerWidth >= 769;
+
+// PC 모드 진입
+function enterPCMode() {
+    document.getElementById('pc-login-wrap').style.display = 'none';
+    document.getElementById('pc-app-body').style.display = 'flex';
+    // 모바일 카드 숨김
+    ['main-card','records-card','greeting-card'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
+    // 공통탭/관리자메뉴 숨김
+    ['common-tabs','admin-menu-wrap'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
+    // 관리자 섹션 표시 여부
+    if (isAdmin) {
+        document.getElementById('pc-admin-section').style.display = 'block';
+        document.getElementById('pc-admin-divider').style.display = 'block';
+    }
+    // 사이드바 사용자 정보
+    pcUpdateUserInfo();
+    // 헤더 인사말
+    pcUpdateGreeting();
+    // 오늘 날짜
+    const el = document.getElementById('pc-today-date');
+    if (el) el.textContent = todayStr();
+    // 야근 기준
+    const otEl = document.getElementById('pc-ot-threshold');
+    if (otEl) otEl.textContent = String(otHour).padStart(2,'0')+':'+String(otMin).padStart(2,'0');
+    // 첫 패널 표시
+    pcSwitchPanel('records');
+    // 실시간 근무시간
+    setInterval(pcUpdateWorkTime, 30000);
+    pcUpdateWorkTime();
+}
+
+// 모바일 모드 진입
+function enterMobileMode() {
+    document.getElementById('pc-login-wrap').style.display = 'none';
+    document.getElementById('pc-app-body').style.display = 'none';
+}
+
+// PC/모바일 분기 진입
+function enterAppResponsive() {
+    if (IS_PC()) {
+        enterPCMode();
+    } else {
+        enterMobileMode();
+    }
+}
+
+// PC 패널 전환
+let currentPCPanel = 'records';
+window.pcSwitchPanel = function(panel) {
+    currentPCPanel = panel;
+    currentPanel   = panel;
+
+    // 모든 PC 패널 숨김
+    ['records','diary','schedule','summary','overtime','stats','users','settings'].forEach(p => {
+        const el = document.getElementById('pc-panel-' + p);
+        if (el) el.style.display = 'none';
+    });
+
+    const pcWrapper = document.getElementById('pc-panel-' + panel);
+    if (!pcWrapper) return;
+
+    if (panel === 'records') {
+        // records 전용 PC 패널 (독립 구성)
+        pcWrapper.style.display = 'block';
+        pcUpdateWorkTime();
+        pcUpdateStats();
+    } else {
+        // 나머지 패널: 실제 모바일 panel-* 요소를 pc-panel-* 래퍼로 이동(appendChild)
+        const mobilePanel = document.getElementById('panel-' + panel);
+        if (mobilePanel) {
+            // 아직 이 래퍼 안에 없으면 이동
+            if (!pcWrapper.contains(mobilePanel)) {
+                pcWrapper.appendChild(mobilePanel);
+            }
+            mobilePanel.classList.remove('hidden');
+            mobilePanel.style.display = '';
+        }
+        pcWrapper.style.display = 'block';
+
+        // 패널별 렌더 후처리
+        if (panel === 'schedule') renderCalendar();
+        if (panel === 'stats')    { initStatsMonthSelect(); renderStats(); }
+        if (panel === 'summary')  renderSummary();
+        if (panel === 'overtime') applyOTFilter();
+        if (panel === 'users')    renderUsers();
+        if (panel === 'settings') { renderThemePicker(); }
+        if (panel === 'diary')    applyDiaryFilter();
+    }
+
+    // 사이드바 active 갱신
+    document.querySelectorAll('.pc-nav-item').forEach(btn => btn.classList.remove('pc-active'));
+    const activeBtn = document.getElementById('pc-nav-' + panel);
+    if (activeBtn) activeBtn.classList.add('pc-active');
+};
+
+// PC 사용자 정보 갱신
+function pcUpdateUserInfo() {
+    const nameEl  = document.getElementById('pc-sidebar-name');
+    const badgeEl = document.getElementById('pc-sidebar-badge');
+    const avTxt   = document.getElementById('pc-sidebar-avatar-txt');
+    const avEl    = document.getElementById('pc-sidebar-avatar');
+    if (!currentUser) return;
+    if (nameEl)  nameEl.textContent  = currentUser.id || '';
+    if (badgeEl) badgeEl.textContent = isAdmin ? t('badge_admin') : '';
+    if (avTxt)   avTxt.textContent   = (currentUser.id||'?').slice(0,2).toUpperCase();
+    // 프로필 사진
+    if (currentUser.photoBase64 && avEl) {
+        avEl.innerHTML = '<img src="' + currentUser.photoBase64 + '" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    }
+}
+
+// PC 헤더 인사말 갱신
+function pcUpdateGreeting() {
+    const el = document.getElementById('pc-header-greeting');
+    if (!el || !currentUser) return;
+    const hour = new Date().getHours();
+    const greet = hour < 12 ? '좋은 아침이에요' : hour < 18 ? '좋은 오후예요' : '수고 많으세요';
+    const icons = ['🌅','☀️','🌤️','🌆','🌙'];
+    const icon  = hour < 6 ? icons[4] : hour < 12 ? icons[0] : hour < 14 ? icons[1] : hour < 18 ? icons[2] : icons[3];
+    el.textContent = icon + ' ' + greet + ', ' + currentUser.id + '님';
+}
+
+// PC 근무시간 실시간 갱신
+function pcUpdateWorkTime() {
+    if (!currentUser) return;
+    const today  = todayStr();
+    const myIn   = allLogs.find(l => l.userId === currentUser.id && l.date === today && l.type === 'checkin');
+    const myOut  = allLogs.find(l => l.userId === currentUser.id && l.date === today && l.type === 'checkout');
+
+    const inEl  = document.getElementById('pc-today-in');
+    const outEl = document.getElementById('pc-today-out');
+    const workEl = document.getElementById('pc-work-elapsed');
+
+    if (inEl)  inEl.textContent  = myIn  ? myIn.time  : '-';
+    if (outEl) outEl.textContent = myOut ? myOut.time : '-';
+
+    if (myIn && !myOut && workEl) {
+        const p = myIn.time.match(/(\d{1,2}):(\d{2})/);
+        if (p) {
+            const startMin = parseInt(p[1])*60 + parseInt(p[2]);
+            const nowMin   = new Date().getHours()*60 + new Date().getMinutes();
+            const diff     = Math.max(0, nowMin - startMin);
+            workEl.textContent = Math.floor(diff/60) + 'h ' + (diff%60) + 'm';
+        }
+    } else if (workEl) {
+        workEl.textContent = '-';
+    }
+    // 통계 카드 갱신
+    pcUpdateStats();
+}
+
+// PC 통계 카드 갱신
+function pcUpdateStats() {
+    const today = todayStr();
+    const checkins  = allLogs.filter(l => l.date === today && l.type === 'checkin');
+    const lateStd   = lateHour * 60 + lateMin;
+    function toMin(t2) {
+        if (!t2) return null;
+        const p = t2.match(/(\d{1,2}):(\d{2})/);
+        return p ? parseInt(p[1])*60+parseInt(p[2]) : null;
+    }
+    const checkinCount = checkins.length;
+    const absentCount  = Math.max(0, allUsers.length - checkinCount);
+    const lateCount    = checkins.filter(l => { const m=toMin(l.time); return m!==null && m>lateStd; }).length;
+
+    const c1 = document.getElementById('pc-stat-checkin-count');
+    const c2 = document.getElementById('pc-stat-absent-count');
+    const c3 = document.getElementById('pc-stat-late-count');
+    if (c1) c1.textContent = checkinCount + '명';
+    if (c2) c2.textContent = absentCount  + '명';
+    if (c3) c3.textContent = lateCount    + '명';
+
+    // 직원 현황 리스트
+    pcUpdateUserStatusList();
+}
+
+// PC 직원 현황 리스트
+function pcUpdateUserStatusList() {
+    const list = document.getElementById('pc-user-status-list');
+    if (!list) return;
+    const today = todayStr();
+    const lateStd = lateHour * 60 + lateMin;
+    function toMin(t2) {
+        const p = t2 && t2.match(/(\d{1,2}):(\d{2})/);
+        return p ? parseInt(p[1])*60+parseInt(p[2]) : null;
+    }
+    list.innerHTML = '';
+    if (!allUsers.length) {
+        list.innerHTML = '<div style="color:var(--text-hint);font-size:12px;text-align:center;padding:20px">직원 정보 없음</div>';
+        return;
+    }
+    allUsers.forEach(u => {
+        const uid     = u.docId;
+        const dayIn   = allLogs.find(l => l.userId===uid && l.date===today && l.type==='checkin');
+        const dayOut  = allLogs.find(l => l.userId===uid && l.date===today && l.type==='checkout');
+        const inMins  = toMin(dayIn?.time);
+        const isLate  = inMins !== null && inMins > lateStd;
+
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--bg)';
+
+        // 아바타
+        const av = document.createElement('div');
+        av.style.cssText = 'width:28px;height:28px;border-radius:8px;background:var(--blue-light);color:var(--blue);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden';
+        if (u.photoBase64) {
+            av.innerHTML = '<img src="' + u.photoBase64 + '" style="width:100%;height:100%;object-fit:cover;border-radius:8px">';
+        } else {
+            av.textContent = uid.slice(0,2).toUpperCase();
+        }
+
+        const name = document.createElement('div');
+        name.style.cssText = 'font-size:12px;font-weight:600;color:var(--text-primary);flex:1';
+        name.textContent = uid;
+
+        const timeEl = document.createElement('div');
+        timeEl.style.cssText = 'font-size:11px;color:var(--text-hint);font-family:monospace';
+        timeEl.textContent = dayIn ? dayIn.time : '—';
+
+        const badge = document.createElement('span');
+        badge.style.cssText = 'padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700';
+        if (dayOut) {
+            badge.textContent = t('badge_checkout') || '퇴근';
+            badge.style.background = 'var(--blue-light)'; badge.style.color = 'var(--blue)';
+        } else if (dayIn && isLate) {
+            badge.textContent = t('stats_tag_late') || '지각';
+            badge.style.background = 'var(--amber-light)'; badge.style.color = 'var(--amber)';
+        } else if (dayIn) {
+            badge.textContent = t('badge_in') || '출근';
+            badge.style.background = 'var(--green-light)'; badge.style.color = 'var(--green)';
+        } else {
+            badge.textContent = t('stats_tag_absent') || '미출근';
+            badge.style.background = 'var(--border)'; badge.style.color = 'var(--text-hint)';
+        }
+
+        row.appendChild(av); row.appendChild(name); row.appendChild(timeEl); row.appendChild(badge);
+        list.appendChild(row);
+    });
+}
+
+// 화면 크기 변경 대응
+window.addEventListener('resize', () => {
+    const pcBody = document.getElementById('pc-app-body');
+    if (!pcBody || pcBody.style.display === 'none') return;
+    // 이미 로그인된 상태에서 리사이즈
+});
+
+
 applyI18n();
 initTheme();
 </script>
+    <div id="sch-modal" class="sch-modal-overlay hidden" onclick="if(event.target===this)closeSchModal()">
+        <div class="sch-modal">
+            <div class="sch-modal-title" id="sch-modal-title"></div>
+            <label class="field-label" data-i18n="sch_label_title">제목</label>
+            <input class="field" type="text" id="sch-title" data-i18n-placeholder="sch_title_placeholder" placeholder="일정 제목">
+            <div class="sch-field-row">
+                <div style="flex:1">
+                    <label class="field-label" data-i18n="sch_label_start">시작일</label>
+                    <input class="field" type="date" id="sch-start">
+                </div>
+                <div style="flex:1">
+                    <label class="field-label" data-i18n="sch_label_end">종료일</label>
+                    <input class="field" type="date" id="sch-end">
+                </div>
+            </div>
+            <!-- 종일 토글 -->
+            <div class="allday-toggle-row">
+                <label for="sch-allday" data-i18n="sch_allday_toggle">종일</label>
+                <div class="allday-switch">
+                    <input type="checkbox" id="sch-allday" onchange="toggleAlldayMode(this.checked)">
+                    <span class="allday-slider"></span>
+                </div>
+            </div>
+            <!-- 시간 필드 (종일 OFF시 표시) -->
+            <div class="time-fields sch-field-row" id="sch-time-fields">
+                <div style="flex:1">
+                    <label class="field-label" data-i18n="sch_label_time_start">시작 시간</label>
+                    <div class="time-input-wrap">
+                        <input class="time-text-input" type="text" id="sch-time-start"
+                               placeholder="09:00" maxlength="5"
+                               oninput="onTimeInput(this)"
+                               onblur="onTimeBlur(this)">
+                        <button type="button" class="time-pick-btn" title="시간 선택">
+                            🕐
+                            <input type="time" tabindex="-1"
+                                   onchange="applyPickerTime(this,'sch-time-start')">
+                        </button>
+                    </div>
+                </div>
+                <div style="flex:1">
+                    <label class="field-label" data-i18n="sch_label_time_end">종료 시간</label>
+                    <div class="time-input-wrap">
+                        <input class="time-text-input" type="text" id="sch-time-end"
+                               placeholder="18:00" maxlength="5"
+                               oninput="onTimeInput(this)"
+                               onblur="onTimeBlur(this)">
+                        <button type="button" class="time-pick-btn" title="시간 선택">
+                            🕐
+                            <input type="time" tabindex="-1"
+                                   onchange="applyPickerTime(this,'sch-time-end')">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <label class="field-label" data-i18n="sch_label_category">카테고리</label>
+            <select class="cat-select" id="sch-cat">
+                <option value="work"     data-i18n="sch_cat_work">업무</option>
+                <option value="meeting"  data-i18n="sch_cat_meeting">회의</option>
+                <option value="personal" data-i18n="sch_cat_personal">개인</option>
+                <option value="holiday"  data-i18n="sch_cat_holiday">휴일/공휴일</option>
+                <option value="etc"      data-i18n="sch_cat_etc">기타</option>
+            </select>
+            <!-- 색상 선택 -->
+            <label class="field-label" data-i18n="sch_label_color">색상</label>
+            <div class="color-picker-row" id="sch-color-row"></div>
+            <input type="hidden" id="sch-color" value="">
+            <label class="field-label" data-i18n="sch_label_desc">메모 (선택)</label>
+            <input class="field" type="text" id="sch-desc" data-i18n-placeholder="sch_desc_placeholder" placeholder="추가 메모" style="margin-bottom:12px">
+            <label class="field-label" data-i18n="sch_label_author">작성자</label>
+            <input class="field" type="text" id="sch-author" placeholder="" readonly style="background:#f5f5f5;margin-bottom:12px">
+            <div class="sch-actions">
+                <button class="btn btn-ghost" onclick="closeSchModal()" data-i18n="btn_cancel">취소</button>
+                <button class="btn btn-blue"  onclick="saveSchedule()" id="btn-sch-save" data-i18n="btn_save">저장</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
