@@ -464,14 +464,7 @@
         #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
         #toast.error{background:var(--red)}
 
-        /* ── PWA 설치 버튼 ── */
-        .pwa-banner{max-width:680px;margin:0 auto 12px;background:var(--blue);color:white;border-radius:var(--radius);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:var(--shadow)}
-        .pwa-banner-text{font-size:13px;font-weight:500;line-height:1.4}
-        .pwa-banner-text strong{display:block;font-size:14px;margin-bottom:2px}
-        .btn-pwa-install{background:var(--surface);color:var(--accent);border:none;border-radius:var(--radius-sm);padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Noto Sans KR',sans-serif;flex-shrink:0}
-        .btn-pwa-dismiss{background:transparent;border:none;color:rgba(255,255,255,0.7);font-size:18px;cursor:pointer;padding:0 4px;line-height:1}
-
-        /* ── 아이디별 출퇴근 요약 ── */
+/* ── 아이디별 출퇴근 요약 ── */
         .summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-bottom:4px}
         .summary-user-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px}
         .summary-user-card.no-checkin{border-left:3px solid var(--text-hint)}
@@ -821,11 +814,7 @@
         .diary-card.editing{border-color:var(--blue);box-shadow:0 0 0 2px rgba(26,115,232,0.12)}
 
         /* 헤더 설치 버튼 */
-        .btn-install-header{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:var(--blue);color:white;border:none;border-radius:16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;transition:opacity .15s}
-        .btn-install-header:hover{opacity:.85}
-        .btn-install-header.visible{display:inline-flex}
-
-        /* 동영상 미리보기 */
+/* 동영상 미리보기 */
         .diary-video-preview{position:relative;width:80px;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--border);flex-shrink:0;background:#000}
         .diary-video-preview video{width:100%;height:100%;object-fit:cover}
         .diary-video-thumb{width:80px;height:64px;border-radius:8px;object-fit:cover;cursor:pointer;border:1px solid var(--border);transition:opacity .15s;background:#000}
@@ -853,16 +842,6 @@
     </style>
 </head>
 <body>
-<div id="pwa-banner">
-    <div class="pwa-banner">
-        <div class="pwa-banner-text">
-            <strong id="pwa-title" data-i18n="pwa_title">📱 앱으로 설치하기</strong>
-            <span id="pwa-desc" data-i18n="pwa_desc">홈 화면에 추가하면 앱처럼 사용할 수 있어요</span>
-        </div>
-        <button class="btn-pwa-install" id="pwa-install-btn" data-i18n="pwa_install">설치</button>
-        <button class="btn-pwa-dismiss" onclick="dismissPWA()">✕</button>
-    </div>
-</div>
 
 
 <!-- 사진/동영상 전체화면 뷰어 -->
@@ -899,7 +878,6 @@
     <img src="data:image/jpeg;base64,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" alt="ADINA" style="height:28px;object-fit:contain;display:block">
     <span class="pc-header-greeting pc-desktop-only" id="pc-header-greeting">🌅 환영합니다</span>
     <div class="header-right">
-        <button class="btn-install-header" id="btn-install-header" onclick="doInstall()" data-i18n="header_install">📲 설치</button>
         <div class="lang-switcher">
             <button class="lang-btn active" id="lang-ko" onclick="setLang('ko')">KO</button>
             <button class="lang-btn"        id="lang-id" onclick="setLang('id')">ID</button>
@@ -1679,7 +1657,6 @@ ko:{
     file_download:'MB · 클릭하여 다운로드',
     storage_no_perm:'Firebase Storage 권한이 없습니다. Console에서 규칙을 확인하세요.',
     storage_fail:'Storage 업로드 실패: ',
-    pwa_guide:'브라우저 메뉴 → "홈 화면에 추가"를 이용하세요 📲',
     video_mb_range:'1~100MB 사이로 입력하세요.',
     greeting_settings_title:'시간대별 인사말 설정',
     greeting_settings_desc:'시간대별로 표시할 인사말을 설정하세요. 비워두면 기본 문구가 사용됩니다.',
@@ -1729,9 +1706,6 @@ ko:{
     diary_edit_fail:'수정 실패: ',
     diary_edit_empty:'내용을 입력하세요.',
     diary_edit_saving:'저장 중...',
-    pwa_install:'설치',
-    pwa_title:'📱 앱으로 설치하기',
-    pwa_desc:'홈 화면에 추가하면 앱처럼 사용할 수 있어요',
     modal_pw_title:'🔑 비밀번호 변경',
     modal_new_pw:'새 비밀번호',
     modal_pw_ph1:'6자 이상',
@@ -1744,7 +1718,6 @@ ko:{
     diary_add_photo:'사진 추가',
     diary_view_all:'전체 보기',
     summary_date_label:'직원 현황',
-    header_install:'📲 설치',
     diary_add_video:'동영상 추가',
     diary_add_doc:'파일 추가',
     diary_doc_max:'파일은 최대 5개까지 첨부할 수 있습니다.',
@@ -1763,7 +1736,6 @@ ko:{
     video_current:'현재 최대 동영상 용량: {mb}MB',
     t_video_saved:'동영상 용량 설정이 저장되었습니다.',
     t_photo_upload_all:'프로필 사진 업로드 중...',
-    pwa_installed:'앱이 설치되었습니다! 🎉',
     modal_target_prefix:'계정:',
 },
 id:{
@@ -1955,7 +1927,6 @@ id:{
     file_download:'MB · Klik untuk unduh',
     storage_no_perm:'Tidak ada izin Firebase Storage. Periksa aturan di Console.',
     storage_fail:'Gagal unggah Storage: ',
-    pwa_guide:'Gunakan menu browser → "Tambah ke layar utama" 📲',
     video_mb_range:'Masukkan antara 1~100MB.',
     greeting_settings_title:'Pengaturan Salam Waktu',
     greeting_settings_desc:'Atur pesan sambutan berdasarkan waktu. Kosongkan untuk menggunakan teks default.',
@@ -2005,9 +1976,6 @@ id:{
     diary_edit_fail:'Gagal memperbarui: ',
     diary_edit_empty:'Tulis isi jurnal terlebih dahulu.',
     diary_edit_saving:'Menyimpan...',
-    pwa_install:'Pasang',
-    pwa_title:'📱 Pasang Sebagai Aplikasi',
-    pwa_desc:'Tambahkan ke layar utama untuk digunakan seperti aplikasi',
     modal_pw_title:'🔑 Ganti Kata Sandi',
     modal_new_pw:'Kata Sandi Baru',
     modal_pw_ph1:'Min 6 karakter',
@@ -2020,7 +1988,6 @@ id:{
     diary_add_photo:'Tambah Foto',
     diary_view_all:'Lihat Semua',
     summary_date_label:'Status Pegawai',
-    header_install:'📲 Pasang',
     diary_add_video:'Tambah Video',
     diary_add_doc:'Tambah File',
     diary_doc_max:'Maksimal 5 file.',
@@ -2039,7 +2006,6 @@ id:{
     video_current:'Ukuran video maksimal saat ini: {mb}MB',
     t_video_saved:'Pengaturan video berhasil disimpan.',
     t_photo_upload_all:'Mengunggah foto profil...',
-    pwa_installed:'Aplikasi berhasil dipasang! 🎉',
     modal_target_prefix:'Akun:',
 }};
 
@@ -2130,11 +2096,7 @@ function applyI18n() {
     document.querySelectorAll('select option[data-i18n]').forEach(el => el.innerText = t(el.getAttribute('data-i18n')));
     const bl = document.getElementById('btn-login');
     if (bl && !bl.disabled) bl.innerText = t('btn_login');
-    // PWA banner
-    const pwaTitle = document.getElementById('pwa-title');
-    const pwaDesc  = document.getElementById('pwa-desc');
-    if (pwaTitle) pwaTitle.innerText = t('pwa_title');
-    if (pwaDesc)  pwaDesc.innerText  = t('pwa_desc');
+
     const bi = document.getElementById('btn-in'), bo = document.getElementById('btn-out');
     if (bi && !bi.disabled) bi.innerText = t('btn_checkin');
     if (bo && !bo.disabled) bo.innerText = t('btn_checkout');
@@ -2874,48 +2836,6 @@ document.getElementById('pw-modal').addEventListener('click', function(e) {
 });
 
 // ═══════════════════════════════════════════
-//  PWA 설치
-// ═══════════════════════════════════════════
-// ── PWA 설치 ──
-let deferredPrompt = null;
-
-// beforeinstallprompt: prompt 저장 (실제 설치 가능할 때)
-window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault();
-    deferredPrompt = e;
-});
-
-window.addEventListener('appinstalled', () => {
-    deferredPrompt = null;
-    toast(t('pwa_installed'));
-});
-
-// 설치 버튼 클릭 — prompt 가능하면 실행, 아니면 안내
-window.doInstall = async function() {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-    } else {
-        // iOS or 이미 설치됨
-        toast(currentLang === 'ko'
-            ? t('pwa_guide')
-            : 'Gunakan menu browser → "Tambah ke layar utama" 📲');
-    }
-};
-
-// 배너 닫기 (버튼은 항상 유지)
-window.dismissPWA = function() {
-    document.getElementById('pwa-banner').style.display = 'none';
-};
-
-// 배너 설치 버튼
-document.getElementById('pwa-install-btn').addEventListener('click', () => doInstall());
-
-// 서비스 워커 등록
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-}
 
 
 // ═══════════════════════════════════════════
