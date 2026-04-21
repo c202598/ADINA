@@ -2276,6 +2276,37 @@ function enterApp() {
     if (IS_PC()) {
         enterPCMode();
     }
+
+    // 로그인 완료 후 대기 중인 FCM 토큰 저장
+    if (_pendingFCMToken) {
+        _doSaveFCMToken(_pendingFCMToken);
+    }
+}
+
+// ── FCM 토큰을 Firestore users 컬렉션에 저장 ──
+// FCM 토큰 임시 저장 (로그인 전 도착 대비)
+let _pendingFCMToken = null;
+
+window.saveFCMToken = async function(token) {
+    if (!token) return;
+    _pendingFCMToken = token;  // 항상 저장
+    if (!currentUser) {
+        console.log('FCM: 로그인 전 토큰 수신, 로그인 후 저장 예정');
+        return;
+    }
+    await _doSaveFCMToken(token);
+};
+
+async function _doSaveFCMToken(token) {
+    if (!token || !currentUser) return;
+    try {
+        const docRef = doc(db, UCOL, currentUser.docId || currentUser.id);
+        await setDoc(docRef, { fcmToken: token }, { merge: true });
+        console.log('FCM 토큰 저장 완료 ✅');
+        _pendingFCMToken = null;
+    } catch(e) {
+        console.warn('FCM 토큰 저장 실패:', e.message);
+    }
 }
 
 function setMainAvatar(base64, id) {
